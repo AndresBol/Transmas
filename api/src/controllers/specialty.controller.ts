@@ -1,0 +1,36 @@
+import { Request, Response, NextFunction } from "express";
+import { StatusCodes } from "http-status-codes";
+import { specialtyService } from "../services/specialty.service";
+import { sendList, sendSuccess } from "../utils/http-response";
+import { getPagination } from "../utils/pagination";
+import { parseId } from "../utils/parse-id";
+
+export class SpecialtyController {
+    list = async (request: Request, response: Response, next: NextFunction) => {
+        const resultado = await specialtyService.list(getPagination(request.query));
+        return sendList(response, resultado);
+    };
+
+    getById = async (request: Request, response: Response, next: NextFunction) => {
+        const id = parseId(request.params.id);
+        const specialty = await specialtyService.getById(id);
+        return response.status(StatusCodes.OK).json({ success: true, data: specialty });
+    };
+
+    create = async (request: Request, response: Response, next: NextFunction) => {
+        const specialty = await specialtyService.create(request.body);
+        return sendSuccess(response, specialty, "Especialidad creada correctamente", StatusCodes.CREATED);
+    };
+
+    update = async (request: Request, response: Response, next: NextFunction) => {
+        const id = parseId(request.params.id);
+        const specialty = await specialtyService.update(id, request.body);
+        return sendSuccess(response, specialty, "Especialidad actualizada correctamente");
+    };
+
+    delete = async (request: Request, response: Response, next: NextFunction) => {
+        const id = parseId(request.params.id);
+        const specialty = await specialtyService.delete(id);
+        return sendSuccess(response, specialty, "Especialidad eliminada correctamente");
+    };
+}
