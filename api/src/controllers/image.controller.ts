@@ -41,7 +41,7 @@ export class ImageController {
         });
     };
 
-    getListFiles = async (request: Request, response: Response, next: NextFunction) => {
+    listFiles = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const files = await imageService.listImages();
             response.status(200).json(files);
