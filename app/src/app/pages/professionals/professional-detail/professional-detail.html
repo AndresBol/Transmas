@@ -1,0 +1,32 @@
+@if (loading()) {
+  <div class="state"><mat-spinner diameter="46" /><p>Loading professional profile...</p></div>
+} @else if (error()) {
+  <div class="state error"><mat-icon>error</mat-icon><p>{{ error() }}</p><div class="state-actions"><a mat-stroked-button routerLink="/professionals">Back to professionals</a><button mat-stroked-button (click)="loadProfile()">Try again</button></div></div>
+} @else if (professional(); as profile) {
+  <nav class="breadcrumb"><a routerLink="/professionals">Professionals</a><mat-icon>chevron_right</mat-icon><span>{{ profileName(profile) }}</span></nav>
+  <section class="profile-hero">
+    <div class="profile-image"><img [src]="profileImage(profile)" [alt]="profileName(profile)" (error)="useFallback($event)" /></div>
+    <div class="profile-copy">
+      <div class="labels"><span>{{ modalityLabel(profile.modality) }}</span><span class="status" [class.unavailable]="!isEffectivelyAvailable(profile)">{{ isEffectivelyAvailable(profile) ? 'Available' : 'Unavailable' }}</span></div>
+      <h1>{{ profileName(profile) }}</h1><h2>{{ profile.professionalTitle }}</h2><p>{{ profile.description }}</p>
+      <div class="headline-meta"><strong>{{ formatCurrency(profile.baseRate) }} <small>base rate</small></strong><span><mat-icon>work_history</mat-icon>{{ profile.experienceYears }} years of experience</span></div>
+    </div>
+  </section>
+
+  <section class="detail-grid">
+    <mat-card class="detail-card"><mat-card-content><span class="eyebrow">Location and contact</span><h2>Professional information</h2>
+      <div class="info-row"><mat-icon>location_on</mat-icon><span>{{ profile.district?.name }}@if (profile.district?.canton?.name) {, {{ profile.district?.canton?.name }}}@if (profile.district?.canton?.province?.name) {, {{ profile.district?.canton?.province?.name }}}</span></div>
+      <div class="info-row"><mat-icon>mail</mat-icon><a [href]="'mailto:' + profile.professional?.email">{{ profile.professional?.email }}</a></div>
+      <div class="info-row"><mat-icon>phone</mat-icon><a [href]="'tel:' + profile.professional?.phoneNumber">{{ profile.professional?.phoneNumber }}</a></div>
+    </mat-card-content></mat-card>
+    <mat-card class="detail-card"><mat-card-content><span class="eyebrow">Capabilities</span><h2>Specialties</h2>
+      @if (specialties(profile).length) { <mat-chip-set aria-label="Professional specialties">@for (specialty of specialties(profile); track specialty.id) { <mat-chip>{{ specialty.name }}</mat-chip> }</mat-chip-set> }
+      @else { <p class="muted">No specialties are registered.</p> }
+    </mat-card-content></mat-card>
+  </section>
+
+  <section class="services-section"><div class="section-header"><div><span class="eyebrow">Catalog</span><h2>Services by {{ profileName(profile) }}</h2></div><a mat-stroked-button routerLink="/services">Browse all services</a></div>
+    @if (services().length === 0) { <div class="empty-services"><mat-icon>route</mat-icon><p>This professional has no registered services.</p></div> }
+    @else { <div class="service-grid">@for (service of services(); track service.id) { <mat-card class="service-card"><mat-card-content><div class="service-top"><span>{{ service.category?.name || 'Uncategorized' }}</span><span class="service-status" [class.unavailable]="!service.isAvailable">{{ service.isAvailable ? 'Available' : 'Unavailable' }}</span></div><h3>{{ service.name }}</h3><p>{{ service.description }}</p><strong>{{ formatCurrency(service.price) }}</strong></mat-card-content><mat-card-actions align="end"><a mat-stroked-button [routerLink]="['/services', service.id]">View service<mat-icon>arrow_forward</mat-icon></a></mat-card-actions></mat-card> }</div> }
+  </section>
+}

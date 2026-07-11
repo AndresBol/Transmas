@@ -1,0 +1,24 @@
+<section class="admin-header"><div><span class="eyebrow">Administration</span><h1>Professionals</h1><p>Manage transport providers and reversible marketplace availability.</p></div><a mat-flat-button routerLink="/admin/professionals/new"><mat-icon>person_add</mat-icon>New professional</a></section>
+<section class="admin-filters">
+  <mat-form-field appearance="outline" class="search-field"><mat-label>Search</mat-label><input matInput [ngModel]="search()" (ngModelChange)="search.set($event)" placeholder="Name, title, email, or location" /><mat-icon matSuffix>search</mat-icon></mat-form-field>
+  <mat-form-field appearance="outline"><mat-label>Modality</mat-label><mat-select [ngModel]="modality()" (ngModelChange)="modality.set($event)"><mat-option [value]="null">All</mat-option><mat-option value="IN_PERSON">In person</mat-option><mat-option value="VIRTUAL">Virtual</mat-option></mat-select></mat-form-field>
+  <mat-form-field appearance="outline"><mat-label>Status</mat-label><mat-select [ngModel]="availability()" (ngModelChange)="availability.set($event)"><mat-option [value]="null">All</mat-option><mat-option [value]="true">Available</mat-option><mat-option [value]="false">Unavailable</mat-option></mat-select></mat-form-field>
+  <button mat-stroked-button (click)="clearFilters()"><mat-icon>filter_alt_off</mat-icon>Clear</button>
+</section>
+<p class="summary">{{ filteredProfessionals().length }} professionals found</p>
+@if (loading()) { <div class="state"><mat-spinner diameter="42" /><p>Loading professional administration...</p></div> }
+@else if (error()) { <div class="state error"><mat-icon>error</mat-icon><p>{{ error() }}</p><button mat-stroked-button (click)="loadProfessionals()">Try again</button></div> }
+@else if (filteredProfessionals().length === 0) { <div class="state"><mat-icon>person_search</mat-icon><p>No professionals match the selected filters.</p></div> }
+@else {
+  <div class="table-wrapper"><table mat-table [dataSource]="filteredProfessionals()" class="admin-table">
+    <ng-container matColumnDef="image"><th mat-header-cell *matHeaderCellDef>Image</th><td mat-cell *matCellDef="let profile"><img class="thumb" [src]="profileImage(profile)" [alt]="profileName(profile)" (error)="useFallback($event)" /></td></ng-container>
+    <ng-container matColumnDef="professional"><th mat-header-cell *matHeaderCellDef>Professional</th><td mat-cell *matCellDef="let profile"><strong>{{ profileName(profile) }}</strong><small>{{ profile.professionalTitle }}</small></td></ng-container>
+    <ng-container matColumnDef="contact"><th mat-header-cell *matHeaderCellDef>Contact</th><td mat-cell *matCellDef="let profile"><span>{{ profile.professional?.email }}</span><small>{{ profile.professional?.phoneNumber }}</small></td></ng-container>
+    <ng-container matColumnDef="location"><th mat-header-cell *matHeaderCellDef>Location</th><td mat-cell *matCellDef="let profile">{{ profile.district?.name || 'Not set' }}</td></ng-container>
+    <ng-container matColumnDef="modality"><th mat-header-cell *matHeaderCellDef>Modality</th><td mat-cell *matCellDef="let profile">{{ modalityLabel(profile.modality) }}</td></ng-container>
+    <ng-container matColumnDef="rate"><th mat-header-cell *matHeaderCellDef>Base rate</th><td mat-cell *matCellDef="let profile">{{ formatCurrency(profile.baseRate) }}</td></ng-container>
+    <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th><td mat-cell *matCellDef="let profile"><span class="status" [class.inactive]="!isEffectivelyAvailable(profile)">{{ availabilityLabel(profile) }}</span></td></ng-container>
+    <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th><td mat-cell *matCellDef="let profile"><div class="actions"><a mat-icon-button [routerLink]="['/professionals', profile.id]" aria-label="View professional"><mat-icon>visibility</mat-icon></a><a mat-icon-button [routerLink]="['/admin/professionals', profile.id, 'edit']" aria-label="Edit professional"><mat-icon>edit</mat-icon></a><button mat-icon-button [disabled]="updatingId() === profile.id || !canChangeAvailability(profile)" (click)="confirmAvailability(profile)" [attr.aria-label]="availabilityActionLabel(profile)" [attr.title]="availabilityActionLabel(profile)"><mat-icon>{{ profile.isAvailable ? 'visibility_off' : 'restore' }}</mat-icon></button></div></td></ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr><tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table></div>
+}

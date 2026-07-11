@@ -1,0 +1,4 @@
+<section class="page-header"><span class="eyebrow">Administration</span><h1>Edit professional</h1><p>Update the linked account and professional profile together.</p></section>
+@if (loading()) { <div class="state"><mat-spinner diameter="42" /><p>Loading professional information...</p></div> }
+@else if (!professional()) { <div class="state error"><mat-icon>error</mat-icon><p>{{ error() || 'The professional was not found.' }}</p><button mat-stroked-button (click)="loadFormData()">Try again</button></div> }
+@else { @if (error()) { <p class="error-banner"><mat-icon>error</mat-icon>{{ error() }}</p> }<app-professional-form [professional]="professional()" [districts]="districts()" [specialties]="specialties()" [saving]="saving()" (save)="save($event)" (cancel)="cancel()" /> }

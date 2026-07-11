@@ -1,0 +1,212 @@
+<mat-card class="form-card">
+  <mat-card-content>
+    <form class="domain-form" (submit)="$event.preventDefault(); submit()">
+      <section class="form-section">
+        <div class="section-title">
+          <mat-icon>badge</mat-icon>
+          <div>
+            <h2>Account information</h2>
+            <p>This account is automatically assigned the Professional role.</p>
+          </div>
+        </div>
+
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline">
+            <mat-label>First name</mat-label>
+            <input matInput [formField]="professionalForm.firstName" autocomplete="given-name" />
+            @if (professionalForm.firstName().touched() && professionalForm.firstName().invalid()) {
+              <mat-error>{{ professionalForm.firstName().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last name</mat-label>
+            <input matInput [formField]="professionalForm.lastName" autocomplete="family-name" />
+            @if (professionalForm.lastName().touched() && professionalForm.lastName().invalid()) {
+              <mat-error>{{ professionalForm.lastName().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [formField]="professionalForm.email" autocomplete="email" />
+            <mat-icon matSuffix>mail</mat-icon>
+            @if (professionalForm.email().touched() && professionalForm.email().invalid()) {
+              <mat-error>{{ professionalForm.email().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Phone number</mat-label>
+            <input matInput type="tel" [formField]="professionalForm.phoneNumber" autocomplete="tel" />
+            <mat-icon matSuffix>phone</mat-icon>
+            @if (professionalForm.phoneNumber().touched() && professionalForm.phoneNumber().invalid()) {
+              <mat-error>{{ professionalForm.phoneNumber().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          @if (!isEdit()) {
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" [formField]="professionalForm.password" autocomplete="new-password" />
+              <mat-icon matSuffix>lock</mat-icon>
+              @if (professionalForm.password().touched() && professionalForm.password().invalid()) {
+                <mat-error>{{ professionalForm.password().errors()[0].message }}</mat-error>
+              }
+            </mat-form-field>
+          }
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-title">
+          <mat-icon>directions_bus</mat-icon>
+          <div>
+            <h2>Professional profile</h2>
+            <p>Describe the experience clients will see in the marketplace.</p>
+          </div>
+        </div>
+
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline">
+            <mat-label>Professional title</mat-label>
+            <input matInput [formField]="professionalForm.professionalTitle" />
+            @if (professionalForm.professionalTitle().touched() && professionalForm.professionalTitle().invalid()) {
+              <mat-error>{{ professionalForm.professionalTitle().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Experience (years)</mat-label>
+            <input matInput type="number" step="1" [formField]="professionalForm.experienceYears" />
+            @if (professionalForm.experienceYears().touched() && professionalForm.experienceYears().invalid()) {
+              <mat-error>{{ professionalForm.experienceYears().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Modality</mat-label>
+            <mat-select [formField]="professionalForm.modality">
+              @for (modality of modalities; track modality.value) {
+                <mat-option [value]="modality.value">{{ modality.label }}</mat-option>
+              }
+            </mat-select>
+            @if (professionalForm.modality().touched() && professionalForm.modality().invalid()) {
+              <mat-error>{{ professionalForm.modality().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Base rate (CRC)</mat-label>
+            <input matInput type="number" step="0.01" [formField]="professionalForm.baseRate" />
+            @if (professionalForm.baseRate().touched() && professionalForm.baseRate().invalid()) {
+              <mat-error>{{ professionalForm.baseRate().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>District</mat-label>
+            <mat-select [formField]="professionalForm.districtId">
+              <mat-option [value]="null">Select a district</mat-option>
+              @for (district of districts(); track district.id) {
+                <mat-option [value]="district.id">{{ districtLabel(district) }}</mat-option>
+              }
+            </mat-select>
+            @if (professionalForm.districtId().touched() && professionalForm.districtId().invalid()) {
+              <mat-error>{{ professionalForm.districtId().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="5" [formField]="professionalForm.description"></textarea>
+            @if (professionalForm.description().touched() && professionalForm.description().invalid()) {
+              <mat-error>{{ professionalForm.description().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="availability-box">
+          <mat-checkbox [formField]="professionalForm.isAvailable">Available for new requests</mat-checkbox>
+          <small>Unavailable profiles remain visible in Administration and can be reactivated.</small>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-title">
+          <mat-icon>workspace_premium</mat-icon>
+          <div>
+            <h2>Specialties</h2>
+            <p>Select every capability that applies to this professional.</p>
+          </div>
+        </div>
+        <div class="selection-grid">
+          @for (specialty of specialties(); track specialty.id) {
+            <mat-checkbox
+              class="selection-card"
+              [checked]="isSpecialtySelected(specialty.id)"
+              [disabled]="!specialty.isAvailable && !isSpecialtySelected(specialty.id)"
+              (change)="toggleSpecialty(specialty.id, $event.checked)"
+            >
+              <strong>{{ specialty.name }}</strong>
+              @if (!specialty.isAvailable) { <small>Unavailable</small> }
+            </mat-checkbox>
+          } @empty {
+            <p class="muted">No specialties are configured.</p>
+          }
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-title">
+          <mat-icon>photo_camera</mat-icon>
+          <div>
+            <h2>Profile image</h2>
+            <p>JPG, PNG, or WebP. Maximum file size: 2 MB.</p>
+          </div>
+        </div>
+        <div class="image-layout">
+          <div class="image-actions">
+            <button mat-stroked-button type="button" color="primary" (click)="fileInput.click()">
+              <mat-icon>upload</mat-icon>
+              Choose image
+            </button>
+            <input
+              #fileInput
+              hidden
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              (change)="onImageSelected($event)"
+            />
+            @if (imageError()) { <p class="field-error">{{ imageError() }}</p> }
+            @if (uploadingImage()) {
+              <div class="uploading"><mat-spinner diameter="26" /> <span>Uploading image...</span></div>
+            }
+          </div>
+          <div class="image-preview-box">
+            @if (imagePreview()) {
+              <img [src]="imagePreview()" alt="Professional profile preview" />
+            } @else {
+              <div class="empty-preview"><mat-icon>person</mat-icon><span>Default profile image</span></div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="cancel.emit()">
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+        <button mat-flat-button type="submit" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            <mat-icon>{{ isEdit() ? 'save' : 'person_add' }}</mat-icon>
+          }
+          {{ isEdit() ? 'Save changes' : 'Create professional' }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
