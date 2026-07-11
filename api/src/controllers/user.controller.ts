@@ -7,8 +7,8 @@ import { sendList, sendSuccess } from "../utils/http-response";
 
 export class UserController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await userService.list(getPagination(request.query));
-        return sendList(response, resultado);
+        const result = await userService.list(getPagination(request.query));
+        return sendList(response, result);
     };
 
     getById = async (request: Request, response: Response, next: NextFunction) => {
@@ -19,18 +19,18 @@ export class UserController {
 
     create = async (request: Request, response: Response, next: NextFunction) => {
         const user = await userService.create(request.body);
-        return sendSuccess(response, user, "Usuario creado correctamente", StatusCodes.CREATED);
+        return sendSuccess(response, user, "User created successfully", StatusCodes.CREATED);
     };
 
     update = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
         const user = await userService.update(id, request.body);
-        return sendSuccess(response, user, "Usuario actualizado correctamente");
+        return sendSuccess(response, user, "User updated successfully");
     };
 
-    delete = async (request: Request, response: Response, next: NextFunction) => {
+    updateStatus = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
-        const user = await userService.delete(id);
-        return sendSuccess(response, user, "Usuario eliminado correctamente");
+        const user = await userService.updateStatus(id, request.body.isBlocked);
+        return sendSuccess(response, user, "User blocked status updated successfully");
     };
 }

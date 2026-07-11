@@ -1,15 +1,15 @@
 import { z } from "zod";
-import { auditCreateSchema, auditUpdateSchema, idSchema } from "./common.dto";
+import { idSchema } from "./common.dto";
 
 export const createProfessionalProfileSpecialtySchema = z.object({
     professionalProfileId: idSchema,
     specialtyId: idSchema,
     isActive: z.boolean().optional(),
-}).extend(auditCreateSchema.shape);
+}).strict();
 
 export const updateProfessionalProfileSpecialtySchema = z.object({
     isActive: z.boolean().optional(),
-}).extend(auditUpdateSchema.shape);
+}).strict();
 
 export type CreateProfessionalProfileSpecialtyDto = z.infer<typeof createProfessionalProfileSpecialtySchema>;
 export type UpdateProfessionalProfileSpecialtyDto = z.infer<typeof updateProfessionalProfileSpecialtySchema>;

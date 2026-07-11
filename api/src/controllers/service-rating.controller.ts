@@ -7,8 +7,8 @@ import { parseId } from "../utils/parse-id";
 
 export class ServiceRatingController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await serviceRatingService.list(getPagination(request.query));
-        return sendList(response, resultado);
+        const result = await serviceRatingService.list(getPagination(request.query));
+        return sendList(response, result);
     };
 
     getById = async (request: Request, response: Response, next: NextFunction) => {
@@ -19,18 +19,18 @@ export class ServiceRatingController {
 
     create = async (request: Request, response: Response, next: NextFunction) => {
         const rating = await serviceRatingService.create(request.body);
-        return sendSuccess(response, rating, "Calificacion creada correctamente", StatusCodes.CREATED);
+        return sendSuccess(response, rating, "Rating created successfully", StatusCodes.CREATED);
     };
 
     update = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
         const rating = await serviceRatingService.update(id, request.body);
-        return sendSuccess(response, rating, "Calificacion actualizada correctamente");
+        return sendSuccess(response, rating, "Rating updated successfully");
     };
 
     delete = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
         const rating = await serviceRatingService.delete(id);
-        return sendSuccess(response, rating, "Calificacion eliminada correctamente");
+        return sendSuccess(response, rating, "Rating deactivated successfully");
     };
 }

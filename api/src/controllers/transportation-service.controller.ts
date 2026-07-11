@@ -7,8 +7,8 @@ import { parseId } from "../utils/parse-id";
 
 export class TransportationServiceController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await transportationServiceService.list(getPagination(request.query));
-        return sendList(response, resultado);
+        const result = await transportationServiceService.list(getPagination(request.query));
+        return sendList(response, result);
     };
 
     getById = async (request: Request, response: Response, next: NextFunction) => {
@@ -19,18 +19,25 @@ export class TransportationServiceController {
 
     create = async (request: Request, response: Response, next: NextFunction) => {
         const service = await transportationServiceService.create(request.body);
-        return sendSuccess(response, service, "Servicio de transporte creado correctamente", StatusCodes.CREATED);
+        return sendSuccess(response, service, "Transportation service created successfully", StatusCodes.CREATED);
     };
 
     update = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
         const service = await transportationServiceService.update(id, request.body);
-        return sendSuccess(response, service, "Servicio de transporte actualizado correctamente");
+        return sendSuccess(response, service, "Transportation service updated successfully");
     };
 
-    delete = async (request: Request, response: Response, next: NextFunction) => {
+    updateAvailability = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
-        const service = await transportationServiceService.delete(id);
-        return sendSuccess(response, service, "Servicio de transporte eliminado correctamente");
+        const service = await transportationServiceService.updateAvailability(
+            id,
+            request.body.isAvailable,
+        );
+        return sendSuccess(
+            response,
+            service,
+            "Transportation service availability updated successfully",
+        );
     };
 }

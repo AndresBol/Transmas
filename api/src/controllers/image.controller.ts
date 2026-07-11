@@ -12,7 +12,7 @@ export class ImageController {
                 response.status(400).json({
                     message:
                         error.code === "LIMIT_FILE_SIZE"
-                            ? "La imagen no debe superar los 2 MB"
+                            ? "The image must not exceed 2 MB"
                             : error.message,
                 });
                 return;
@@ -25,13 +25,11 @@ export class ImageController {
                 return;
             }
 
-            const previousFileName = request.body.previousFileName;
-
             imageService
-                .uploadImage(request.file, previousFileName)
+                .uploadImage(request.file)
                 .then((fileName) => {
                     response.status(200).json({
-                        message: "Imagen subida correctamente",
+                        message: "Image uploaded successfully",
                         fileName,
                     });
                 })
@@ -44,7 +42,7 @@ export class ImageController {
     listFiles = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const files = await imageService.listImages();
-            response.status(200).json(files);
+            response.status(200).json({ success: true, data: files });
         } catch (error) {
             next(error);
         }
@@ -56,7 +54,7 @@ export class ImageController {
 
             if (typeof fileNameParam !== "string") {
                 return response.status(400).json({
-                    message: "Nombre de imagen invalido",
+                    message: "Invalid image name",
                 });
             }
 

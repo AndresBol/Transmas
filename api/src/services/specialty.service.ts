@@ -3,15 +3,14 @@ import { CreateSpecialtyDto, UpdateSpecialtyDto } from "../dtos/specialty.dto";
 import { AppError } from "../utils/app-error";
 import { buildListResult, PaginationOptions } from "../utils/pagination";
 import { translatePrismaError } from "../utils/prisma-error";
-import { lastUpdatedByOrCreator, validateAuditUsers } from "./service-helpers";
+import { getSeededAdministrator } from "./service-helpers";
 
 export const specialtyService = {
     async list(pagination: PaginationOptions) {
-        const where = { isActive: true };
         const [totalItems, data] = await Promise.all([
-            prisma.specialty.count({ where }),
+            prisma.specialty.count({ where: { isActive: true } }),
             prisma.specialty.findMany({
-                where,
+                where: { isActive: true },
                 skip: pagination.skip,
                 take: pagination.take,
                 orderBy: { name: "asc" },
@@ -27,14 +26,14 @@ export const specialtyService = {
         });
 
         if (!specialty) {
-            throw AppError.notFound("Especialidad no encontrada");
+            throw AppError.notFound("Specialty not found");
         }
 
         return specialty;
     },
 
     async create(data: CreateSpecialtyDto) {
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
             return await prisma.specialty.create({
@@ -42,35 +41,42 @@ export const specialtyService = {
                     name: data.name,
                     description: data.description,
                     isAvailable: data.isAvailable,
-                    createdById: data.createdById,
-                    lastUpdatedById: lastUpdatedByOrCreator(data),
+                    createdById: administrator.id,
+                    lastUpdatedById: administrator.id,
                 },
             });
         } catch (error) {
-            translatePrismaError(error, "especialidad");
+            translatePrismaError(error, "specialty");
         }
     },
 
     async update(id: number, data: UpdateSpecialtyDto) {
         await this.getById(id);
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
             return await prisma.specialty.update({
                 where: { id },
-                data,
+                data: {
+                    ...data,
+                    lastUpdatedById: administrator.id,
+                },
             });
         } catch (error) {
-            translatePrismaError(error, "especialidad");
+            translatePrismaError(error, "specialty");
         }
     },
 
-    async delete(id: number) {
+    async updateAvailability(id: number, isAvailable: boolean) {
         await this.getById(id);
+        const administrator = await getSeededAdministrator();
 
         return await prisma.specialty.update({
             where: { id },
-            data: { isActive: false },
+            data: {
+                isAvailable,
+                lastUpdatedById: administrator.id,
+            },
         });
     },
 };

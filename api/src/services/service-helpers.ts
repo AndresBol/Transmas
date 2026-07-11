@@ -12,47 +12,28 @@ export const userSafeSelect = {
     isBlocked: true,
     isActive: true,
     createdOn: true,
-    createdById: true,
     lastUpdatedOn: true,
-    lastUpdatedById: true,
 } as const;
 
-export function lastUpdatedByOrCreator(data: {
-    createdById: number;
-    lastUpdatedById?: number;
-}) {
-    return data.lastUpdatedById ?? data.createdById;
-}
+export const SEEDED_ADMIN_EMAIL = "admin@transmas.com";
 
-export async function validateUser(userId: number, message = "El usuario indicado no existe") {
-    const user = await prisma.user.findFirst({
-        where: { id: userId, isActive: true },
+export async function getSeededAdministrator() {
+    const administrator = await prisma.user.findFirst({
+        where: {
+            email: SEEDED_ADMIN_EMAIL,
+            role: Role.ADMIN,
+            isActive: true,
+        },
+        select: { id: true },
     });
 
-    if (!user) {
-        throw AppError.badRequest(message);
+    if (!administrator) {
+        throw AppError.internalServer(
+            `The active seeded administrator ${SEEDED_ADMIN_EMAIL} is required to populate audit fields`,
+        );
     }
 
-    return user;
-}
-
-export async function validateOptionalUser(userId?: number | null) {
-    if (userId) {
-        await validateUser(userId);
-    }
-}
-
-export async function validateAuditUsers(data: {
-    createdById?: number;
-    lastUpdatedById?: number;
-}) {
-    if (data.createdById) {
-        await validateUser(data.createdById, "El usuario creador indicado no existe");
-    }
-
-    if (data.lastUpdatedById) {
-        await validateUser(data.lastUpdatedById, "El usuario actualizador indicado no existe");
-    }
+    return administrator;
 }
 
 export async function validateClient(clientId: number) {
@@ -66,12 +47,16 @@ export async function validateClient(clientId: number) {
     });
 
     if (!client) {
-        throw AppError.badRequest("El cliente indicado no existe o no esta disponible");
+        throw AppError.badRequest("The requested client does not exist or is unavailable");
     }
 }
 
 export function validateDateRange(startDate: Date, endDate: Date) {
-    if (endDate < startDate) {
-        throw AppError.badRequest("La fecha final no puede ser anterior a la fecha inicial");
+    if (startDate <= new Date()) {
+        throw AppError.badRequest("The reservation start date must be in the future");
+    }
+
+    if (endDate <= startDate) {
+        throw AppError.badRequest("The reservation end date must be after its start date");
     }
 }

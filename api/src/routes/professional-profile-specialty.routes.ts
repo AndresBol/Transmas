@@ -20,8 +20,6 @@ export class ProfessionalProfileSpecialtyRoutes {
             validateRequest(updateProfessionalProfileSpecialtySchema),
             asyncHandler(controller.update)
         );
-        router.delete("/:professionalProfileId/:specialtyId", asyncHandler(controller.delete));
-
         return router;
     }
 }

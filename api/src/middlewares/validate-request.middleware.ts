@@ -12,7 +12,7 @@ export function validateRequest(schema: ZodSchema) {
                 message: issue.message,
             }));
 
-            throw AppError.badRequest("Datos de entrada invalidos", validationErrors);
+            throw AppError.badRequest("Invalid request data", validationErrors);
         }
 
         req.body = result.data;

@@ -36,7 +36,7 @@ const fileFilter = (
     const isValidExtension = allowedExtensions.includes(extension);
 
     if (!isValidMime || !isValidExtension) {
-        return cb(new Error("Solo se permiten imagenes JPG, PNG o WEBP"));
+        return cb(new Error("Only JPG, PNG, or WebP images are allowed"));
     }
 
     cb(null, true);

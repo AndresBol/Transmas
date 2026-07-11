@@ -1,15 +1,14 @@
 import { z } from "zod";
-import { auditCreateSchema, auditUpdateSchema, idSchema, optionalNullableString } from "./common.dto";
+import { idSchema, optionalNullableString } from "./common.dto";
 
 export const createServiceRatingSchema = z.object({
     rating: z.number().int().min(1).max(5),
     description: optionalNullableString(500),
     reservationId: idSchema,
-}).extend(auditCreateSchema.shape);
+}).strict();
 
 export const updateServiceRatingSchema = createServiceRatingSchema
-    .omit({ createdById: true, reservationId: true })
-    .extend(auditUpdateSchema.shape)
+    .omit({ reservationId: true })
     .partial();
 
 export type CreateServiceRatingDto = z.infer<typeof createServiceRatingSchema>;

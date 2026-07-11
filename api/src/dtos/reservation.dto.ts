@@ -1,38 +1,27 @@
 import { z } from "zod";
+import { Modality } from "../../generated/prisma";
 import {
-    auditCreateSchema,
-    auditUpdateSchema,
-    decimalSchema,
     idSchema,
-    optionalNullableString,
-    positiveDecimalSchema,
     requiredString,
 } from "./common.dto";
 
 export const createReservationSchema = z.object({
     description: requiredString(500),
-    pickupLatitude: decimalSchema,
-    pickupLongitude: decimalSchema,
+    pickupLatitude: z.number().min(-90).max(90),
+    pickupLongitude: z.number().min(-180).max(180),
     pickupAddress: requiredString(255),
-    dropoffLatitude: decimalSchema,
-    dropoffLongitude: decimalSchema,
+    dropoffLatitude: z.number().min(-90).max(90),
+    dropoffLongitude: z.number().min(-180).max(180),
     dropoffAddress: requiredString(255),
     passengerCount: z.number().int().positive(),
     startDate: z.coerce.date(),
     endDate: z.coerce.date(),
-    professionalResponse: optionalNullableString(500),
-    quoteAmount: positiveDecimalSchema.nullable().optional(),
+    modality: z.nativeEnum(Modality),
     clientId: idSchema,
+    professionalProfileId: idSchema,
     transportationServiceId: idSchema,
     pickupDistrictId: idSchema,
     dropoffDistrictId: idSchema,
-    statusId: idSchema,
-}).extend(auditCreateSchema.shape);
-
-export const updateReservationSchema = createReservationSchema
-    .omit({ createdById: true })
-    .extend(auditUpdateSchema.shape)
-    .partial();
+}).strict();
 
 export type CreateReservationDto = z.infer<typeof createReservationSchema>;
-export type UpdateReservationDto = z.infer<typeof updateReservationSchema>;

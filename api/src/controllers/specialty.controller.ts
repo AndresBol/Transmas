@@ -7,8 +7,8 @@ import { parseId } from "../utils/parse-id";
 
 export class SpecialtyController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await specialtyService.list(getPagination(request.query));
-        return sendList(response, resultado);
+        const result = await specialtyService.list(getPagination(request.query));
+        return sendList(response, result);
     };
 
     getById = async (request: Request, response: Response, next: NextFunction) => {
@@ -19,18 +19,18 @@ export class SpecialtyController {
 
     create = async (request: Request, response: Response, next: NextFunction) => {
         const specialty = await specialtyService.create(request.body);
-        return sendSuccess(response, specialty, "Especialidad creada correctamente", StatusCodes.CREATED);
+        return sendSuccess(response, specialty, "Specialty created successfully", StatusCodes.CREATED);
     };
 
     update = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
         const specialty = await specialtyService.update(id, request.body);
-        return sendSuccess(response, specialty, "Especialidad actualizada correctamente");
+        return sendSuccess(response, specialty, "Specialty updated successfully");
     };
 
-    delete = async (request: Request, response: Response, next: NextFunction) => {
+    updateAvailability = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
-        const specialty = await specialtyService.delete(id);
-        return sendSuccess(response, specialty, "Especialidad eliminada correctamente");
+        const specialty = await specialtyService.updateAvailability(id, request.body.isAvailable);
+        return sendSuccess(response, specialty, "Specialty availability updated successfully");
     };
 }

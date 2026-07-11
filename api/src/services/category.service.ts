@@ -3,15 +3,14 @@ import { CreateCategoryDto, UpdateCategoryDto } from "../dtos/category.dto";
 import { AppError } from "../utils/app-error";
 import { buildListResult, PaginationOptions } from "../utils/pagination";
 import { translatePrismaError } from "../utils/prisma-error";
-import { lastUpdatedByOrCreator, validateAuditUsers } from "./service-helpers";
+import { getSeededAdministrator } from "./service-helpers";
 
 export const categoryService = {
     async list(pagination: PaginationOptions) {
-        const where = { isActive: true };
         const [totalItems, data] = await Promise.all([
-            prisma.category.count({ where }),
+            prisma.category.count({ where: { isActive: true } }),
             prisma.category.findMany({
-                where,
+                where: { isActive: true },
                 skip: pagination.skip,
                 take: pagination.take,
                 orderBy: { name: "asc" },
@@ -24,18 +23,22 @@ export const categoryService = {
     async getById(id: number) {
         const category = await prisma.category.findFirst({
             where: { id, isActive: true },
-            include: { transportationServices: true },
+            include: {
+                transportationServices: {
+                    where: { isActive: true },
+                },
+            },
         });
 
         if (!category) {
-            throw AppError.notFound("Categoria no encontrada");
+            throw AppError.notFound("Category not found");
         }
 
         return category;
     },
 
     async create(data: CreateCategoryDto) {
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
             return await prisma.category.create({
@@ -43,35 +46,70 @@ export const categoryService = {
                     name: data.name,
                     description: data.description,
                     isAvailable: data.isAvailable,
-                    createdById: data.createdById,
-                    lastUpdatedById: lastUpdatedByOrCreator(data),
+                    createdById: administrator.id,
+                    lastUpdatedById: administrator.id,
                 },
             });
         } catch (error) {
-            translatePrismaError(error, "categoria");
+            translatePrismaError(error, "category");
         }
     },
 
     async update(id: number, data: UpdateCategoryDto) {
         await this.getById(id);
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
-            return await prisma.category.update({
-                where: { id },
-                data,
+            return await prisma.$transaction(async (transaction) => {
+                const category = await transaction.category.update({
+                    where: { id },
+                    data: {
+                        ...data,
+                        lastUpdatedById: administrator.id,
+                    },
+                });
+
+                if (data.isAvailable === false) {
+                    await transaction.transportationService.updateMany({
+                        where: { categoryId: id, isActive: true },
+                        data: {
+                            isAvailable: false,
+                            lastUpdatedById: administrator.id,
+                        },
+                    });
+                }
+
+                return category;
             });
         } catch (error) {
-            translatePrismaError(error, "categoria");
+            translatePrismaError(error, "category");
         }
     },
 
-    async delete(id: number) {
+    async updateAvailability(id: number, isAvailable: boolean) {
         await this.getById(id);
+        const administrator = await getSeededAdministrator();
 
-        return await prisma.category.update({
-            where: { id },
-            data: { isActive: false },
+        return prisma.$transaction(async (transaction) => {
+            const category = await transaction.category.update({
+                where: { id },
+                data: {
+                    isAvailable,
+                    lastUpdatedById: administrator.id,
+                },
+            });
+
+            if (!isAvailable) {
+                await transaction.transportationService.updateMany({
+                    where: { categoryId: id, isActive: true },
+                    data: {
+                        isAvailable: false,
+                        lastUpdatedById: administrator.id,
+                    },
+                });
+            }
+
+            return category;
         });
     },
 };

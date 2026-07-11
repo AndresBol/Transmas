@@ -32,7 +32,7 @@ export class ErrorMiddleware {
         }
 
         logger.error({
-            message: "Error no controlado",
+            message: "Unhandled error",
             path: req.originalUrl,
             method: req.method,
             error,
@@ -41,7 +41,7 @@ export class ErrorMiddleware {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             name: "InternalServerError",
-            message: "Se produjo un error interno del servidor",
+            message: "An internal server error occurred",
             detail: isProduction ? undefined : error,
         });
     }
