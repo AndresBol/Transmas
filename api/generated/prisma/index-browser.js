@@ -141,6 +141,7 @@ exports.Prisma.ProfessionalProfileScalarFieldEnum = {
   professionalTitle: 'professionalTitle',
   description: 'description',
   experienceYears: 'experienceYears',
+  modality: 'modality',
   baseRate: 'baseRate',
   isAvailable: 'isAvailable',
   profilePictureUrl: 'profilePictureUrl',
@@ -183,6 +184,7 @@ exports.Prisma.TransportationServiceScalarFieldEnum = {
   description: 'description',
   price: 'price',
   estimatedDuration: 'estimatedDuration',
+  modality: 'modality',
   isAvailable: 'isAvailable',
   professionalProfileId: 'professionalProfileId',
   categoryId: 'categoryId',
@@ -225,6 +227,7 @@ exports.Prisma.ReservationScalarFieldEnum = {
   passengerCount: 'passengerCount',
   startDate: 'startDate',
   endDate: 'endDate',
+  modality: 'modality',
   professionalResponse: 'professionalResponse',
   quoteAmount: 'quoteAmount',
   clientId: 'clientId',
@@ -364,6 +367,11 @@ exports.Role = exports.$Enums.Role = {
   CLIENT: 'CLIENT',
   PROFESSIONAL: 'PROFESSIONAL',
   ADMIN: 'ADMIN'
+};
+
+exports.Modality = exports.$Enums.Modality = {
+  IN_PERSON: 'IN_PERSON',
+  VIRTUAL: 'VIRTUAL'
 };
 
 exports.Prisma.ModelName = {

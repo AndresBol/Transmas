@@ -96,11 +96,23 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const Modality: {
+  IN_PERSON: 'IN_PERSON',
+  VIRTUAL: 'VIRTUAL'
+};
+
+export type Modality = (typeof Modality)[keyof typeof Modality]
+
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type Modality = $Enums.Modality
+
+export const Modality: typeof $Enums.Modality
 
 /**
  * ##  Prisma Client ʲˢ
@@ -4319,6 +4331,7 @@ export namespace Prisma {
     professionalTitle: string | null
     description: string | null
     experienceYears: number | null
+    modality: $Enums.Modality | null
     baseRate: Decimal | null
     isAvailable: boolean | null
     profilePictureUrl: string | null
@@ -4336,6 +4349,7 @@ export namespace Prisma {
     professionalTitle: string | null
     description: string | null
     experienceYears: number | null
+    modality: $Enums.Modality | null
     baseRate: Decimal | null
     isAvailable: boolean | null
     profilePictureUrl: string | null
@@ -4353,6 +4367,7 @@ export namespace Prisma {
     professionalTitle: number
     description: number
     experienceYears: number
+    modality: number
     baseRate: number
     isAvailable: number
     profilePictureUrl: number
@@ -4392,6 +4407,7 @@ export namespace Prisma {
     professionalTitle?: true
     description?: true
     experienceYears?: true
+    modality?: true
     baseRate?: true
     isAvailable?: true
     profilePictureUrl?: true
@@ -4409,6 +4425,7 @@ export namespace Prisma {
     professionalTitle?: true
     description?: true
     experienceYears?: true
+    modality?: true
     baseRate?: true
     isAvailable?: true
     profilePictureUrl?: true
@@ -4426,6 +4443,7 @@ export namespace Prisma {
     professionalTitle?: true
     description?: true
     experienceYears?: true
+    modality?: true
     baseRate?: true
     isAvailable?: true
     profilePictureUrl?: true
@@ -4530,6 +4548,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality: $Enums.Modality
     baseRate: Decimal
     isAvailable: boolean
     profilePictureUrl: string
@@ -4566,6 +4585,7 @@ export namespace Prisma {
     professionalTitle?: boolean
     description?: boolean
     experienceYears?: boolean
+    modality?: boolean
     baseRate?: boolean
     isAvailable?: boolean
     profilePictureUrl?: boolean
@@ -4592,6 +4612,7 @@ export namespace Prisma {
     professionalTitle?: boolean
     description?: boolean
     experienceYears?: boolean
+    modality?: boolean
     baseRate?: boolean
     isAvailable?: boolean
     profilePictureUrl?: boolean
@@ -4604,7 +4625,7 @@ export namespace Prisma {
     lastUpdatedById?: boolean
   }
 
-  export type ProfessionalProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "professionalTitle" | "description" | "experienceYears" | "baseRate" | "isAvailable" | "profilePictureUrl" | "professionalId" | "districtId" | "isActive" | "createdOn" | "createdById" | "lastUpdatedOn" | "lastUpdatedById", ExtArgs["result"]["professionalProfile"]>
+  export type ProfessionalProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "professionalTitle" | "description" | "experienceYears" | "modality" | "baseRate" | "isAvailable" | "profilePictureUrl" | "professionalId" | "districtId" | "isActive" | "createdOn" | "createdById" | "lastUpdatedOn" | "lastUpdatedById", ExtArgs["result"]["professionalProfile"]>
   export type ProfessionalProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     professional?: boolean | UserDefaultArgs<ExtArgs>
     district?: boolean | DistrictDefaultArgs<ExtArgs>
@@ -4630,6 +4651,7 @@ export namespace Prisma {
       professionalTitle: string
       description: string
       experienceYears: number
+      modality: $Enums.Modality
       baseRate: Prisma.Decimal
       isAvailable: boolean
       profilePictureUrl: string
@@ -5019,6 +5041,7 @@ export namespace Prisma {
     readonly professionalTitle: FieldRef<"ProfessionalProfile", 'String'>
     readonly description: FieldRef<"ProfessionalProfile", 'String'>
     readonly experienceYears: FieldRef<"ProfessionalProfile", 'Int'>
+    readonly modality: FieldRef<"ProfessionalProfile", 'Modality'>
     readonly baseRate: FieldRef<"ProfessionalProfile", 'Decimal'>
     readonly isAvailable: FieldRef<"ProfessionalProfile", 'Boolean'>
     readonly profilePictureUrl: FieldRef<"ProfessionalProfile", 'String'>
@@ -7617,6 +7640,7 @@ export namespace Prisma {
     description: string | null
     price: Decimal | null
     estimatedDuration: number | null
+    modality: $Enums.Modality | null
     isAvailable: boolean | null
     professionalProfileId: number | null
     categoryId: number | null
@@ -7633,6 +7657,7 @@ export namespace Prisma {
     description: string | null
     price: Decimal | null
     estimatedDuration: number | null
+    modality: $Enums.Modality | null
     isAvailable: boolean | null
     professionalProfileId: number | null
     categoryId: number | null
@@ -7649,6 +7674,7 @@ export namespace Prisma {
     description: number
     price: number
     estimatedDuration: number
+    modality: number
     isAvailable: number
     professionalProfileId: number
     categoryId: number
@@ -7687,6 +7713,7 @@ export namespace Prisma {
     description?: true
     price?: true
     estimatedDuration?: true
+    modality?: true
     isAvailable?: true
     professionalProfileId?: true
     categoryId?: true
@@ -7703,6 +7730,7 @@ export namespace Prisma {
     description?: true
     price?: true
     estimatedDuration?: true
+    modality?: true
     isAvailable?: true
     professionalProfileId?: true
     categoryId?: true
@@ -7719,6 +7747,7 @@ export namespace Prisma {
     description?: true
     price?: true
     estimatedDuration?: true
+    modality?: true
     isAvailable?: true
     professionalProfileId?: true
     categoryId?: true
@@ -7822,6 +7851,7 @@ export namespace Prisma {
     description: string
     price: Decimal
     estimatedDuration: number
+    modality: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -7857,6 +7887,7 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     estimatedDuration?: boolean
+    modality?: boolean
     isAvailable?: boolean
     professionalProfileId?: boolean
     categoryId?: boolean
@@ -7882,6 +7913,7 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     estimatedDuration?: boolean
+    modality?: boolean
     isAvailable?: boolean
     professionalProfileId?: boolean
     categoryId?: boolean
@@ -7892,7 +7924,7 @@ export namespace Prisma {
     lastUpdatedById?: boolean
   }
 
-  export type TransportationServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "estimatedDuration" | "isAvailable" | "professionalProfileId" | "categoryId" | "isActive" | "createdOn" | "createdById" | "lastUpdatedOn" | "lastUpdatedById", ExtArgs["result"]["transportationService"]>
+  export type TransportationServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "estimatedDuration" | "modality" | "isAvailable" | "professionalProfileId" | "categoryId" | "isActive" | "createdOn" | "createdById" | "lastUpdatedOn" | "lastUpdatedById", ExtArgs["result"]["transportationService"]>
   export type TransportationServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     professionalProfile?: boolean | ProfessionalProfileDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -7919,6 +7951,7 @@ export namespace Prisma {
       description: string
       price: Prisma.Decimal
       estimatedDuration: number
+      modality: $Enums.Modality
       isAvailable: boolean
       professionalProfileId: number
       categoryId: number
@@ -8307,6 +8340,7 @@ export namespace Prisma {
     readonly description: FieldRef<"TransportationService", 'String'>
     readonly price: FieldRef<"TransportationService", 'Decimal'>
     readonly estimatedDuration: FieldRef<"TransportationService", 'Int'>
+    readonly modality: FieldRef<"TransportationService", 'Modality'>
     readonly isAvailable: FieldRef<"TransportationService", 'Boolean'>
     readonly professionalProfileId: FieldRef<"TransportationService", 'Int'>
     readonly categoryId: FieldRef<"TransportationService", 'Int'>
@@ -10815,6 +10849,7 @@ export namespace Prisma {
     passengerCount: number | null
     startDate: Date | null
     endDate: Date | null
+    modality: $Enums.Modality | null
     professionalResponse: string | null
     quoteAmount: Decimal | null
     clientId: number | null
@@ -10841,6 +10876,7 @@ export namespace Prisma {
     passengerCount: number | null
     startDate: Date | null
     endDate: Date | null
+    modality: $Enums.Modality | null
     professionalResponse: string | null
     quoteAmount: Decimal | null
     clientId: number | null
@@ -10867,6 +10903,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: number
     endDate: number
+    modality: number
     professionalResponse: number
     quoteAmount: number
     clientId: number
@@ -10929,6 +10966,7 @@ export namespace Prisma {
     passengerCount?: true
     startDate?: true
     endDate?: true
+    modality?: true
     professionalResponse?: true
     quoteAmount?: true
     clientId?: true
@@ -10955,6 +10993,7 @@ export namespace Prisma {
     passengerCount?: true
     startDate?: true
     endDate?: true
+    modality?: true
     professionalResponse?: true
     quoteAmount?: true
     clientId?: true
@@ -10981,6 +11020,7 @@ export namespace Prisma {
     passengerCount?: true
     startDate?: true
     endDate?: true
+    modality?: true
     professionalResponse?: true
     quoteAmount?: true
     clientId?: true
@@ -11094,6 +11134,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date
     endDate: Date
+    modality: $Enums.Modality
     professionalResponse: string | null
     quoteAmount: Decimal | null
     clientId: number
@@ -11139,6 +11180,7 @@ export namespace Prisma {
     passengerCount?: boolean
     startDate?: boolean
     endDate?: boolean
+    modality?: boolean
     professionalResponse?: boolean
     quoteAmount?: boolean
     clientId?: boolean
@@ -11177,6 +11219,7 @@ export namespace Prisma {
     passengerCount?: boolean
     startDate?: boolean
     endDate?: boolean
+    modality?: boolean
     professionalResponse?: boolean
     quoteAmount?: boolean
     clientId?: boolean
@@ -11191,7 +11234,7 @@ export namespace Prisma {
     lastUpdatedById?: boolean
   }
 
-  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "pickupLatitude" | "pickupLongitude" | "pickupAddress" | "dropoffLatitude" | "dropoffLongitude" | "dropoffAddress" | "passengerCount" | "startDate" | "endDate" | "professionalResponse" | "quoteAmount" | "clientId" | "transportationServiceId" | "pickupDistrictId" | "dropoffDistrictId" | "statusId" | "isActive" | "createdOn" | "createdById" | "lastUpdatedOn" | "lastUpdatedById", ExtArgs["result"]["reservation"]>
+  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "pickupLatitude" | "pickupLongitude" | "pickupAddress" | "dropoffLatitude" | "dropoffLongitude" | "dropoffAddress" | "passengerCount" | "startDate" | "endDate" | "modality" | "professionalResponse" | "quoteAmount" | "clientId" | "transportationServiceId" | "pickupDistrictId" | "dropoffDistrictId" | "statusId" | "isActive" | "createdOn" | "createdById" | "lastUpdatedOn" | "lastUpdatedById", ExtArgs["result"]["reservation"]>
   export type ReservationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     client?: boolean | UserDefaultArgs<ExtArgs>
     transportationService?: boolean | TransportationServiceDefaultArgs<ExtArgs>
@@ -11230,6 +11273,7 @@ export namespace Prisma {
       passengerCount: number
       startDate: Date
       endDate: Date
+      modality: $Enums.Modality
       professionalResponse: string | null
       quoteAmount: Prisma.Decimal | null
       clientId: number
@@ -11631,6 +11675,7 @@ export namespace Prisma {
     readonly passengerCount: FieldRef<"Reservation", 'Int'>
     readonly startDate: FieldRef<"Reservation", 'DateTime'>
     readonly endDate: FieldRef<"Reservation", 'DateTime'>
+    readonly modality: FieldRef<"Reservation", 'Modality'>
     readonly professionalResponse: FieldRef<"Reservation", 'String'>
     readonly quoteAmount: FieldRef<"Reservation", 'Decimal'>
     readonly clientId: FieldRef<"Reservation", 'Int'>
@@ -18205,6 +18250,7 @@ export namespace Prisma {
     professionalTitle: 'professionalTitle',
     description: 'description',
     experienceYears: 'experienceYears',
+    modality: 'modality',
     baseRate: 'baseRate',
     isAvailable: 'isAvailable',
     profilePictureUrl: 'profilePictureUrl',
@@ -18256,6 +18302,7 @@ export namespace Prisma {
     description: 'description',
     price: 'price',
     estimatedDuration: 'estimatedDuration',
+    modality: 'modality',
     isAvailable: 'isAvailable',
     professionalProfileId: 'professionalProfileId',
     categoryId: 'categoryId',
@@ -18307,6 +18354,7 @@ export namespace Prisma {
     passengerCount: 'passengerCount',
     startDate: 'startDate',
     endDate: 'endDate',
+    modality: 'modality',
     professionalResponse: 'professionalResponse',
     quoteAmount: 'quoteAmount',
     clientId: 'clientId',
@@ -18547,6 +18595,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Modality'
+   */
+  export type EnumModalityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Modality'>
+    
+
+
+  /**
    * Reference to a field of type 'Decimal'
    */
   export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -18744,6 +18799,7 @@ export namespace Prisma {
     professionalTitle?: StringFilter<"ProfessionalProfile"> | string
     description?: StringFilter<"ProfessionalProfile"> | string
     experienceYears?: IntFilter<"ProfessionalProfile"> | number
+    modality?: EnumModalityFilter<"ProfessionalProfile"> | $Enums.Modality
     baseRate?: DecimalFilter<"ProfessionalProfile"> | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFilter<"ProfessionalProfile"> | boolean
     profilePictureUrl?: StringFilter<"ProfessionalProfile"> | string
@@ -18767,6 +18823,7 @@ export namespace Prisma {
     professionalTitle?: SortOrder
     description?: SortOrder
     experienceYears?: SortOrder
+    modality?: SortOrder
     baseRate?: SortOrder
     isAvailable?: SortOrder
     profilePictureUrl?: SortOrder
@@ -18795,6 +18852,7 @@ export namespace Prisma {
     professionalTitle?: StringFilter<"ProfessionalProfile"> | string
     description?: StringFilter<"ProfessionalProfile"> | string
     experienceYears?: IntFilter<"ProfessionalProfile"> | number
+    modality?: EnumModalityFilter<"ProfessionalProfile"> | $Enums.Modality
     baseRate?: DecimalFilter<"ProfessionalProfile"> | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFilter<"ProfessionalProfile"> | boolean
     profilePictureUrl?: StringFilter<"ProfessionalProfile"> | string
@@ -18817,6 +18875,7 @@ export namespace Prisma {
     professionalTitle?: SortOrder
     description?: SortOrder
     experienceYears?: SortOrder
+    modality?: SortOrder
     baseRate?: SortOrder
     isAvailable?: SortOrder
     profilePictureUrl?: SortOrder
@@ -18842,6 +18901,7 @@ export namespace Prisma {
     professionalTitle?: StringWithAggregatesFilter<"ProfessionalProfile"> | string
     description?: StringWithAggregatesFilter<"ProfessionalProfile"> | string
     experienceYears?: IntWithAggregatesFilter<"ProfessionalProfile"> | number
+    modality?: EnumModalityWithAggregatesFilter<"ProfessionalProfile"> | $Enums.Modality
     baseRate?: DecimalWithAggregatesFilter<"ProfessionalProfile"> | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolWithAggregatesFilter<"ProfessionalProfile"> | boolean
     profilePictureUrl?: StringWithAggregatesFilter<"ProfessionalProfile"> | string
@@ -19034,6 +19094,7 @@ export namespace Prisma {
     description?: StringFilter<"TransportationService"> | string
     price?: DecimalFilter<"TransportationService"> | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFilter<"TransportationService"> | number
+    modality?: EnumModalityFilter<"TransportationService"> | $Enums.Modality
     isAvailable?: BoolFilter<"TransportationService"> | boolean
     professionalProfileId?: IntFilter<"TransportationService"> | number
     categoryId?: IntFilter<"TransportationService"> | number
@@ -19056,6 +19117,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     estimatedDuration?: SortOrder
+    modality?: SortOrder
     isAvailable?: SortOrder
     professionalProfileId?: SortOrder
     categoryId?: SortOrder
@@ -19082,6 +19144,7 @@ export namespace Prisma {
     description?: StringFilter<"TransportationService"> | string
     price?: DecimalFilter<"TransportationService"> | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFilter<"TransportationService"> | number
+    modality?: EnumModalityFilter<"TransportationService"> | $Enums.Modality
     isAvailable?: BoolFilter<"TransportationService"> | boolean
     professionalProfileId?: IntFilter<"TransportationService"> | number
     categoryId?: IntFilter<"TransportationService"> | number
@@ -19104,6 +19167,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     estimatedDuration?: SortOrder
+    modality?: SortOrder
     isAvailable?: SortOrder
     professionalProfileId?: SortOrder
     categoryId?: SortOrder
@@ -19128,6 +19192,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"TransportationService"> | string
     price?: DecimalWithAggregatesFilter<"TransportationService"> | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntWithAggregatesFilter<"TransportationService"> | number
+    modality?: EnumModalityWithAggregatesFilter<"TransportationService"> | $Enums.Modality
     isAvailable?: BoolWithAggregatesFilter<"TransportationService"> | boolean
     professionalProfileId?: IntWithAggregatesFilter<"TransportationService"> | number
     categoryId?: IntWithAggregatesFilter<"TransportationService"> | number
@@ -19307,6 +19372,7 @@ export namespace Prisma {
     passengerCount?: IntFilter<"Reservation"> | number
     startDate?: DateTimeFilter<"Reservation"> | Date | string
     endDate?: DateTimeFilter<"Reservation"> | Date | string
+    modality?: EnumModalityFilter<"Reservation"> | $Enums.Modality
     professionalResponse?: StringNullableFilter<"Reservation"> | string | null
     quoteAmount?: DecimalNullableFilter<"Reservation"> | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFilter<"Reservation"> | number
@@ -19342,6 +19408,7 @@ export namespace Prisma {
     passengerCount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    modality?: SortOrder
     professionalResponse?: SortOrderInput | SortOrder
     quoteAmount?: SortOrderInput | SortOrder
     clientId?: SortOrder
@@ -19381,6 +19448,7 @@ export namespace Prisma {
     passengerCount?: IntFilter<"Reservation"> | number
     startDate?: DateTimeFilter<"Reservation"> | Date | string
     endDate?: DateTimeFilter<"Reservation"> | Date | string
+    modality?: EnumModalityFilter<"Reservation"> | $Enums.Modality
     professionalResponse?: StringNullableFilter<"Reservation"> | string | null
     quoteAmount?: DecimalNullableFilter<"Reservation"> | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFilter<"Reservation"> | number
@@ -19416,6 +19484,7 @@ export namespace Prisma {
     passengerCount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    modality?: SortOrder
     professionalResponse?: SortOrderInput | SortOrder
     quoteAmount?: SortOrderInput | SortOrder
     clientId?: SortOrder
@@ -19450,6 +19519,7 @@ export namespace Prisma {
     passengerCount?: IntWithAggregatesFilter<"Reservation"> | number
     startDate?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
+    modality?: EnumModalityWithAggregatesFilter<"Reservation"> | $Enums.Modality
     professionalResponse?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
     quoteAmount?: DecimalNullableWithAggregatesFilter<"Reservation"> | Decimal | DecimalJsLike | number | string | null
     clientId?: IntWithAggregatesFilter<"Reservation"> | number
@@ -20064,6 +20134,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -20083,6 +20154,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -20101,6 +20173,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -20120,6 +20193,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -20139,6 +20213,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -20155,6 +20230,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -20168,6 +20244,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -20355,6 +20432,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     isActive?: boolean
     createdOn?: Date | string
@@ -20373,6 +20451,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -20390,6 +20469,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20408,6 +20488,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
@@ -20426,6 +20507,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -20441,6 +20523,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20453,6 +20536,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
@@ -20606,6 +20690,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -20634,6 +20719,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -20661,6 +20747,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -20689,6 +20776,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -20717,6 +20805,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -20742,6 +20831,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -20761,6 +20851,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -21461,6 +21552,13 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type EnumModalityFilter<$PrismaModel = never> = {
+    equals?: $Enums.Modality | EnumModalityFieldRefInput<$PrismaModel>
+    in?: $Enums.Modality[]
+    notIn?: $Enums.Modality[]
+    not?: NestedEnumModalityFilter<$PrismaModel> | $Enums.Modality
+  }
+
   export type DecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[]
@@ -21493,6 +21591,7 @@ export namespace Prisma {
     professionalTitle?: SortOrder
     description?: SortOrder
     experienceYears?: SortOrder
+    modality?: SortOrder
     baseRate?: SortOrder
     isAvailable?: SortOrder
     profilePictureUrl?: SortOrder
@@ -21520,6 +21619,7 @@ export namespace Prisma {
     professionalTitle?: SortOrder
     description?: SortOrder
     experienceYears?: SortOrder
+    modality?: SortOrder
     baseRate?: SortOrder
     isAvailable?: SortOrder
     profilePictureUrl?: SortOrder
@@ -21537,6 +21637,7 @@ export namespace Prisma {
     professionalTitle?: SortOrder
     description?: SortOrder
     experienceYears?: SortOrder
+    modality?: SortOrder
     baseRate?: SortOrder
     isAvailable?: SortOrder
     profilePictureUrl?: SortOrder
@@ -21557,6 +21658,16 @@ export namespace Prisma {
     districtId?: SortOrder
     createdById?: SortOrder
     lastUpdatedById?: SortOrder
+  }
+
+  export type EnumModalityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Modality | EnumModalityFieldRefInput<$PrismaModel>
+    in?: $Enums.Modality[]
+    notIn?: $Enums.Modality[]
+    not?: NestedEnumModalityWithAggregatesFilter<$PrismaModel> | $Enums.Modality
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumModalityFilter<$PrismaModel>
+    _max?: NestedEnumModalityFilter<$PrismaModel>
   }
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -21705,6 +21816,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     estimatedDuration?: SortOrder
+    modality?: SortOrder
     isAvailable?: SortOrder
     professionalProfileId?: SortOrder
     categoryId?: SortOrder
@@ -21731,6 +21843,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     estimatedDuration?: SortOrder
+    modality?: SortOrder
     isAvailable?: SortOrder
     professionalProfileId?: SortOrder
     categoryId?: SortOrder
@@ -21747,6 +21860,7 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     estimatedDuration?: SortOrder
+    modality?: SortOrder
     isAvailable?: SortOrder
     professionalProfileId?: SortOrder
     categoryId?: SortOrder
@@ -21929,6 +22043,7 @@ export namespace Prisma {
     passengerCount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    modality?: SortOrder
     professionalResponse?: SortOrder
     quoteAmount?: SortOrder
     clientId?: SortOrder
@@ -21972,6 +22087,7 @@ export namespace Prisma {
     passengerCount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    modality?: SortOrder
     professionalResponse?: SortOrder
     quoteAmount?: SortOrder
     clientId?: SortOrder
@@ -21998,6 +22114,7 @@ export namespace Prisma {
     passengerCount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
+    modality?: SortOrder
     professionalResponse?: SortOrder
     quoteAmount?: SortOrder
     clientId?: SortOrder
@@ -23471,6 +23588,10 @@ export namespace Prisma {
     connect?: TransportationServiceWhereUniqueInput | TransportationServiceWhereUniqueInput[]
   }
 
+  export type EnumModalityFieldUpdateOperationsInput = {
+    set?: $Enums.Modality
+  }
+
   export type DecimalFieldUpdateOperationsInput = {
     set?: Decimal | DecimalJsLike | number | string
     increment?: Decimal | DecimalJsLike | number | string
@@ -24745,6 +24866,13 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumModalityFilter<$PrismaModel = never> = {
+    equals?: $Enums.Modality | EnumModalityFieldRefInput<$PrismaModel>
+    in?: $Enums.Modality[]
+    notIn?: $Enums.Modality[]
+    not?: NestedEnumModalityFilter<$PrismaModel> | $Enums.Modality
+  }
+
   export type NestedDecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[]
@@ -24754,6 +24882,16 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedEnumModalityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Modality | EnumModalityFieldRefInput<$PrismaModel>
+    in?: $Enums.Modality[]
+    notIn?: $Enums.Modality[]
+    not?: NestedEnumModalityWithAggregatesFilter<$PrismaModel> | $Enums.Modality
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumModalityFilter<$PrismaModel>
+    _max?: NestedEnumModalityFilter<$PrismaModel>
   }
 
   export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -25174,6 +25312,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -25192,6 +25331,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -25221,6 +25361,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -25248,6 +25389,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     transportationServiceId: number
@@ -25277,6 +25419,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -25295,6 +25438,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -25322,6 +25466,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -25340,6 +25485,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -25504,6 +25650,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     isActive?: boolean
     createdOn?: Date | string
@@ -25521,6 +25668,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -25547,6 +25695,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     isActive?: boolean
     createdOn?: Date | string
@@ -25564,6 +25713,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -25708,6 +25858,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -25735,6 +25886,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -25771,6 +25923,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -25798,6 +25951,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -26247,6 +26401,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -26265,6 +26420,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -26309,6 +26465,7 @@ export namespace Prisma {
     passengerCount?: IntFilter<"Reservation"> | number
     startDate?: DateTimeFilter<"Reservation"> | Date | string
     endDate?: DateTimeFilter<"Reservation"> | Date | string
+    modality?: EnumModalityFilter<"Reservation"> | $Enums.Modality
     professionalResponse?: StringNullableFilter<"Reservation"> | string | null
     quoteAmount?: DecimalNullableFilter<"Reservation"> | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFilter<"Reservation"> | number
@@ -26347,6 +26504,7 @@ export namespace Prisma {
     professionalTitle?: StringFilter<"ProfessionalProfile"> | string
     description?: StringFilter<"ProfessionalProfile"> | string
     experienceYears?: IntFilter<"ProfessionalProfile"> | number
+    modality?: EnumModalityFilter<"ProfessionalProfile"> | $Enums.Modality
     baseRate?: DecimalFilter<"ProfessionalProfile"> | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFilter<"ProfessionalProfile"> | boolean
     profilePictureUrl?: StringFilter<"ProfessionalProfile"> | string
@@ -26494,6 +26652,7 @@ export namespace Prisma {
     description?: StringFilter<"TransportationService"> | string
     price?: DecimalFilter<"TransportationService"> | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFilter<"TransportationService"> | number
+    modality?: EnumModalityFilter<"TransportationService"> | $Enums.Modality
     isAvailable?: BoolFilter<"TransportationService"> | boolean
     professionalProfileId?: IntFilter<"TransportationService"> | number
     categoryId?: IntFilter<"TransportationService"> | number
@@ -27080,6 +27239,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     isActive?: boolean
     createdOn?: Date | string
@@ -27097,6 +27257,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     categoryId: number
     isActive?: boolean
@@ -28037,6 +28198,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     isActive?: boolean
     createdOn?: Date | string
@@ -28054,6 +28216,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     isActive?: boolean
@@ -28271,6 +28434,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -28289,6 +28453,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -28538,6 +28703,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -28565,6 +28731,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -28605,6 +28772,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -28623,6 +28791,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -28882,6 +29051,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -28900,6 +29070,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -29127,6 +29298,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -29145,6 +29317,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -29375,6 +29548,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     isActive?: boolean
     createdOn?: Date | string
@@ -29392,6 +29566,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -29618,6 +29793,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29635,6 +29811,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
@@ -29945,6 +30122,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     isActive?: boolean
     createdOn?: Date | string
@@ -29962,6 +30140,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -30367,6 +30546,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30384,6 +30564,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
@@ -30712,6 +30893,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -30739,6 +30921,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -30945,6 +31128,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -30972,6 +31156,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -31174,6 +31359,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -31201,6 +31387,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -31407,6 +31594,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -31434,6 +31622,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -31800,6 +31989,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -31827,6 +32017,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -32194,6 +32385,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -32212,6 +32404,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -32246,6 +32439,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -32273,6 +32467,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -32309,6 +32504,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     isActive?: boolean
@@ -32336,6 +32532,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -32473,6 +32670,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     transportationServiceId: number
@@ -32491,6 +32689,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -32507,6 +32706,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -32568,6 +32768,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -32583,6 +32784,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     categoryId: number
@@ -32640,6 +32842,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -32665,6 +32868,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -32935,6 +33139,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -32962,6 +33167,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     transportationServiceId?: IntFieldUpdateOperationsInput | number
@@ -32989,6 +33195,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     transportationServiceId?: IntFieldUpdateOperationsInput | number
@@ -33006,6 +33213,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -33024,6 +33232,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -33042,6 +33251,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -33057,6 +33267,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -33075,6 +33286,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -33093,6 +33305,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -33249,6 +33462,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33266,6 +33480,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
@@ -33283,6 +33498,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
@@ -33297,6 +33513,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33314,6 +33531,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
@@ -33331,6 +33549,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     categoryId?: IntFieldUpdateOperationsInput | number
@@ -33459,6 +33678,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -33486,6 +33706,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -33513,6 +33734,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -33537,6 +33759,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -33564,6 +33787,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -33591,6 +33815,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -33803,6 +34028,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     categoryId: number
     isActive?: boolean
@@ -33844,6 +34070,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33861,6 +34088,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     categoryId?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -33878,6 +34106,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     categoryId?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -33965,6 +34194,7 @@ export namespace Prisma {
     description: string
     price: Decimal | DecimalJsLike | number | string
     estimatedDuration: number
+    modality?: $Enums.Modality
     isAvailable: boolean
     professionalProfileId: number
     isActive?: boolean
@@ -33979,6 +34209,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33996,6 +34227,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -34013,6 +34245,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDuration?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     professionalProfileId?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -34043,6 +34276,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -34094,6 +34328,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -34121,6 +34356,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -34148,6 +34384,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -34216,6 +34453,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -34240,6 +34478,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -34267,6 +34506,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -34294,6 +34534,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -34358,6 +34599,7 @@ export namespace Prisma {
     professionalTitle: string
     description: string
     experienceYears: number
+    modality?: $Enums.Modality
     baseRate: Decimal | DecimalJsLike | number | string
     isAvailable: boolean
     profilePictureUrl?: string
@@ -34381,6 +34623,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -34406,6 +34649,7 @@ export namespace Prisma {
     passengerCount: number
     startDate: Date | string
     endDate: Date | string
+    modality?: $Enums.Modality
     professionalResponse?: string | null
     quoteAmount?: Decimal | DecimalJsLike | number | string | null
     clientId: number
@@ -34423,6 +34667,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -34441,6 +34686,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -34459,6 +34705,7 @@ export namespace Prisma {
     professionalTitle?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     experienceYears?: IntFieldUpdateOperationsInput | number
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     baseRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     isAvailable?: BoolFieldUpdateOperationsInput | boolean
     profilePictureUrl?: StringFieldUpdateOperationsInput | string
@@ -34481,6 +34728,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -34508,6 +34756,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -34535,6 +34784,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -34559,6 +34809,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -34586,6 +34837,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
@@ -34613,6 +34865,7 @@ export namespace Prisma {
     passengerCount?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    modality?: EnumModalityFieldUpdateOperationsInput | $Enums.Modality
     professionalResponse?: NullableStringFieldUpdateOperationsInput | string | null
     quoteAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     clientId?: IntFieldUpdateOperationsInput | number
