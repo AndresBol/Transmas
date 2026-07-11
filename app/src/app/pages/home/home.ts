@@ -1,34 +1,42 @@
 import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-interface ContentCard {
+
+interface FeatureCard {
   title: string;
   description: string;
   icon: string;
+  path: string;
 }
+
 @Component({
   selector: 'app-home',
-  imports: [MatCardModule, MatIconModule, MatButtonModule],
+  standalone: true,
+  imports: [RouterLink, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home {
-  cards = signal<ContentCard[]>([
+  readonly cards = signal<FeatureCard[]>([
     {
-      title: 'Videojuegos',
-      description: 'Mantenimiento de catálogo, categorías, etiquetas y plataformas.',
-      icon: 'sports_esports',
+      title: 'Transportation services',
+      description: 'Compare tourist, corporate, airport, event, school, and special transportation options.',
+      icon: 'airport_shuttle',
+      path: '/services',
     },
     {
-      title: 'Órdenes',
-      description: 'Registro de compras y detalle de videojuegos vendidos.',
-      icon: 'receipt_long',
+      title: 'Trusted professionals',
+      description: 'Find independent drivers, bilingual guides, subcontractors, and transportation companies.',
+      icon: 'verified_user',
+      path: '/professionals',
     },
     {
-      title: 'Usuarios',
-      description: 'Gestión de usuarios, roles y acceso al sistema.',
-      icon: 'group',
+      title: 'Simple reservations',
+      description: 'Provide the route, schedule, passenger count, and trip details in one clear request.',
+      icon: 'event_available',
+      path: '/reservations/new',
     },
   ]);
 }
