@@ -1,0 +1,91 @@
+<section class="page-header">
+  <span class="eyebrow">Transportation marketplace</span>
+  <h1>Find the right service for every trip</h1>
+  <p>Compare transportation options by category, modality, and price before requesting a reservation.</p>
+</section>
+
+<section class="filters" aria-label="Service filters">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search services</mat-label>
+    <input
+      matInput
+      [ngModel]="search()"
+      (ngModelChange)="search.set($event)"
+      placeholder="Airport, mountain, executive..."
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Category</mat-label>
+    <mat-select [ngModel]="categoryId()" (ngModelChange)="categoryId.set($event)">
+      <mat-option [value]="null">All categories</mat-option>
+      @for (category of categories(); track category.id) {
+        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Modality</mat-label>
+    <mat-select [ngModel]="modality()" (ngModelChange)="modality.set($event)">
+      <mat-option [value]="null">All modalities</mat-option>
+      <mat-option value="IN_PERSON">In person</mat-option>
+      <mat-option value="VIRTUAL">Virtual coordination</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Minimum price</mat-label>
+    <input matInput type="number" min="0" [ngModel]="minimumPrice()" (ngModelChange)="minimumPrice.set($event)" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Maximum price</mat-label>
+    <input matInput type="number" min="0" [ngModel]="maximumPrice()" (ngModelChange)="maximumPrice.set($event)" />
+  </mat-form-field>
+
+  <button mat-stroked-button type="button" (click)="clearFilters()">
+    <mat-icon>filter_alt_off</mat-icon>
+    Clear
+  </button>
+</section>
+
+<p class="result-summary">{{ totalServices() }} services found</p>
+
+@if (loading()) {
+  <div class="state"><mat-spinner diameter="42" /><p>Loading transportation services...</p></div>
+} @else if (error()) {
+  <div class="state error">
+    <mat-icon>error</mat-icon><p>{{ error() }}</p>
+    <button mat-stroked-button type="button" (click)="loadData()">Try again</button>
+  </div>
+} @else if (filteredServices().length === 0) {
+  <div class="state"><mat-icon>search_off</mat-icon><p>No available services match these filters.</p></div>
+} @else {
+  <section class="service-grid">
+    @for (service of filteredServices(); track service.id) {
+      <mat-card class="service-card">
+        <div class="card-visual"><mat-icon>directions_bus</mat-icon></div>
+        <mat-card-content>
+          <div class="card-labels">
+            <span class="category">{{ service.category?.name || 'Uncategorized' }}</span>
+            <span class="modality">{{ modalityLabel(service.modality) }}</span>
+          </div>
+          <h2>{{ service.name }}</h2>
+          <p class="professional">by {{ professionalName(service) }}</p>
+          <p class="description">{{ service.description }}</p>
+          <div class="service-meta">
+            <strong>{{ formatCurrency(service.price) }}</strong>
+            <span><mat-icon>schedule</mat-icon>{{ service.estimatedDuration }} min</span>
+          </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <a mat-stroked-button [routerLink]="['/services', service.id]">
+            View details <mat-icon>arrow_forward</mat-icon>
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </section>
+}

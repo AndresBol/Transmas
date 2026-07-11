@@ -1,0 +1,17 @@
+<section class="page-header"><span class="eyebrow">Administration</span><h1>Edit transportation service</h1><p>Update the selected catalog offering.</p></section>
+@if (loading()) {
+  <div class="state"><mat-spinner diameter="42" /><p>Loading service information...</p></div>
+} @else if (!service()) {
+  <div class="state error"><mat-icon>error</mat-icon><p>{{ error() || 'The service was not found.' }}</p><button mat-stroked-button (click)="loadFormData()">Try again</button></div>
+} @else {
+  @if (error()) { <p class="error-banner"><mat-icon>error</mat-icon>{{ error() }}</p> }
+  <app-service-form
+    [service]="service()"
+    [professionals]="professionals()"
+    [categories]="categories()"
+    [specialties]="specialties()"
+    [saving]="saving()"
+    (save)="save($event)"
+    (cancel)="cancel()"
+  />
+}
