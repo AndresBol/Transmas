@@ -3,7 +3,7 @@ import { CreateServiceRatingDto, UpdateServiceRatingDto } from "../dtos/service-
 import { AppError } from "../utils/app-error";
 import { buildListResult, PaginationOptions } from "../utils/pagination";
 import { translatePrismaError } from "../utils/prisma-error";
-import { lastUpdatedByOrCreator, validateAuditUsers } from "./service-helpers";
+import { getSeededAdministrator } from "./service-helpers";
 
 const includeServiceRating = {
     reservation: true,
@@ -33,7 +33,7 @@ export const serviceRatingService = {
         });
 
         if (!rating) {
-            throw AppError.notFound("Calificacion de servicio no encontrada");
+            throw AppError.notFound("Service rating not found");
         }
 
         return rating;
@@ -41,14 +41,14 @@ export const serviceRatingService = {
 
     async create(data: CreateServiceRatingDto) {
         await this.validateReservation(data.reservationId);
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         const existing = await prisma.serviceRating.findUnique({
             where: { reservationId: data.reservationId },
         });
 
         if (existing) {
-            throw AppError.conflict("La reservacion indicada ya tiene una calificacion");
+            throw AppError.conflict("The requested reservation already has a rating");
         }
 
         try {
@@ -57,37 +57,38 @@ export const serviceRatingService = {
                     rating: data.rating,
                     description: data.description,
                     reservationId: data.reservationId,
-                    createdById: data.createdById,
-                    lastUpdatedById: lastUpdatedByOrCreator(data),
+                    createdById: administrator.id,
+                    lastUpdatedById: administrator.id,
                 },
                 include: includeServiceRating,
             });
         } catch (error) {
-            translatePrismaError(error, "calificacion de servicio");
+            translatePrismaError(error, "service rating");
         }
     },
 
     async update(id: number, data: UpdateServiceRatingDto) {
         await this.getById(id);
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
             return await prisma.serviceRating.update({
                 where: { id },
-                data,
+                data: { ...data, lastUpdatedById: administrator.id },
                 include: includeServiceRating,
             });
         } catch (error) {
-            translatePrismaError(error, "calificacion de servicio");
+            translatePrismaError(error, "service rating");
         }
     },
 
     async delete(id: number) {
         await this.getById(id);
+        const administrator = await getSeededAdministrator();
 
         return await prisma.serviceRating.update({
             where: { id },
-            data: { isActive: false },
+            data: { isActive: false, lastUpdatedById: administrator.id },
             include: includeServiceRating,
         });
     },
@@ -98,7 +99,7 @@ export const serviceRatingService = {
         });
 
         if (!reservation) {
-            throw AppError.badRequest("La reservacion indicada no existe");
+            throw AppError.badRequest("The requested reservation does not exist");
         }
     },
 };

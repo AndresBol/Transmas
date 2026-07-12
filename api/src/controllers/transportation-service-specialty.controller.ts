@@ -7,8 +7,8 @@ import { parseId } from "../utils/parse-id";
 
 export class TransportationServiceSpecialtyController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await transportationServiceSpecialtyService.list(getPagination(request.query));
-        return sendList(response, resultado);
+        const result = await transportationServiceSpecialtyService.list(getPagination(request.query));
+        return sendList(response, result);
     };
 
     getById = async (request: Request, response: Response, next: NextFunction) => {
@@ -20,7 +20,7 @@ export class TransportationServiceSpecialtyController {
 
     create = async (request: Request, response: Response, next: NextFunction) => {
         const relation = await transportationServiceSpecialtyService.create(request.body);
-        return sendSuccess(response, relation, "Relacion creada correctamente", StatusCodes.CREATED);
+        return sendSuccess(response, relation, "Relationship created successfully", StatusCodes.CREATED);
     };
 
     update = async (request: Request, response: Response, next: NextFunction) => {
@@ -31,13 +31,13 @@ export class TransportationServiceSpecialtyController {
             specialtyId,
             request.body
         );
-        return sendSuccess(response, relation, "Relacion actualizada correctamente");
+        return sendSuccess(response, relation, "Relationship updated successfully");
     };
 
     delete = async (request: Request, response: Response, next: NextFunction) => {
         const transportationServiceId = parseId(request.params.transportationServiceId);
         const specialtyId = parseId(request.params.specialtyId);
         const relation = await transportationServiceSpecialtyService.delete(transportationServiceId, specialtyId);
-        return sendSuccess(response, relation, "Relacion eliminada correctamente");
+        return sendSuccess(response, relation, "Relationship deactivated successfully");
     };
 }

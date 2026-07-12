@@ -23,7 +23,7 @@ app.use(
 
 app.get("/", (req, res) => {
     res.json({
-        message: "Transmas API funcionando correctamente",
+        message: "Transmas API is running",
     });
 });
 
@@ -33,5 +33,5 @@ app.use(ErrorMiddleware.handleError);
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`);
-    console.log("Presione CTRL-C para detenerlo\n");
+    console.log("Press CTRL-C to stop the server\n");
 });

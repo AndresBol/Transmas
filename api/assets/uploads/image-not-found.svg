@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="title description">
+  <title id="title">Default Transmas professional profile</title>
+  <desc id="description">A transport professional avatar with a minibus icon.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111827"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" rx="64" fill="url(#background)"/>
+  <circle cx="320" cy="238" r="104" fill="#e5e7eb"/>
+  <path d="M128 528c12-116 88-184 192-184s180 68 192 184" fill="#e5e7eb"/>
+  <g transform="translate(322 382)">
+    <rect x="0" y="0" width="236" height="132" rx="24" fill="url(#accent)" stroke="#f8fafc" stroke-width="8"/>
+    <path d="M28 36h148l32 44H28z" fill="#0f172a" opacity=".82"/>
+    <path d="M96 36v44M160 36v44" stroke="#f8fafc" stroke-width="7" opacity=".72"/>
+    <circle cx="56" cy="132" r="22" fill="#0f172a" stroke="#f8fafc" stroke-width="8"/>
+    <circle cx="184" cy="132" r="22" fill="#0f172a" stroke="#f8fafc" stroke-width="8"/>
+    <circle cx="204" cy="104" r="9" fill="#fef08a"/>
+  </g>
+  <circle cx="320" cy="320" r="278" fill="none" stroke="#ffffff" stroke-opacity=".14" stroke-width="8"/>
+</svg>

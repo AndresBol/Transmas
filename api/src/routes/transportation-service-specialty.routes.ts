@@ -20,8 +20,6 @@ export class TransportationServiceSpecialtyRoutes {
             validateRequest(updateTransportationServiceSpecialtySchema),
             asyncHandler(controller.update)
         );
-        router.delete("/:transportationServiceId/:specialtyId", asyncHandler(controller.delete));
-
         return router;
     }
 }

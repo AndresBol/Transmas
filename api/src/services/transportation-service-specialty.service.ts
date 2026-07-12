@@ -6,7 +6,7 @@ import {
 import { AppError } from "../utils/app-error";
 import { buildListResult, PaginationOptions } from "../utils/pagination";
 import { translatePrismaError } from "../utils/prisma-error";
-import { lastUpdatedByOrCreator, validateAuditUsers } from "./service-helpers";
+import { getSeededAdministrator } from "./service-helpers";
 
 const includeJoin = {
     transportationService: true,
@@ -15,7 +15,11 @@ const includeJoin = {
 
 export const transportationServiceSpecialtyService = {
     async list(pagination: PaginationOptions) {
-        const where = { isActive: true };
+        const where = {
+            isActive: true,
+            transportationService: { isActive: true },
+            specialty: { isActive: true },
+        };
         const [totalItems, data] = await Promise.all([
             prisma.transportationServiceSpecialty.count({ where }),
             prisma.transportationServiceSpecialty.findMany({
@@ -36,12 +40,14 @@ export const transportationServiceSpecialtyService = {
                 transportationServiceId,
                 specialtyId,
                 isActive: true,
+                transportationService: { isActive: true },
+                specialty: { isActive: true },
             },
             include: includeJoin,
         });
 
         if (!relation) {
-            throw AppError.notFound("Relacion de servicio de transporte y especialidad no encontrada");
+            throw AppError.notFound("Transportation service specialty relationship not found");
         }
 
         return relation;
@@ -50,21 +56,31 @@ export const transportationServiceSpecialtyService = {
     async create(data: CreateTransportationServiceSpecialtyDto) {
         await this.validateTransportationService(data.transportationServiceId);
         await this.validateSpecialty(data.specialtyId);
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
-            return await prisma.transportationServiceSpecialty.create({
-                data: {
+            return await prisma.transportationServiceSpecialty.upsert({
+                where: {
+                    transportationServiceId_specialtyId: {
+                        transportationServiceId: data.transportationServiceId,
+                        specialtyId: data.specialtyId,
+                    },
+                },
+                create: {
                     transportationServiceId: data.transportationServiceId,
                     specialtyId: data.specialtyId,
-                    isActive: data.isActive,
-                    createdById: data.createdById,
-                    lastUpdatedById: lastUpdatedByOrCreator(data),
+                    isActive: data.isActive ?? true,
+                    createdById: administrator.id,
+                    lastUpdatedById: administrator.id,
+                },
+                update: {
+                    isActive: data.isActive ?? true,
+                    lastUpdatedById: administrator.id,
                 },
                 include: includeJoin,
             });
         } catch (error) {
-            translatePrismaError(error, "relacion de servicio de transporte y especialidad");
+            translatePrismaError(error, "transportation service specialty relationship");
         }
     },
 
@@ -74,7 +90,7 @@ export const transportationServiceSpecialtyService = {
         data: UpdateTransportationServiceSpecialtyDto
     ) {
         await this.getById(transportationServiceId, specialtyId);
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
             return await prisma.transportationServiceSpecialty.update({
@@ -84,16 +100,17 @@ export const transportationServiceSpecialtyService = {
                         specialtyId,
                     },
                 },
-                data,
+                data: { ...data, lastUpdatedById: administrator.id },
                 include: includeJoin,
             });
         } catch (error) {
-            translatePrismaError(error, "relacion de servicio de transporte y especialidad");
+            translatePrismaError(error, "transportation service specialty relationship");
         }
     },
 
     async delete(transportationServiceId: number, specialtyId: number) {
         await this.getById(transportationServiceId, specialtyId);
+        const administrator = await getSeededAdministrator();
 
         return await prisma.transportationServiceSpecialty.update({
             where: {
@@ -102,28 +119,28 @@ export const transportationServiceSpecialtyService = {
                     specialtyId,
                 },
             },
-            data: { isActive: false },
+            data: { isActive: false, lastUpdatedById: administrator.id },
             include: includeJoin,
         });
     },
 
     async validateTransportationService(transportationServiceId: number) {
         const exists = await prisma.transportationService.findFirst({
-            where: { id: transportationServiceId, isActive: true },
+            where: { id: transportationServiceId, isActive: true, isAvailable: true },
         });
 
         if (!exists) {
-            throw AppError.badRequest("El servicio de transporte indicado no existe");
+            throw AppError.badRequest("The requested transportation service does not exist");
         }
     },
 
     async validateSpecialty(specialtyId: number) {
         const exists = await prisma.specialty.findFirst({
-            where: { id: specialtyId, isActive: true },
+            where: { id: specialtyId, isActive: true, isAvailable: true },
         });
 
         if (!exists) {
-            throw AppError.badRequest("La especialidad indicada no existe");
+            throw AppError.badRequest("The requested specialty does not exist");
         }
     },
 };

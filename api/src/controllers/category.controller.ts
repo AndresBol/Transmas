@@ -7,8 +7,8 @@ import { parseId } from "../utils/parse-id";
 
 export class CategoryController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await categoryService.list(getPagination(request.query));
-        return sendList(response, resultado);
+        const result = await categoryService.list(getPagination(request.query));
+        return sendList(response, result);
     };
 
     getById = async (request: Request, response: Response, next: NextFunction) => {
@@ -19,18 +19,18 @@ export class CategoryController {
 
     create = async (request: Request, response: Response, next: NextFunction) => {
         const category = await categoryService.create(request.body);
-        return sendSuccess(response, category, "Categoria creada correctamente", StatusCodes.CREATED);
+        return sendSuccess(response, category, "Category created successfully", StatusCodes.CREATED);
     };
 
     update = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
         const category = await categoryService.update(id, request.body);
-        return sendSuccess(response, category, "Categoria actualizada correctamente");
+        return sendSuccess(response, category, "Category updated successfully");
     };
 
-    delete = async (request: Request, response: Response, next: NextFunction) => {
+    updateAvailability = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
-        const category = await categoryService.delete(id);
-        return sendSuccess(response, category, "Categoria eliminada correctamente");
+        const category = await categoryService.updateAvailability(id, request.body.isAvailable);
+        return sendSuccess(response, category, "Category availability updated successfully");
     };
 }

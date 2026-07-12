@@ -1,0 +1,90 @@
+@if (loading()) {
+  <div class="state"><mat-spinner diameter="46" /><p>Loading service details...</p></div>
+} @else if (error()) {
+  <div class="state error">
+    <mat-icon>error</mat-icon><p>{{ error() }}</p>
+    <div class="state-actions">
+      <a mat-stroked-button routerLink="/services">Back to services</a>
+      <button mat-stroked-button type="button" (click)="loadService()">Try again</button>
+    </div>
+  </div>
+} @else if (service(); as currentService) {
+  <nav class="breadcrumb"><a routerLink="/services">Services</a><mat-icon>chevron_right</mat-icon><span>{{ currentService.name }}</span></nav>
+
+  <section class="hero">
+    <div class="hero-icon"><mat-icon>directions_bus</mat-icon></div>
+    <div class="hero-content">
+      <div class="labels">
+        <span>{{ currentService.category?.name || 'Uncategorized' }}</span>
+        <span>{{ modalityLabel(currentService.modality) }}</span>
+      </div>
+      <h1>{{ currentService.name }}</h1>
+      <p>{{ currentService.description }}</p>
+      <div class="headline-meta">
+        <strong>{{ formatCurrency(currentService.price) }}</strong>
+        <span><mat-icon>schedule</mat-icon>{{ currentService.estimatedDuration }} minutes</span>
+        <span class="status" [class.unavailable]="!isBookable(currentService)">
+          {{ isBookable(currentService) ? 'Available' : 'Unavailable' }}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-grid">
+    <mat-card class="detail-card professional-card">
+      <mat-card-content>
+        <span class="card-eyebrow">Provided by</span>
+        <h2>{{ professionalName(currentService) }}</h2>
+        <p>{{ currentService.professionalProfile?.professionalTitle }}</p>
+        <div class="info-row">
+          <mat-icon>location_on</mat-icon>
+          <span>
+            {{ currentService.professionalProfile?.district?.name || 'Location pending' }}
+            @if (currentService.professionalProfile?.district?.canton?.province?.name) {
+              , {{ currentService.professionalProfile?.district?.canton?.province?.name }}
+            }
+          </span>
+        </div>
+        @if (currentService.professionalProfile) {
+          <a mat-stroked-button [routerLink]="['/professionals', currentService.professionalProfile.id]">
+            View professional <mat-icon>person</mat-icon>
+          </a>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="detail-card">
+      <mat-card-content>
+        <span class="card-eyebrow">Specialties</span>
+        <h2>Service capabilities</h2>
+        @if (specialties(currentService).length) {
+          <mat-chip-set aria-label="Service specialties">
+            @for (specialty of specialties(currentService); track specialty.id) {
+              <mat-chip>{{ specialty.name }}</mat-chip>
+            }
+          </mat-chip-set>
+        } @else {
+          <p class="muted">No specialties are registered for this service.</p>
+        }
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <section class="reservation-callout">
+    <div>
+      <span class="card-eyebrow">Ready to travel?</span>
+      <h2>Request this transportation service</h2>
+      <p>Provide the date, route, passenger count, and trip notes to create a pending request.</p>
+    </div>
+    <a
+      mat-flat-button
+      [routerLink]="['/reservations/new']"
+      [queryParams]="{ serviceId: currentService.id }"
+      [class.disabled-link]="!isBookable(currentService)"
+      [attr.aria-disabled]="!isBookable(currentService)"
+    >
+      <mat-icon>event_available</mat-icon>
+      Request reservation
+    </a>
+  </section>
+}

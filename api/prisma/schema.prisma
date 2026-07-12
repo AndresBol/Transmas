@@ -21,6 +21,11 @@ enum Role {
   ADMIN
 }
 
+enum Modality {
+  IN_PERSON
+  VIRTUAL
+}
+
 model User {
   id              Int      @id @default(autoincrement())
   firstName       String   @map("first_name") @db.VarChar(100)
@@ -73,9 +78,10 @@ model ProfessionalProfile {
   professionalTitle String   @map("professional_title") @db.VarChar(150)
   description       String   @db.VarChar(500)
   experienceYears   Int      @map("experience_years")
+  modality          Modality @default(IN_PERSON)
   baseRate          Decimal  @map("base_rate") @db.Decimal(10, 2)
   isAvailable       Boolean  @map("is_available")
-  profilePictureUrl String   @default("image-not-found.jpg") @map("profile_picture_url") @db.VarChar(255)
+  profilePictureUrl String   @default("image-not-found.svg") @map("profile_picture_url") @db.VarChar(255)
   professionalId    Int      @unique @map("professional_id")
   districtId        Int      @map("district_id")
   isActive          Boolean  @default(true) @map("is_active")
@@ -140,6 +146,7 @@ model TransportationService {
   description           String   @db.VarChar(500)
   price                 Decimal  @db.Decimal(10, 2)
   estimatedDuration     Int      @map("estimated_duration")
+  modality              Modality @default(IN_PERSON)
   isAvailable           Boolean  @map("is_available")
   professionalProfileId Int      @map("professional_profile_id")
   categoryId            Int      @map("category_id")
@@ -208,6 +215,7 @@ model Reservation {
   passengerCount          Int      @map("passenger_count")
   startDate               DateTime @map("start_date")
   endDate                 DateTime @map("end_date")
+  modality                Modality @default(IN_PERSON)
   professionalResponse    String?  @map("professional_response") @db.VarChar(500)
   quoteAmount             Decimal? @map("quote_amount") @db.Decimal(10, 2)
   clientId                Int      @map("client_id")

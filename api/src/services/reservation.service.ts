@@ -1,49 +1,50 @@
-import { Role } from "../../generated/prisma";
 import { prisma } from "../config/prisma";
-import { CreateReservationDto, UpdateReservationDto } from "../dtos/reservation.dto";
+import { CreateReservationDto } from "../dtos/reservation.dto";
 import { AppError } from "../utils/app-error";
 import { buildListResult, PaginationOptions } from "../utils/pagination";
 import { translatePrismaError } from "../utils/prisma-error";
 import {
-    lastUpdatedByOrCreator,
+    getSeededAdministrator,
     userSafeSelect,
-    validateAuditUsers,
     validateClient,
     validateDateRange,
 } from "./service-helpers";
 
+const includeLocation = {
+    canton: {
+        include: { province: true },
+    },
+} as const;
+
 const includeReservation = {
     client: { select: userSafeSelect },
-    transportationService: true,
-    pickupDistrict: true,
-    dropoffDistrict: true,
+    transportationService: {
+        include: {
+            category: true,
+            professionalProfile: {
+                include: {
+                    professional: { select: userSafeSelect },
+                    district: { include: includeLocation },
+                    specialties: {
+                        where: { isActive: true },
+                        include: { specialty: true },
+                    },
+                },
+            },
+            specialties: {
+                where: { isActive: true },
+                include: { specialty: true },
+            },
+        },
+    },
+    pickupDistrict: { include: includeLocation },
+    dropoffDistrict: { include: includeLocation },
     status: true,
-    serviceRating: true,
-    timelines: true,
 } as const;
 
 export const reservationService = {
     async list(pagination: PaginationOptions) {
         const where = { isActive: true };
-        const [totalItems, data] = await Promise.all([
-            prisma.reservation.count({ where }),
-            prisma.reservation.findMany({
-                where,
-                skip: pagination.skip,
-                take: pagination.take,
-                include: includeReservation,
-                orderBy: { startDate: "desc" },
-            }),
-        ]);
-
-        return buildListResult(totalItems, data, pagination);
-    },
-
-    async listByUser(clientId: number, role: Role, pagination: PaginationOptions) {
-        const where = role === Role.ADMIN
-            ? { isActive: true }
-            : { isActive: true, clientId };
-
         const [totalItems, data] = await Promise.all([
             prisma.reservation.count({ where }),
             prisma.reservation.findMany({
@@ -65,16 +66,43 @@ export const reservationService = {
         });
 
         if (!reservation) {
-            throw AppError.notFound("Reservacion no encontrada");
+            throw AppError.notFound("Reservation not found");
         }
 
         return reservation;
     },
 
     async create(data: CreateReservationDto) {
-        await this.validateReferences(data);
         validateDateRange(data.startDate, data.endDate);
-        await validateAuditUsers(data);
+
+        const [administrator, pendingStatus, service] = await Promise.all([
+            getSeededAdministrator(),
+            prisma.status.findFirst({
+                where: { name: "Pending", isActive: true },
+            }),
+            this.validateReferences(data),
+        ]);
+
+        if (!pendingStatus) {
+            throw AppError.internalServer(
+                "The active Pending status is required before reservations can be created",
+            );
+        }
+
+        if (service.professionalProfileId !== data.professionalProfileId) {
+            throw AppError.badRequest(
+                "The selected transportation service does not belong to the selected professional",
+            );
+        }
+
+        if (
+            service.modality !== data.modality
+            || service.professionalProfile.modality !== data.modality
+        ) {
+            throw AppError.badRequest(
+                "The reservation modality must match both the service and professional modality",
+            );
+        }
 
         try {
             return await prisma.reservation.create({
@@ -89,104 +117,63 @@ export const reservationService = {
                     passengerCount: data.passengerCount,
                     startDate: data.startDate,
                     endDate: data.endDate,
-                    professionalResponse: data.professionalResponse,
-                    quoteAmount: data.quoteAmount,
+                    modality: data.modality,
+                    professionalResponse: null,
+                    quoteAmount: null,
                     clientId: data.clientId,
                     transportationServiceId: data.transportationServiceId,
                     pickupDistrictId: data.pickupDistrictId,
                     dropoffDistrictId: data.dropoffDistrictId,
-                    statusId: data.statusId,
-                    createdById: data.createdById,
-                    lastUpdatedById: lastUpdatedByOrCreator(data),
+                    statusId: pendingStatus.id,
+                    createdById: administrator.id,
+                    lastUpdatedById: administrator.id,
                 },
                 include: includeReservation,
             });
         } catch (error) {
-            translatePrismaError(error, "reservacion");
+            translatePrismaError(error, "reservation");
         }
     },
 
-    async update(id: number, data: UpdateReservationDto) {
-        const current = await this.getById(id);
-        await this.validateReferences(data);
-        await validateAuditUsers(data);
-
-        const startDate = data.startDate ?? current.startDate;
-        const endDate = data.endDate ?? current.endDate;
-        validateDateRange(startDate, endDate);
-
-        try {
-            return await prisma.reservation.update({
-                where: { id },
-                data: {
-                    description: data.description,
-                    pickupLatitude: data.pickupLatitude,
-                    pickupLongitude: data.pickupLongitude,
-                    pickupAddress: data.pickupAddress,
-                    dropoffLatitude: data.dropoffLatitude,
-                    dropoffLongitude: data.dropoffLongitude,
-                    dropoffAddress: data.dropoffAddress,
-                    passengerCount: data.passengerCount,
-                    startDate: data.startDate,
-                    endDate: data.endDate,
-                    professionalResponse: data.professionalResponse,
-                    quoteAmount: data.quoteAmount,
-                    clientId: data.clientId,
-                    transportationServiceId: data.transportationServiceId,
-                    pickupDistrictId: data.pickupDistrictId,
-                    dropoffDistrictId: data.dropoffDistrictId,
-                    statusId: data.statusId,
-                    lastUpdatedById: data.lastUpdatedById,
+    async validateReferences(data: CreateReservationDto) {
+        const [service] = await Promise.all([
+            prisma.transportationService.findUnique({
+                where: { id: data.transportationServiceId },
+                include: {
+                    category: true,
+                    professionalProfile: {
+                        include: { professional: true },
+                    },
                 },
-                include: includeReservation,
-            });
-        } catch (error) {
-            translatePrismaError(error, "reservacion");
-        }
-    },
+            }),
+            validateClient(data.clientId),
+            this.validateDistrict(
+                data.pickupDistrictId,
+                "The selected pickup district does not exist",
+            ),
+            this.validateDistrict(
+                data.dropoffDistrictId,
+                "The selected drop-off district does not exist",
+            ),
+        ]);
 
-    async delete(id: number) {
-        await this.getById(id);
-
-        return await prisma.reservation.update({
-            where: { id },
-            data: { isActive: false },
-            include: includeReservation,
-        });
-    },
-
-    async validateReferences(data: Partial<CreateReservationDto>) {
-        if (data.clientId) {
-            await validateClient(data.clientId);
-        }
-
-        if (data.transportationServiceId) {
-            const service = await prisma.transportationService.findFirst({
-                where: { id: data.transportationServiceId, isActive: true },
-            });
-
-            if (!service) {
-                throw AppError.badRequest("El servicio de transporte indicado no existe");
-            }
+        if (
+            !service
+            || !service.isActive
+            || !service.isAvailable
+            || !service.category.isActive
+            || !service.category.isAvailable
+            || !service.professionalProfile.isActive
+            || !service.professionalProfile.isAvailable
+            || !service.professionalProfile.professional.isActive
+            || service.professionalProfile.professional.isBlocked
+        ) {
+            throw AppError.badRequest(
+                "The selected service and professional must exist and be available",
+            );
         }
 
-        if (data.pickupDistrictId) {
-            await this.validateDistrict(data.pickupDistrictId, "El distrito de salida indicado no existe");
-        }
-
-        if (data.dropoffDistrictId) {
-            await this.validateDistrict(data.dropoffDistrictId, "El distrito de destino indicado no existe");
-        }
-
-        if (data.statusId) {
-            const status = await prisma.status.findFirst({
-                where: { id: data.statusId, isActive: true },
-            });
-
-            if (!status) {
-                throw AppError.badRequest("El estado indicado no existe");
-            }
-        }
+        return service;
     },
 
     async validateDistrict(districtId: number, message: string) {

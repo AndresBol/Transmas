@@ -6,6 +6,7 @@ import {
     createProfessionalProfileSchema,
     updateProfessionalProfileSchema,
 } from "../dtos/professional-profile.dto";
+import { availabilitySchema } from "../dtos/common.dto";
 
 export class ProfessionalProfileRoutes {
     static get routes(): Router {
@@ -16,7 +17,11 @@ export class ProfessionalProfileRoutes {
         router.get("/:id", asyncHandler(controller.getById));
         router.post("/", validateRequest(createProfessionalProfileSchema), asyncHandler(controller.create));
         router.put("/:id", validateRequest(updateProfessionalProfileSchema), asyncHandler(controller.update));
-        router.delete("/:id", asyncHandler(controller.delete));
+        router.patch(
+            "/:id/availability",
+            validateRequest(availabilitySchema),
+            asyncHandler(controller.updateAvailability),
+        );
 
         return router;
     }

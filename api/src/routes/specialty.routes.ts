@@ -3,6 +3,7 @@ import { SpecialtyController } from "../controllers/specialty.controller";
 import { asyncHandler } from "../middlewares/async-handler.middleware";
 import { validateRequest } from "../middlewares/validate-request.middleware";
 import { createSpecialtySchema, updateSpecialtySchema } from "../dtos/specialty.dto";
+import { availabilitySchema } from "../dtos/common.dto";
 
 export class SpecialtyRoutes {
     static get routes(): Router {
@@ -13,7 +14,11 @@ export class SpecialtyRoutes {
         router.get("/:id", asyncHandler(controller.getById));
         router.post("/", validateRequest(createSpecialtySchema), asyncHandler(controller.create));
         router.put("/:id", validateRequest(updateSpecialtySchema), asyncHandler(controller.update));
-        router.delete("/:id", asyncHandler(controller.delete));
+        router.patch(
+            "/:id/availability",
+            validateRequest(availabilitySchema),
+            asyncHandler(controller.updateAvailability),
+        );
 
         return router;
     }

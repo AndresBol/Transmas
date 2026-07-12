@@ -7,8 +7,8 @@ import { parseId } from "../utils/parse-id";
 
 export class ProfessionalProfileSpecialtyController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await professionalProfileSpecialtyService.list(getPagination(request.query));
-        return sendList(response, resultado);
+        const result = await professionalProfileSpecialtyService.list(getPagination(request.query));
+        return sendList(response, result);
     };
 
     getById = async (request: Request, response: Response, next: NextFunction) => {
@@ -20,7 +20,7 @@ export class ProfessionalProfileSpecialtyController {
 
     create = async (request: Request, response: Response, next: NextFunction) => {
         const relation = await professionalProfileSpecialtyService.create(request.body);
-        return sendSuccess(response, relation, "Relacion creada correctamente", StatusCodes.CREATED);
+        return sendSuccess(response, relation, "Relationship created successfully", StatusCodes.CREATED);
     };
 
     update = async (request: Request, response: Response, next: NextFunction) => {
@@ -31,13 +31,13 @@ export class ProfessionalProfileSpecialtyController {
             specialtyId,
             request.body
         );
-        return sendSuccess(response, relation, "Relacion actualizada correctamente");
+        return sendSuccess(response, relation, "Relationship updated successfully");
     };
 
     delete = async (request: Request, response: Response, next: NextFunction) => {
         const professionalProfileId = parseId(request.params.professionalProfileId);
         const specialtyId = parseId(request.params.specialtyId);
         const relation = await professionalProfileSpecialtyService.delete(professionalProfileId, specialtyId);
-        return sendSuccess(response, relation, "Relacion eliminada correctamente");
+        return sendSuccess(response, relation, "Relationship deactivated successfully");
     };
 }

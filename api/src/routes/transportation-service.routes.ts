@@ -6,6 +6,7 @@ import {
     createTransportationServiceSchema,
     updateTransportationServiceSchema,
 } from "../dtos/transportation-service.dto";
+import { availabilitySchema } from "../dtos/common.dto";
 
 export class TransportationServiceRoutes {
     static get routes(): Router {
@@ -16,7 +17,11 @@ export class TransportationServiceRoutes {
         router.get("/:id", asyncHandler(controller.getById));
         router.post("/", validateRequest(createTransportationServiceSchema), asyncHandler(controller.create));
         router.put("/:id", validateRequest(updateTransportationServiceSchema), asyncHandler(controller.update));
-        router.delete("/:id", asyncHandler(controller.delete));
+        router.patch(
+            "/:id/availability",
+            validateRequest(availabilitySchema),
+            asyncHandler(controller.updateAvailability),
+        );
 
         return router;
     }

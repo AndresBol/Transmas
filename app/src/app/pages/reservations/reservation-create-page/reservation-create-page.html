@@ -1,0 +1,5 @@
+<section class="page-header"><div><span class="eyebrow">New transportation request</span><h1>Create reservation</h1><p>Select real API records and provide the complete schedule and route. The server will assign Pending status.</p></div></section>
+@if (loading()) { <div class="state-card"><mat-spinner diameter="42" /><p>Loading reservation options...</p></div> }
+@else if (error()) { <div class="state-card error"><mat-icon>error</mat-icon><p>{{ error() }}</p><button mat-stroked-button (click)="loadLookups()">Try again</button></div> }
+@else if (!clients().length || !professionals().length || !services().length || !districts().length) { <div class="state-card"><mat-icon>warning</mat-icon><p>The form requires at least one active client, professional, service, and district.</p><button mat-stroked-button (click)="loadLookups()">Refresh options</button></div> }
+@else { <app-reservation-form [clients]="clients()" [professionals]="professionals()" [services]="services()" [districts]="districts()" [initialServiceId]="initialServiceId" [saving]="saving()" (save)="create($event)" (cancel)="cancel()" /> }

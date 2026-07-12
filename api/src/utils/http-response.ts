@@ -5,7 +5,7 @@ import { ListResult } from "./pagination";
 export function sendSuccess<T>(
     res: Response,
     data: T,
-    message = "Operacion realizada correctamente",
+    message = "Operation completed successfully",
     statusCode: StatusCodes = StatusCodes.OK
 ) {
     return res.status(statusCode).json({

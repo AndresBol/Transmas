@@ -1,0 +1,37 @@
+<section class="page-header"><span class="eyebrow">Trusted transport providers</span><h1>Meet Transmas professionals</h1><p>Explore independent drivers, guides, contractors, and transportation companies across Costa Rica.</p></section>
+
+<section class="filters" aria-label="Professional filters">
+  <mat-form-field appearance="outline" class="search-field"><mat-label>Search professionals</mat-label><input matInput [ngModel]="search()" (ngModelChange)="search.set($event)" placeholder="Name, title, or location" /><mat-icon matSuffix>search</mat-icon></mat-form-field>
+  <mat-form-field appearance="outline"><mat-label>Modality</mat-label><mat-select [ngModel]="modality()" (ngModelChange)="modality.set($event)"><mat-option [value]="null">All modalities</mat-option><mat-option value="IN_PERSON">In person</mat-option><mat-option value="VIRTUAL">Virtual coordination</mat-option></mat-select></mat-form-field>
+  <mat-form-field appearance="outline"><mat-label>Availability</mat-label><mat-select [ngModel]="availability()" (ngModelChange)="availability.set($event)"><mat-option [value]="null">All professionals</mat-option><mat-option [value]="true">Available</mat-option><mat-option [value]="false">Unavailable</mat-option></mat-select></mat-form-field>
+  <button mat-stroked-button type="button" (click)="clearFilters()"><mat-icon>filter_alt_off</mat-icon>Clear</button>
+</section>
+<p class="result-summary">{{ filteredProfessionals().length }} professionals found</p>
+
+@if (loading()) {
+  <div class="state"><mat-spinner diameter="42" /><p>Loading professionals...</p></div>
+} @else if (error()) {
+  <div class="state error"><mat-icon>error</mat-icon><p>{{ error() }}</p><button mat-stroked-button (click)="loadProfessionals()">Try again</button></div>
+} @else if (filteredProfessionals().length === 0) {
+  <div class="state"><mat-icon>person_search</mat-icon><p>No professionals match the selected filters.</p></div>
+} @else {
+  <section class="professional-grid">
+    @for (profile of filteredProfessionals(); track profile.id) {
+      <mat-card class="professional-card">
+        <div class="image-wrapper"><img [src]="profileImage(profile)" [alt]="profileName(profile)" (error)="useFallback($event)" /><span class="status" [class.unavailable]="!isEffectivelyAvailable(profile)">{{ isEffectivelyAvailable(profile) ? 'Available' : 'Unavailable' }}</span></div>
+        <mat-card-content>
+          <span class="modality">{{ modalityLabel(profile.modality) }}</span>
+          <h2>{{ profileName(profile) }}</h2>
+          <p class="title">{{ profile.professionalTitle }}</p>
+          <p class="description">{{ profile.description }}</p>
+          <div class="profile-meta">
+            <span><mat-icon>location_on</mat-icon>{{ profile.district?.name || 'Costa Rica' }}</span>
+            <span><mat-icon>work_history</mat-icon>{{ profile.experienceYears }} years</span>
+          </div>
+          <div class="rate"><small>Base rate</small><strong>{{ formatCurrency(profile.baseRate) }}</strong></div>
+        </mat-card-content>
+        <mat-card-actions align="end"><a mat-stroked-button [routerLink]="['/professionals', profile.id]">View profile<mat-icon>arrow_forward</mat-icon></a></mat-card-actions>
+      </mat-card>
+    }
+  </section>
+}

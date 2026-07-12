@@ -41,7 +41,7 @@ export class AppError extends Error {
         });
     }
 
-    static notFound(message = "Recurso no encontrado") {
+    static notFound(message = "Resource not found") {
         return new AppError({
             name: "NotFoundError",
             message,
@@ -49,7 +49,7 @@ export class AppError extends Error {
         });
     }
 
-    static conflict(message = "Conflicto con el estado actual del recurso") {
+    static conflict(message = "Conflict with the current resource state") {
         return new AppError({
             name: "ConflictError",
             message,
@@ -57,7 +57,7 @@ export class AppError extends Error {
         });
     }
 
-    static internalServer(message = "Se produjo un error interno del servidor") {
+    static internalServer(message = "An internal server error occurred") {
         return new AppError({
             name: "InternalServerError",
             message,

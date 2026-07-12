@@ -3,7 +3,7 @@ import { CreateTimelineDto, UpdateTimelineDto } from "../dtos/timeline.dto";
 import { AppError } from "../utils/app-error";
 import { buildListResult, PaginationOptions } from "../utils/pagination";
 import { translatePrismaError } from "../utils/prisma-error";
-import { validateAuditUsers } from "./service-helpers";
+import { getSeededAdministrator } from "./service-helpers";
 
 const includeTimeline = {
     reservation: true,
@@ -33,7 +33,7 @@ export const timelineService = {
         });
 
         if (!timeline) {
-            throw AppError.notFound("Linea de tiempo no encontrada");
+            throw AppError.notFound("Timeline entry not found");
         }
 
         return timeline;
@@ -41,7 +41,7 @@ export const timelineService = {
 
     async create(data: CreateTimelineDto) {
         await this.validateReservation(data.reservationId);
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
             return await prisma.timeline.create({
@@ -49,37 +49,38 @@ export const timelineService = {
                     subject: data.subject,
                     description: data.description,
                     reservationId: data.reservationId,
-                    createdById: data.createdById,
-                    lastUpdatedById: data.lastUpdatedById ?? data.createdById,
+                    createdById: administrator.id,
+                    lastUpdatedById: administrator.id,
                 },
                 include: includeTimeline,
             });
         } catch (error) {
-            translatePrismaError(error, "linea de tiempo");
+            translatePrismaError(error, "timeline entry");
         }
     },
 
     async update(id: number, data: UpdateTimelineDto) {
         await this.getById(id);
-        await validateAuditUsers(data);
+        const administrator = await getSeededAdministrator();
 
         try {
             return await prisma.timeline.update({
                 where: { id },
-                data,
+                data: { ...data, lastUpdatedById: administrator.id },
                 include: includeTimeline,
             });
         } catch (error) {
-            translatePrismaError(error, "linea de tiempo");
+            translatePrismaError(error, "timeline entry");
         }
     },
 
     async delete(id: number) {
         await this.getById(id);
+        const administrator = await getSeededAdministrator();
 
         return await prisma.timeline.update({
             where: { id },
-            data: { isActive: false },
+            data: { isActive: false, lastUpdatedById: administrator.id },
             include: includeTimeline,
         });
     },
@@ -90,7 +91,7 @@ export const timelineService = {
         });
 
         if (!reservation) {
-            throw AppError.badRequest("La reservacion indicada no existe");
+            throw AppError.badRequest("The requested reservation does not exist");
         }
     },
 };

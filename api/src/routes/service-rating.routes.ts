@@ -13,8 +13,6 @@ export class ServiceRatingRoutes {
         router.get("/:id", asyncHandler(controller.getById));
         router.post("/", validateRequest(createServiceRatingSchema), asyncHandler(controller.create));
         router.put("/:id", validateRequest(updateServiceRatingSchema), asyncHandler(controller.update));
-        router.delete("/:id", asyncHandler(controller.delete));
-
         return router;
     }
 }

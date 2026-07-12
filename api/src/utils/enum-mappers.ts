@@ -6,9 +6,9 @@ export interface EnumOption {
 }
 
 export const RoleMap: Record<Role, string> = {
-    [Role.CLIENT]: "Cliente",
-    [Role.PROFESSIONAL]: "Profesional",
-    [Role.ADMIN]: "Administrador",
+    [Role.CLIENT]: "Client",
+    [Role.PROFESSIONAL]: "Professional",
+    [Role.ADMIN]: "Administrator",
 };
 
 export function getEnumOptions<T extends string>(map: Record<T, string>): EnumOption[] {

@@ -5,15 +5,9 @@ export const createTimelineSchema = z.object({
     subject: requiredString(150),
     description: requiredString(500),
     reservationId: idSchema,
-    createdById: idSchema.optional(),
-    lastUpdatedById: idSchema.optional(),
-});
+}).strict();
 
 export const updateTimelineSchema = createTimelineSchema
-    .omit({ createdById: true })
-    .extend({
-        lastUpdatedById: idSchema.optional(),
-    })
     .partial();
 
 export type CreateTimelineDto = z.infer<typeof createTimelineSchema>;

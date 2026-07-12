@@ -1,0 +1,16 @@
+<section class="page-header"><span class="eyebrow">Administration</span><h1>Create transportation service</h1><p>Add a professional offering to the Transmas catalog.</p></section>
+@if (loading()) {
+  <div class="state"><mat-spinner diameter="42" /><p>Loading form data...</p></div>
+} @else if (error() && categories().length === 0) {
+  <div class="state error"><mat-icon>error</mat-icon><p>{{ error() }}</p><button mat-stroked-button (click)="loadFormData()">Try again</button></div>
+} @else {
+  @if (error()) { <p class="error-banner"><mat-icon>error</mat-icon>{{ error() }}</p> }
+  <app-service-form
+    [professionals]="professionals()"
+    [categories]="categories()"
+    [specialties]="specialties()"
+    [saving]="saving()"
+    (save)="save($event)"
+    (cancel)="cancel()"
+  />
+}

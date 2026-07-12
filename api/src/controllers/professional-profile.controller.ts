@@ -7,8 +7,8 @@ import { parseId } from "../utils/parse-id";
 
 export class ProfessionalProfileController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await professionalProfileService.list(getPagination(request.query));
-        return sendList(response, resultado);
+        const result = await professionalProfileService.list(getPagination(request.query));
+        return sendList(response, result);
     };
 
     getById = async (request: Request, response: Response, next: NextFunction) => {
@@ -19,18 +19,25 @@ export class ProfessionalProfileController {
 
     create = async (request: Request, response: Response, next: NextFunction) => {
         const profile = await professionalProfileService.create(request.body);
-        return sendSuccess(response, profile, "Perfil profesional creado correctamente", StatusCodes.CREATED);
+        return sendSuccess(response, profile, "Professional profile created successfully", StatusCodes.CREATED);
     };
 
     update = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
         const profile = await professionalProfileService.update(id, request.body);
-        return sendSuccess(response, profile, "Perfil profesional actualizado correctamente");
+        return sendSuccess(response, profile, "Professional profile updated successfully");
     };
 
-    delete = async (request: Request, response: Response, next: NextFunction) => {
+    updateAvailability = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseId(request.params.id);
-        const profile = await professionalProfileService.delete(id);
-        return sendSuccess(response, profile, "Perfil profesional eliminado correctamente");
+        const profile = await professionalProfileService.updateAvailability(
+            id,
+            request.body.isAvailable,
+        );
+        return sendSuccess(
+            response,
+            profile,
+            "Professional availability updated successfully",
+        );
     };
 }

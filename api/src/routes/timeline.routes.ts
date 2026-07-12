@@ -13,8 +13,6 @@ export class TimelineRoutes {
         router.get("/:id", asyncHandler(controller.getById));
         router.post("/", validateRequest(createTimelineSchema), asyncHandler(controller.create));
         router.put("/:id", validateRequest(updateTimelineSchema), asyncHandler(controller.update));
-        router.delete("/:id", asyncHandler(controller.delete));
-
         return router;
     }
 }

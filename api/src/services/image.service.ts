@@ -2,19 +2,15 @@ import fs from "fs/promises";
 import path from "path";
 
 const uploadDir = path.join(process.cwd(), "assets", "uploads");
-const defaultImage = "image-not-found.jpg";
+const defaultImage = "image-not-found.svg";
 type UploadedFile = {
     filename: string;
 };
 
 export class ImageService {
-    async uploadImage(file?: UploadedFile, previousFileName?: string) {
+    async uploadImage(file?: UploadedFile) {
         if (!file) {
-            throw new Error("Debe seleccionar una imagen");
-        }
-
-        if (previousFileName) {
-            await this.deleteImageIfExists(previousFileName);
+            throw new Error("An image must be selected");
         }
 
         return file.filename;
@@ -33,7 +29,7 @@ export class ImageService {
             await fs.access(filePath);
             await fs.unlink(filePath);
         } catch {
-            // Si no existe, no se lanza error.
+            // A missing previous image does not block the new upload.
         }
     }
 

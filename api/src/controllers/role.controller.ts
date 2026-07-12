@@ -4,10 +4,10 @@ import { roleService } from "../services/role.service";
 
 export class RoleController {
     list = async (request: Request, response: Response, next: NextFunction) => {
-        const resultado = await roleService.list();
+        const result = await roleService.list();
         return response.status(StatusCodes.OK).json({
             success: true,
-            data: resultado,
+            data: result,
         });
     };
 
@@ -18,7 +18,7 @@ export class RoleController {
         if (!id) {
             return response.status(StatusCodes.BAD_REQUEST).json({
                 success: false,
-                message: "ID de rol invalido",
+                message: "Invalid role ID",
             });
         }
 
@@ -27,7 +27,7 @@ export class RoleController {
         if (!role) {
             return response.status(StatusCodes.NOT_FOUND).json({
                 success: false,
-                message: "Rol no encontrado",
+                message: "Role not found",
             });
         }
 

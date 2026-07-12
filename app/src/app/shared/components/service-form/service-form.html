@@ -1,0 +1,154 @@
+<mat-card class="form-card">
+  <mat-card-content>
+    <form class="domain-form" (submit)="$event.preventDefault(); submit()">
+      <section class="form-section">
+        <div class="section-title">
+          <mat-icon>route</mat-icon>
+          <div>
+            <h2>Service information</h2>
+            <p>Define how this offering appears in the Transmas catalog.</p>
+          </div>
+        </div>
+
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline">
+            <mat-label>Professional</mat-label>
+            <mat-select
+              [formField]="serviceForm.professionalProfileId"
+              (selectionChange)="onProfessionalChange($event.value)"
+            >
+              <mat-option [value]="null">Select a professional</mat-option>
+              @for (profile of professionals(); track profile.id) {
+                <mat-option
+                  [value]="profile.id"
+                  [disabled]="!profile.isAvailable && profile.id !== serviceModel().professionalProfileId"
+                >
+                  {{ professionalName(profile) }}
+                </mat-option>
+              }
+            </mat-select>
+            @if (serviceForm.professionalProfileId().touched() && serviceForm.professionalProfileId().invalid()) {
+              <mat-error>{{ serviceForm.professionalProfileId().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select [formField]="serviceForm.categoryId">
+              <mat-option [value]="null">Select a category</mat-option>
+              @for (category of categories(); track category.id) {
+                <mat-option
+                  [value]="category.id"
+                  [disabled]="!category.isAvailable && category.id !== serviceModel().categoryId"
+                >
+                  {{ category.name }}
+                </mat-option>
+              }
+            </mat-select>
+            @if (serviceForm.categoryId().touched() && serviceForm.categoryId().invalid()) {
+              <mat-error>{{ serviceForm.categoryId().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Service name</mat-label>
+            <input matInput [formField]="serviceForm.name" />
+            @if (serviceForm.name().touched() && serviceForm.name().invalid()) {
+              <mat-error>{{ serviceForm.name().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="5" [formField]="serviceForm.description"></textarea>
+            @if (serviceForm.description().touched() && serviceForm.description().invalid()) {
+              <mat-error>{{ serviceForm.description().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-title">
+          <mat-icon>tune</mat-icon>
+          <div>
+            <h2>Pricing and delivery</h2>
+            <p>The modality must match the selected professional.</p>
+          </div>
+        </div>
+
+        <div class="form-grid three-columns">
+          <mat-form-field appearance="outline">
+            <mat-label>Price (CRC)</mat-label>
+            <input matInput type="number" step="0.01" [formField]="serviceForm.price" />
+            @if (serviceForm.price().touched() && serviceForm.price().invalid()) {
+              <mat-error>{{ serviceForm.price().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Duration (minutes)</mat-label>
+            <input matInput type="number" step="1" [formField]="serviceForm.estimatedDuration" />
+            @if (serviceForm.estimatedDuration().touched() && serviceForm.estimatedDuration().invalid()) {
+              <mat-error>{{ serviceForm.estimatedDuration().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Modality</mat-label>
+            <mat-select [formField]="serviceForm.modality">
+              @for (modality of modalities; track modality.value) {
+                <mat-option [value]="modality.value">{{ modality.label }}</mat-option>
+              }
+            </mat-select>
+            @if (serviceForm.modality().touched() && serviceForm.modality().invalid()) {
+              <mat-error>{{ serviceForm.modality().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="availability-box">
+          <mat-checkbox [formField]="serviceForm.isAvailable">Available in the catalog</mat-checkbox>
+          <small>Unavailable services remain in Administration and can be reactivated.</small>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="section-title">
+          <mat-icon>stars</mat-icon>
+          <div>
+            <h2>Specialties</h2>
+            <p>Choose the capabilities clients can use to identify this service.</p>
+          </div>
+        </div>
+        <div class="selection-grid">
+          @for (specialty of specialties(); track specialty.id) {
+            <mat-checkbox
+              class="selection-card"
+              [checked]="isSpecialtySelected(specialty.id)"
+              [disabled]="!specialty.isAvailable && !isSpecialtySelected(specialty.id)"
+              (change)="toggleSpecialty(specialty.id, $event.checked)"
+            >
+              <strong>{{ specialty.name }}</strong>
+              @if (!specialty.isAvailable) { <small>Unavailable</small> }
+            </mat-checkbox>
+          } @empty {
+            <p class="muted">No specialties are configured.</p>
+          }
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="cancel.emit()">
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+        <button mat-flat-button type="submit" [disabled]="saving()">
+          @if (saving()) { <mat-spinner diameter="20" /> }
+          @else { <mat-icon>{{ isEdit() ? 'save' : 'add_road' }}</mat-icon> }
+          {{ isEdit() ? 'Save changes' : 'Create service' }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
