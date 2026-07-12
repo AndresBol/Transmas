@@ -1,10 +1,15 @@
 # Keep environment variables out of version control
 .env
 
-/generated/prisma
+# API generated and runtime files
+/api/generated/prisma/
+/api/logs/
+/api/assets/uploads/*
+!/api/assets/uploads/image-not-found.svg
 
 # Compiled output
 /dist
+/api/dist
 /tmp
 /out-tsc
 /bazel-out
@@ -24,12 +29,7 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/mcp.json
+.vscode/
 .history/*
 
 # Miscellaneous
