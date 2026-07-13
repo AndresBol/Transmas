@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { ProfessionalForm } from './professional-form';
 
@@ -10,7 +9,7 @@ describe('ProfessionalForm', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProfessionalForm],
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+      providers: [provideHttpClient(), provideRouter([])],
     }).compileComponents();
     fixture = TestBed.createComponent(ProfessionalForm);
     fixture.detectChanges();
