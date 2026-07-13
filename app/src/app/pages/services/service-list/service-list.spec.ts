@@ -6,7 +6,10 @@ import { ServiceList } from './service-list';
 
 describe('ServiceList', () => {
   it('creates the page', async () => {
-    await TestBed.configureTestingModule({ imports: [ServiceList], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [ServiceList],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+    }).compileComponents();
     expect(TestBed.createComponent(ServiceList).componentInstance).toBeTruthy();
   });
 });

@@ -90,7 +90,10 @@ export class ProfessionalForm {
 
     validate(path.password, (context) => {
       if (this.professional() === null && context.value().length < 6) {
-        return { kind: 'minimumPasswordLength', message: 'Password must have at least 6 characters' };
+        return {
+          kind: 'minimumPasswordLength',
+          message: 'Password must have at least 6 characters',
+        };
       }
       return undefined;
     });

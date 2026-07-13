@@ -17,7 +17,10 @@ export const httpErrorInterceptor: HttpInterceptorFn = (request, next) => {
     catchError((error: HttpErrorResponse) => {
       const body = error.error as ApiErrorBody | undefined;
       const validationItems = body?.validationErrors ?? body?.errors ?? [];
-      const validationMessage = validationItems.map((item) => item.message).filter(Boolean).join('. ');
+      const validationMessage = validationItems
+        .map((item) => item.message)
+        .filter(Boolean)
+        .join('. ');
       const defaults: Record<number, string> = {
         0: 'The server is unavailable. Verify that the API is running.',
         400: 'The request could not be processed.',
@@ -29,8 +32,12 @@ export const httpErrorInterceptor: HttpInterceptorFn = (request, next) => {
         500: 'The server encountered an unexpected error.',
         503: 'The service is temporarily unavailable.',
       };
-      const message = validationMessage || body?.message || body?.error || defaults[error.status]
-        || 'An unexpected error occurred.';
+      const message =
+        validationMessage ||
+        body?.message ||
+        body?.error ||
+        defaults[error.status] ||
+        'An unexpected error occurred.';
 
       notifications.error(message, error.status ? `Error ${error.status}` : 'Connection error');
       return throwError(() => error);

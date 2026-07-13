@@ -12,7 +12,14 @@ import { TransportationServiceService } from '../../../core/services/transportat
 @Component({
   selector: 'app-service-detail',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './service-detail.html',
   styleUrl: './service-detail.css',
 })
@@ -63,7 +70,9 @@ export class ServiceDetail {
 
   professionalName(service: TransportationService): string {
     const user = service.professionalProfile?.professional;
-    return user ? `${user.firstName} ${user.lastName}`.trim() : service.professionalProfile?.professionalTitle ?? 'Professional';
+    return user
+      ? `${user.firstName} ${user.lastName}`.trim()
+      : (service.professionalProfile?.professionalTitle ?? 'Professional');
   }
 
   specialties(service: TransportationService): Specialty[] {
@@ -74,13 +83,15 @@ export class ServiceDetail {
     const profile = service.professionalProfile;
     const professional = profile?.professional;
 
-    return service.isAvailable
-      && service.isActive !== false
-      && service.category?.isAvailable !== false
-      && service.category?.isActive !== false
-      && profile?.isAvailable !== false
-      && profile?.isActive !== false
-      && professional?.isActive !== false
-      && !professional?.isBlocked;
+    return (
+      service.isAvailable &&
+      service.isActive !== false &&
+      service.category?.isAvailable !== false &&
+      service.category?.isActive !== false &&
+      profile?.isAvailable !== false &&
+      profile?.isActive !== false &&
+      professional?.isActive !== false &&
+      !professional?.isBlocked
+    );
   }
 }

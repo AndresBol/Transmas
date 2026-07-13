@@ -5,7 +5,10 @@ import { SpecialtyList } from './specialty-list';
 
 describe('SpecialtyList', () => {
   it('creates the page', async () => {
-    await TestBed.configureTestingModule({ imports: [SpecialtyList], providers: [provideHttpClient(), provideRouter([])] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [SpecialtyList],
+      providers: [provideHttpClient(), provideRouter([])],
+    }).compileComponents();
     expect(TestBed.createComponent(SpecialtyList).componentInstance).toBeTruthy();
   });
 });

@@ -1,6 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, input, output, signal } from '@angular/core';
-import { FormField, form, maxLength, min, minLength, required, validate } from '@angular/forms/signals';
+import {
+  FormField,
+  form,
+  maxLength,
+  min,
+  minLength,
+  required,
+  validate,
+} from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -54,7 +62,9 @@ export class ServiceForm {
 
   serviceModel = signal<TransportationServiceFormModel>(this.emptyModel());
   selectedProfessional = computed(() =>
-    this.professionals().find((profile) => profile.id === this.serviceModel().professionalProfileId),
+    this.professionals().find(
+      (profile) => profile.id === this.serviceModel().professionalProfileId,
+    ),
   );
 
   serviceForm = form(this.serviceModel, (path) => {

@@ -29,7 +29,12 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input matInput type="email" [formField]="professionalForm.email" autocomplete="email" />
+            <input
+              matInput
+              type="email"
+              [formField]="professionalForm.email"
+              autocomplete="email"
+            />
             <mat-icon matSuffix>mail</mat-icon>
             @if (professionalForm.email().touched() && professionalForm.email().invalid()) {
               <mat-error>{{ professionalForm.email().errors()[0].message }}</mat-error>
@@ -38,9 +43,16 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Phone number</mat-label>
-            <input matInput type="tel" [formField]="professionalForm.phoneNumber" autocomplete="tel" />
+            <input
+              matInput
+              type="tel"
+              [formField]="professionalForm.phoneNumber"
+              autocomplete="tel"
+            />
             <mat-icon matSuffix>phone</mat-icon>
-            @if (professionalForm.phoneNumber().touched() && professionalForm.phoneNumber().invalid()) {
+            @if (
+              professionalForm.phoneNumber().touched() && professionalForm.phoneNumber().invalid()
+            ) {
               <mat-error>{{ professionalForm.phoneNumber().errors()[0].message }}</mat-error>
             }
           </mat-form-field>
@@ -48,7 +60,12 @@
           @if (!isEdit()) {
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Password</mat-label>
-              <input matInput type="password" [formField]="professionalForm.password" autocomplete="new-password" />
+              <input
+                matInput
+                type="password"
+                [formField]="professionalForm.password"
+                autocomplete="new-password"
+              />
               <mat-icon matSuffix>lock</mat-icon>
               @if (professionalForm.password().touched() && professionalForm.password().invalid()) {
                 <mat-error>{{ professionalForm.password().errors()[0].message }}</mat-error>
@@ -71,7 +88,10 @@
           <mat-form-field appearance="outline">
             <mat-label>Professional title</mat-label>
             <input matInput [formField]="professionalForm.professionalTitle" />
-            @if (professionalForm.professionalTitle().touched() && professionalForm.professionalTitle().invalid()) {
+            @if (
+              professionalForm.professionalTitle().touched() &&
+              professionalForm.professionalTitle().invalid()
+            ) {
               <mat-error>{{ professionalForm.professionalTitle().errors()[0].message }}</mat-error>
             }
           </mat-form-field>
@@ -79,7 +99,10 @@
           <mat-form-field appearance="outline">
             <mat-label>Experience (years)</mat-label>
             <input matInput type="number" step="1" [formField]="professionalForm.experienceYears" />
-            @if (professionalForm.experienceYears().touched() && professionalForm.experienceYears().invalid()) {
+            @if (
+              professionalForm.experienceYears().touched() &&
+              professionalForm.experienceYears().invalid()
+            ) {
               <mat-error>{{ professionalForm.experienceYears().errors()[0].message }}</mat-error>
             }
           </mat-form-field>
@@ -112,7 +135,9 @@
                 <mat-option [value]="district.id">{{ districtLabel(district) }}</mat-option>
               }
             </mat-select>
-            @if (professionalForm.districtId().touched() && professionalForm.districtId().invalid()) {
+            @if (
+              professionalForm.districtId().touched() && professionalForm.districtId().invalid()
+            ) {
               <mat-error>{{ professionalForm.districtId().errors()[0].message }}</mat-error>
             }
           </mat-form-field>
@@ -120,15 +145,21 @@
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Description</mat-label>
             <textarea matInput rows="5" [formField]="professionalForm.description"></textarea>
-            @if (professionalForm.description().touched() && professionalForm.description().invalid()) {
+            @if (
+              professionalForm.description().touched() && professionalForm.description().invalid()
+            ) {
               <mat-error>{{ professionalForm.description().errors()[0].message }}</mat-error>
             }
           </mat-form-field>
         </div>
 
         <div class="availability-box">
-          <mat-checkbox [formField]="professionalForm.isAvailable">Available for new requests</mat-checkbox>
-          <small>Unavailable profiles remain visible in Administration and can be reactivated.</small>
+          <mat-checkbox [formField]="professionalForm.isAvailable">
+            Available for new requests
+          </mat-checkbox>
+          <small>
+            Unavailable profiles remain visible in Administration and can be reactivated.
+          </small>
         </div>
       </section>
 
@@ -149,7 +180,9 @@
               (change)="toggleSpecialty(specialty.id, $event.checked)"
             >
               <strong>{{ specialty.name }}</strong>
-              @if (!specialty.isAvailable) { <small>Unavailable</small> }
+              @if (!specialty.isAvailable) {
+                <small>Unavailable</small>
+              }
             </mat-checkbox>
           } @empty {
             <p class="muted">No specialties are configured.</p>
@@ -178,16 +211,24 @@
               accept="image/jpeg,image/png,image/webp"
               (change)="onImageSelected($event)"
             />
-            @if (imageError()) { <p class="field-error">{{ imageError() }}</p> }
+            @if (imageError()) {
+              <p class="field-error">{{ imageError() }}</p>
+            }
             @if (uploadingImage()) {
-              <div class="uploading"><mat-spinner diameter="26" /> <span>Uploading image...</span></div>
+              <div class="uploading">
+                <mat-spinner diameter="26" />
+                <span>Uploading image...</span>
+              </div>
             }
           </div>
           <div class="image-preview-box">
             @if (imagePreview()) {
               <img [src]="imagePreview()" alt="Professional profile preview" />
             } @else {
-              <div class="empty-preview"><mat-icon>person</mat-icon><span>Default profile image</span></div>
+              <div class="empty-preview">
+                <mat-icon>person</mat-icon>
+                <span>Default profile image</span>
+              </div>
             }
           </div>
         </div>

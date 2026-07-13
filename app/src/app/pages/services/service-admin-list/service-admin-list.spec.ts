@@ -6,7 +6,10 @@ import { ServiceAdminList } from './service-admin-list';
 
 describe('ServiceAdminList', () => {
   it('creates the page', async () => {
-    await TestBed.configureTestingModule({ imports: [ServiceAdminList], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [ServiceAdminList],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+    }).compileComponents();
     expect(TestBed.createComponent(ServiceAdminList).componentInstance).toBeTruthy();
   });
 });

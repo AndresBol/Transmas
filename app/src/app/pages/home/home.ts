@@ -22,19 +22,22 @@ export class Home {
   readonly cards = signal<FeatureCard[]>([
     {
       title: 'Transportation services',
-      description: 'Compare tourist, corporate, airport, event, school, and special transportation options.',
+      description:
+        'Compare tourist, corporate, airport, event, school, and special transportation options.',
       icon: 'airport_shuttle',
       path: '/services',
     },
     {
       title: 'Trusted professionals',
-      description: 'Find independent drivers, bilingual guides, subcontractors, and transportation companies.',
+      description:
+        'Find independent drivers, bilingual guides, subcontractors, and transportation companies.',
       icon: 'verified_user',
       path: '/professionals',
     },
     {
       title: 'Simple reservations',
-      description: 'Provide the route, schedule, passenger count, and trip details in one clear request.',
+      description:
+        'Provide the route, schedule, passenger count, and trip details in one clear request.',
       icon: 'event_available',
       path: '/reservations/new',
     },

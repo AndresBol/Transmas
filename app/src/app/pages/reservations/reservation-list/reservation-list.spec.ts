@@ -5,7 +5,10 @@ import { ReservationList } from './reservation-list';
 
 describe('ReservationList', () => {
   it('creates the page', async () => {
-    await TestBed.configureTestingModule({ imports: [ReservationList], providers: [provideHttpClient(), provideRouter([])] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [ReservationList],
+      providers: [provideHttpClient(), provideRouter([])],
+    }).compileComponents();
     expect(TestBed.createComponent(ReservationList).componentInstance).toBeTruthy();
   });
 });

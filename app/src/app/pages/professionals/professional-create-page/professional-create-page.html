@@ -1,4 +1,31 @@
-<section class="page-header"><span class="eyebrow">Administration</span><h1>Create professional</h1><p>Create the professional account and transportation profile in one transaction.</p></section>
-@if (loading()) { <div class="state"><mat-spinner diameter="42" /><p>Loading form data...</p></div> }
-@else if (error() && districts().length === 0) { <div class="state error"><mat-icon>error</mat-icon><p>{{ error() }}</p><button mat-stroked-button (click)="loadFormData()">Try again</button></div> }
-@else { @if (error()) { <p class="error-banner"><mat-icon>error</mat-icon>{{ error() }}</p> }<app-professional-form [districts]="districts()" [specialties]="specialties()" [saving]="saving()" (save)="save($event)" (cancel)="cancel()" /> }
+<section class="page-header">
+  <span class="eyebrow">Administration</span>
+  <h1>Create professional</h1>
+  <p>Create the professional account and transportation profile in one transaction.</p>
+</section>
+@if (loading()) {
+  <div class="state">
+    <mat-spinner diameter="42" />
+    <p>Loading form data...</p>
+  </div>
+} @else if (error() && districts().length === 0) {
+  <div class="state error">
+    <mat-icon>error</mat-icon>
+    <p>{{ error() }}</p>
+    <button mat-stroked-button (click)="loadFormData()">Try again</button>
+  </div>
+} @else {
+  @if (error()) {
+    <p class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </p>
+  }
+  <app-professional-form
+    [districts]="districts()"
+    [specialties]="specialties()"
+    [saving]="saving()"
+    (save)="save($event)"
+    (cancel)="cancel()"
+  />
+}
