@@ -21,4 +21,8 @@ export class UserService {
     const body: UserStatusDto = { isBlocked };
     return this.http.patch<ApiResponse<User>>(`${this.apiUrl}/${id}/status`, body);
   }
+
+  fullName(user: Pick<User, 'firstName' | 'lastName'>): string {
+    return `${user.firstName} ${user.lastName}`.trim();
+  }
 }

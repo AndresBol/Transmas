@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { User, UserRole, userFullName } from '../../../core/models/user.model';
+import { User, UserRole } from '../../../core/models/user.model';
 import { NotificationService } from '../../../core/services/notification.service';
 import { UserService } from '../../../core/services/user.service';
 import { ConfirmationDialog } from '../../../shared/components/confirmation-dialog/confirmation-dialog';
@@ -16,8 +16,17 @@ import { ConfirmationDialog } from '../../../shared/components/confirmation-dial
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [FormsModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule,
-    MatProgressSpinnerModule, MatSelectModule, MatTableModule],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatTableModule,
+  ],
   templateUrl: './user-list.html',
   styleUrl: './user-list.css',
 })
@@ -38,47 +47,72 @@ export class UserList implements OnInit {
     const query = this.search().trim().toLowerCase();
     const role = this.roleFilter();
     return this.users().filter((user) => {
-      const matchesQuery = !query || `${user.firstName} ${user.lastName} ${user.email} ${user.phoneNumber}`
-        .toLowerCase().includes(query);
+      const matchesQuery =
+        !query ||
+        `${user.firstName} ${user.lastName} ${user.email} ${user.phoneNumber}`
+          .toLowerCase()
+          .includes(query);
       return matchesQuery && (role === 'ALL' || user.role === role);
     });
   });
 
-  ngOnInit(): void { this.loadUsers(); }
+  ngOnInit(): void {
+    this.loadUsers();
+  }
 
   loadUsers(): void {
     this.loading.set(true);
     this.error.set(null);
     this.userService.list().subscribe({
-      next: ({ data }) => { this.users.set(data); this.loading.set(false); },
-      error: () => { this.error.set('Users could not be loaded.'); this.loading.set(false); },
+      next: ({ data }) => {
+        this.users.set(data);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Users could not be loaded.');
+        this.loading.set(false);
+      },
     });
   }
 
-  clearFilters(): void { this.search.set(''); this.roleFilter.set('ALL'); }
-  fullName(user: User): string { return userFullName(user); }
-  roleLabel(role: UserRole): string { return role === 'ADMIN' ? 'Administrator' : role === 'PROFESSIONAL' ? 'Professional' : 'Client'; }
+  clearFilters(): void {
+    this.search.set('');
+    this.roleFilter.set('ALL');
+  }
+  fullName(user: User): string {
+    return this.userService.fullName(user);
+  }
+  roleLabel(role: UserRole): string {
+    return role === 'ADMIN' ? 'Administrator' : role === 'PROFESSIONAL' ? 'Professional' : 'Client';
+  }
 
   confirmStatusChange(user: User): void {
     const nextBlocked = !user.isBlocked;
-    this.dialog.open(ConfirmationDialog, {
-      data: {
-        title: nextBlocked ? 'Deactivate user' : 'Activate user',
-        message: `${nextBlocked ? 'Deactivate' : 'Activate'} ${this.fullName(user)}? This change can be reversed.`,
-        confirmLabel: nextBlocked ? 'Deactivate' : 'Activate',
-      },
-    }).afterClosed().subscribe((confirmed) => { if (confirmed) this.updateStatus(user, nextBlocked); });
+    this.dialog
+      .open(ConfirmationDialog, {
+        data: {
+          title: nextBlocked ? 'Deactivate user' : 'Activate user',
+          message: `${nextBlocked ? 'Deactivate' : 'Activate'} ${this.fullName(user)}? This change can be reversed.`,
+          confirmLabel: nextBlocked ? 'Deactivate' : 'Activate',
+        },
+      })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (confirmed) this.updateStatus(user, nextBlocked);
+      });
   }
 
   private updateStatus(user: User, isBlocked: boolean): void {
     this.updatingId.set(user.id);
     this.userService.updateStatus(user.id, isBlocked).subscribe({
       next: ({ data }) => {
-        this.users.update((users) => users.map((item) => item.id === data.id ? data : item));
+        this.users.update((users) => users.map((item) => (item.id === data.id ? data : item)));
         this.updatingId.set(null);
         this.notifications.success(`User ${isBlocked ? 'deactivated' : 'activated'} successfully.`);
       },
-      error: () => { this.updatingId.set(null); },
+      error: () => {
+        this.updatingId.set(null);
+      },
     });
   }
 }
