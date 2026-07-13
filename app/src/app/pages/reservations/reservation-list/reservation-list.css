@@ -1,2 +1,6 @@
-:host { display: block; }
-.reservation-table { min-width: 1120px; }
+:host {
+  display: block;
+}
+.reservation-table {
+  min-width: 1120px;
+}

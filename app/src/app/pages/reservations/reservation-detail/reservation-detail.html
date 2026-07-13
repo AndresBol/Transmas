@@ -1,12 +1,168 @@
-<section class="page-header"><div><span class="eyebrow">Reservation details</span><h1>Reservation #{{ reservation()?.id || '' }}</h1><p>Complete client, service, schedule, and route information for this transportation request.</p></div><a mat-stroked-button routerLink="/reservations"><mat-icon>arrow_back</mat-icon>Back to reservations</a></section>
-@if (loading()) { <div class="state-card"><mat-spinner diameter="42" /><p>Loading reservation...</p></div> }
-@else if (error()) { <div class="state-card error"><mat-icon>error</mat-icon><p>{{ error() }}</p><a mat-stroked-button routerLink="/reservations">Return to reservations</a></div> }
-@else if (reservation(); as item) {
+<section class="page-header">
+  <div>
+    <span class="eyebrow">Reservation details</span>
+    <h1>Reservation #{{ reservation()?.id || '' }}</h1>
+    <p>
+      Complete client, service, schedule, and route information for this transportation request.
+    </p>
+  </div>
+  <a mat-stroked-button routerLink="/reservations">
+    <mat-icon>arrow_back</mat-icon>
+    Back to reservations
+  </a>
+</section>
+@if (loading()) {
+  <div class="state-card">
+    <mat-spinner diameter="42" />
+    <p>Loading reservation...</p>
+  </div>
+} @else if (error()) {
+  <div class="state-card error">
+    <mat-icon>error</mat-icon>
+    <p>{{ error() }}</p>
+    <a mat-stroked-button routerLink="/reservations">Return to reservations</a>
+  </div>
+} @else if (reservation(); as item) {
   <div class="detail-grid">
-    <section class="detail-card"><h2><mat-icon>person</mat-icon>Client and status</h2><dl class="detail-list"><div><dt>Client</dt><dd>{{ fullName(item) }}</dd></div><div><dt>Status</dt><dd><span class="status-chip active">{{ item.status.name }}</span></dd></div><div><dt>Email</dt><dd>{{ item.client.email }}</dd></div><div><dt>Phone</dt><dd>{{ item.client.phoneNumber }}</dd></div><div><dt>Passengers</dt><dd>{{ item.passengerCount }}</dd></div><div><dt>Modality</dt><dd>{{ item.modality === 'IN_PERSON' ? 'In person' : 'Virtual coordination' }}</dd></div></dl></section>
-    <section class="detail-card"><h2><mat-icon>airport_shuttle</mat-icon>Service and professional</h2><dl class="detail-list"><div><dt>Service</dt><dd>{{ item.transportationService.name }}</dd></div><div><dt>Category</dt><dd>{{ item.transportationService.category?.name || 'Not specified' }}</dd></div><div><dt>Professional</dt><dd>{{ professionalName(item) }}</dd></div><div><dt>Price</dt><dd>{{ formatCurrency(item.transportationService.price) }}</dd></div><div><dt>Estimated duration</dt><dd>{{ item.transportationService.estimatedDuration }} minutes</dd></div><div><dt>Service modality</dt><dd>{{ item.transportationService.modality === 'IN_PERSON' ? 'In person' : 'Virtual coordination' }}</dd></div></dl></section>
-    <section class="detail-card full-span"><h2><mat-icon>schedule</mat-icon>Schedule and request</h2><dl class="detail-list"><div><dt>Starts</dt><dd>{{ item.startDate | date:'full' }}</dd></div><div><dt>Ends</dt><dd>{{ item.endDate | date:'full' }}</dd></div><div class="full-span"><dt>Client comments</dt><dd>{{ item.description }}</dd></div></dl></section>
-    <section class="detail-card"><h2><mat-icon>trip_origin</mat-icon>Pickup</h2><dl class="detail-list"><div class="full-span"><dt>Address</dt><dd>{{ item.pickupAddress }}</dd></div><div class="full-span"><dt>District</dt><dd>{{ districtLabel(item.pickupDistrict) }}</dd></div><div><dt>Latitude</dt><dd>{{ item.pickupLatitude }}</dd></div><div><dt>Longitude</dt><dd>{{ item.pickupLongitude }}</dd></div></dl></section>
-    <section class="detail-card"><h2><mat-icon>location_on</mat-icon>Drop-off</h2><dl class="detail-list"><div class="full-span"><dt>Address</dt><dd>{{ item.dropoffAddress }}</dd></div><div class="full-span"><dt>District</dt><dd>{{ districtLabel(item.dropoffDistrict) }}</dd></div><div><dt>Latitude</dt><dd>{{ item.dropoffLatitude }}</dd></div><div><dt>Longitude</dt><dd>{{ item.dropoffLongitude }}</dd></div></dl></section>
+    <section class="detail-card">
+      <h2>
+        <mat-icon>person</mat-icon>
+        Client and status
+      </h2>
+      <dl class="detail-list">
+        <div>
+          <dt>Client</dt>
+          <dd>{{ fullName(item) }}</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>
+            <span class="status-chip active">{{ item.status.name }}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Email</dt>
+          <dd>{{ item.client.email }}</dd>
+        </div>
+        <div>
+          <dt>Phone</dt>
+          <dd>{{ item.client.phoneNumber }}</dd>
+        </div>
+        <div>
+          <dt>Passengers</dt>
+          <dd>{{ item.passengerCount }}</dd>
+        </div>
+        <div>
+          <dt>Modality</dt>
+          <dd>{{ item.modality === 'IN_PERSON' ? 'In person' : 'Virtual coordination' }}</dd>
+        </div>
+      </dl>
+    </section>
+    <section class="detail-card">
+      <h2>
+        <mat-icon>airport_shuttle</mat-icon>
+        Service and professional
+      </h2>
+      <dl class="detail-list">
+        <div>
+          <dt>Service</dt>
+          <dd>{{ item.transportationService.name }}</dd>
+        </div>
+        <div>
+          <dt>Category</dt>
+          <dd>{{ item.transportationService.category?.name || 'Not specified' }}</dd>
+        </div>
+        <div>
+          <dt>Professional</dt>
+          <dd>{{ professionalName(item) }}</dd>
+        </div>
+        <div>
+          <dt>Price</dt>
+          <dd>{{ formatCurrency(item.transportationService.price) }}</dd>
+        </div>
+        <div>
+          <dt>Estimated duration</dt>
+          <dd>{{ item.transportationService.estimatedDuration }} minutes</dd>
+        </div>
+        <div>
+          <dt>Service modality</dt>
+          <dd>
+            {{
+              item.transportationService.modality === 'IN_PERSON'
+                ? 'In person'
+                : 'Virtual coordination'
+            }}
+          </dd>
+        </div>
+      </dl>
+    </section>
+    <section class="detail-card full-span">
+      <h2>
+        <mat-icon>schedule</mat-icon>
+        Schedule and request
+      </h2>
+      <dl class="detail-list">
+        <div>
+          <dt>Starts</dt>
+          <dd>{{ item.startDate | date: 'full' }}</dd>
+        </div>
+        <div>
+          <dt>Ends</dt>
+          <dd>{{ item.endDate | date: 'full' }}</dd>
+        </div>
+        <div class="full-span">
+          <dt>Client comments</dt>
+          <dd>{{ item.description }}</dd>
+        </div>
+      </dl>
+    </section>
+    <section class="detail-card">
+      <h2>
+        <mat-icon>trip_origin</mat-icon>
+        Pickup
+      </h2>
+      <dl class="detail-list">
+        <div class="full-span">
+          <dt>Address</dt>
+          <dd>{{ item.pickupAddress }}</dd>
+        </div>
+        <div class="full-span">
+          <dt>District</dt>
+          <dd>{{ districtLabel(item.pickupDistrict) }}</dd>
+        </div>
+        <div>
+          <dt>Latitude</dt>
+          <dd>{{ item.pickupLatitude }}</dd>
+        </div>
+        <div>
+          <dt>Longitude</dt>
+          <dd>{{ item.pickupLongitude }}</dd>
+        </div>
+      </dl>
+    </section>
+    <section class="detail-card">
+      <h2>
+        <mat-icon>location_on</mat-icon>
+        Drop-off
+      </h2>
+      <dl class="detail-list">
+        <div class="full-span">
+          <dt>Address</dt>
+          <dd>{{ item.dropoffAddress }}</dd>
+        </div>
+        <div class="full-span">
+          <dt>District</dt>
+          <dd>{{ districtLabel(item.dropoffDistrict) }}</dd>
+        </div>
+        <div>
+          <dt>Latitude</dt>
+          <dd>{{ item.dropoffLatitude }}</dd>
+        </div>
+        <div>
+          <dt>Longitude</dt>
+          <dd>{{ item.dropoffLongitude }}</dd>
+        </div>
+      </dl>
+    </section>
   </div>
 }

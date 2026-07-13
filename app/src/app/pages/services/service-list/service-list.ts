@@ -127,20 +127,22 @@ export class ServiceList {
     const user = service.professionalProfile?.professional;
     return user
       ? `${user.firstName} ${user.lastName}`.trim()
-      : service.professionalProfile?.professionalTitle ?? 'Professional pending';
+      : (service.professionalProfile?.professionalTitle ?? 'Professional pending');
   }
 
   private isBookable(service: TransportationService): boolean {
     const profile = service.professionalProfile;
     const professional = profile?.professional;
 
-    return service.isAvailable
-      && service.isActive !== false
-      && service.category?.isAvailable !== false
-      && service.category?.isActive !== false
-      && profile?.isAvailable !== false
-      && profile?.isActive !== false
-      && professional?.isActive !== false
-      && !professional?.isBlocked;
+    return (
+      service.isAvailable &&
+      service.isActive !== false &&
+      service.category?.isAvailable !== false &&
+      service.category?.isActive !== false &&
+      profile?.isAvailable !== false &&
+      profile?.isActive !== false &&
+      professional?.isActive !== false &&
+      !professional?.isBlocked
+    );
   }
 }

@@ -1,52 +1,164 @@
 <section class="admin-header">
-  <div><span class="eyebrow">Administration</span><h1>Transportation services</h1><p>Manage catalog offerings without physically deleting records.</p></div>
-  <a mat-flat-button routerLink="/admin/services/new"><mat-icon>add</mat-icon>New service</a>
+  <div>
+    <span class="eyebrow">Administration</span>
+    <h1>Transportation services</h1>
+    <p>Manage catalog offerings without physically deleting records.</p>
+  </div>
+  <a mat-flat-button routerLink="/admin/services/new">
+    <mat-icon>add</mat-icon>
+    New service
+  </a>
 </section>
 
 <section class="admin-filters">
   <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search</mat-label>
-    <input matInput [ngModel]="search()" (ngModelChange)="search.set($event)" placeholder="Name, professional, or category" />
+    <input
+      matInput
+      [ngModel]="search()"
+      (ngModelChange)="search.set($event)"
+      placeholder="Name, professional, or category"
+    />
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
-  <mat-form-field appearance="outline"><mat-label>Category</mat-label><mat-select [ngModel]="categoryId()" (ngModelChange)="categoryId.set($event)">
-    <mat-option [value]="null">All</mat-option>@for (category of categories(); track category.id) { <mat-option [value]="category.id">{{ category.name }}</mat-option> }
-  </mat-select></mat-form-field>
-  <mat-form-field appearance="outline"><mat-label>Modality</mat-label><mat-select [ngModel]="modality()" (ngModelChange)="modality.set($event)">
-    <mat-option [value]="null">All</mat-option><mat-option value="IN_PERSON">In person</mat-option><mat-option value="VIRTUAL">Virtual</mat-option>
-  </mat-select></mat-form-field>
-  <mat-form-field appearance="outline"><mat-label>Status</mat-label><mat-select [ngModel]="availability()" (ngModelChange)="availability.set($event)">
-    <mat-option [value]="null">All</mat-option><mat-option [value]="true">Available</mat-option><mat-option [value]="false">Unavailable</mat-option>
-  </mat-select></mat-form-field>
-  <mat-form-field appearance="outline"><mat-label>Min. price</mat-label><input matInput type="number" min="0" [ngModel]="minimumPrice()" (ngModelChange)="minimumPrice.set($event)" /></mat-form-field>
-  <mat-form-field appearance="outline"><mat-label>Max. price</mat-label><input matInput type="number" min="0" [ngModel]="maximumPrice()" (ngModelChange)="maximumPrice.set($event)" /></mat-form-field>
-  <button mat-stroked-button type="button" (click)="clearFilters()"><mat-icon>filter_alt_off</mat-icon>Clear</button>
+  <mat-form-field appearance="outline">
+    <mat-label>Category</mat-label>
+    <mat-select [ngModel]="categoryId()" (ngModelChange)="categoryId.set($event)">
+      <mat-option [value]="null">All</mat-option>
+      @for (category of categories(); track category.id) {
+        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Modality</mat-label>
+    <mat-select [ngModel]="modality()" (ngModelChange)="modality.set($event)">
+      <mat-option [value]="null">All</mat-option>
+      <mat-option value="IN_PERSON">In person</mat-option>
+      <mat-option value="VIRTUAL">Virtual</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Status</mat-label>
+    <mat-select [ngModel]="availability()" (ngModelChange)="availability.set($event)">
+      <mat-option [value]="null">All</mat-option>
+      <mat-option [value]="true">Available</mat-option>
+      <mat-option [value]="false">Unavailable</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Min. price</mat-label>
+    <input
+      matInput
+      type="number"
+      min="0"
+      [ngModel]="minimumPrice()"
+      (ngModelChange)="minimumPrice.set($event)"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Max. price</mat-label>
+    <input
+      matInput
+      type="number"
+      min="0"
+      [ngModel]="maximumPrice()"
+      (ngModelChange)="maximumPrice.set($event)"
+    />
+  </mat-form-field>
+  <button mat-stroked-button type="button" (click)="clearFilters()">
+    <mat-icon>filter_alt_off</mat-icon>
+    Clear
+  </button>
 </section>
 
 <p class="summary">{{ filteredServices().length }} services found</p>
 @if (loading()) {
-  <div class="state"><mat-spinner diameter="42" /><p>Loading service administration...</p></div>
+  <div class="state">
+    <mat-spinner diameter="42" />
+    <p>Loading service administration...</p>
+  </div>
 } @else if (error()) {
-  <div class="state error"><mat-icon>error</mat-icon><p>{{ error() }}</p><button mat-stroked-button (click)="loadData()">Try again</button></div>
+  <div class="state error">
+    <mat-icon>error</mat-icon>
+    <p>{{ error() }}</p>
+    <button mat-stroked-button (click)="loadData()">Try again</button>
+  </div>
 } @else if (filteredServices().length === 0) {
-  <div class="state"><mat-icon>search_off</mat-icon><p>No services match the selected filters.</p></div>
+  <div class="state">
+    <mat-icon>search_off</mat-icon>
+    <p>No services match the selected filters.</p>
+  </div>
 } @else {
   <div class="table-wrapper">
     <table mat-table [dataSource]="filteredServices()" class="admin-table">
-      <ng-container matColumnDef="service"><th mat-header-cell *matHeaderCellDef>Service</th><td mat-cell *matCellDef="let service"><strong>{{ service.name }}</strong><small>{{ service.description }}</small></td></ng-container>
-      <ng-container matColumnDef="professional"><th mat-header-cell *matHeaderCellDef>Professional</th><td mat-cell *matCellDef="let service">{{ professionalName(service) }}</td></ng-container>
-      <ng-container matColumnDef="category"><th mat-header-cell *matHeaderCellDef>Category</th><td mat-cell *matCellDef="let service">{{ service.category?.name || 'Uncategorized' }}</td></ng-container>
-      <ng-container matColumnDef="modality"><th mat-header-cell *matHeaderCellDef>Modality</th><td mat-cell *matCellDef="let service">{{ modalityLabel(service.modality) }}</td></ng-container>
-      <ng-container matColumnDef="price"><th mat-header-cell *matHeaderCellDef>Price</th><td mat-cell *matCellDef="let service">{{ formatCurrency(service.price) }}</td></ng-container>
-      <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th><td mat-cell *matCellDef="let service"><span class="status" [class.inactive]="!service.isAvailable">{{ service.isAvailable ? 'Available' : 'Unavailable' }}</span></td></ng-container>
-      <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th><td mat-cell *matCellDef="let service"><div class="actions">
-        <a mat-icon-button [routerLink]="['/services', service.id]" aria-label="View service"><mat-icon>visibility</mat-icon></a>
-        <a mat-icon-button [routerLink]="['/admin/services', service.id, 'edit']" aria-label="Edit service"><mat-icon>edit</mat-icon></a>
-        <button mat-icon-button type="button" [disabled]="updatingId() === service.id" (click)="confirmAvailability(service)" [attr.aria-label]="service.isAvailable ? 'Make service unavailable' : 'Reactivate service'">
-          <mat-icon>{{ service.isAvailable ? 'visibility_off' : 'restore' }}</mat-icon>
-        </button>
-      </div></td></ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr><tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <ng-container matColumnDef="service">
+        <th mat-header-cell *matHeaderCellDef>Service</th>
+        <td mat-cell *matCellDef="let service">
+          <strong>{{ service.name }}</strong>
+          <small>{{ service.description }}</small>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="professional">
+        <th mat-header-cell *matHeaderCellDef>Professional</th>
+        <td mat-cell *matCellDef="let service">{{ professionalName(service) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let service">
+          {{ service.category?.name || 'Uncategorized' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="modality">
+        <th mat-header-cell *matHeaderCellDef>Modality</th>
+        <td mat-cell *matCellDef="let service">
+          {{ modalityLabel(service.modality) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let service">
+          {{ formatCurrency(service.price) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let service">
+          <span class="status" [class.inactive]="!service.isAvailable">
+            {{ service.isAvailable ? 'Available' : 'Unavailable' }}
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let service">
+          <div class="actions">
+            <a mat-icon-button [routerLink]="['/services', service.id]" aria-label="View service">
+              <mat-icon>visibility</mat-icon>
+            </a>
+            <a
+              mat-icon-button
+              [routerLink]="['/admin/services', service.id, 'edit']"
+              aria-label="Edit service"
+            >
+              <mat-icon>edit</mat-icon>
+            </a>
+            <button
+              mat-icon-button
+              type="button"
+              [disabled]="updatingId() === service.id"
+              (click)="confirmAvailability(service)"
+              [attr.aria-label]="
+                service.isAvailable ? 'Make service unavailable' : 'Reactivate service'
+              "
+            >
+              <mat-icon>{{ service.isAvailable ? 'visibility_off' : 'restore' }}</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
 }

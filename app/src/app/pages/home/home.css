@@ -1,23 +1,154 @@
-.glass-card { border: 1px solid color-mix(in srgb, var(--mat-sys-outline) 24%, transparent); background: color-mix(in srgb, var(--mat-sys-surface-container-high) 72%, transparent); backdrop-filter: blur(18px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08); }
-.hero { display: flex; justify-content: space-between; align-items: center; gap: 2rem; padding: 3rem; margin-bottom: 3rem; border-radius: 32px; }
-.hero-content { max-width: 720px; }
-.eyebrow { display: inline-block; margin-bottom: 0.8rem; padding: 0.35rem 0.8rem; border-radius: 999px; color: var(--mat-sys-primary); background: color-mix(in srgb, var(--mat-sys-primary) 14%, transparent); font-weight: 800; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
-.hero h1 { margin: 0; max-width: 780px; color: var(--mat-sys-on-surface); font-size: clamp(2.4rem, 5vw, 4.5rem); font-weight: 900; line-height: 1.02; letter-spacing: -0.05em; }
-.hero p { margin: 1.25rem 0 0; max-width: 650px; color: var(--mat-sys-on-surface-variant); font-size: 1.08rem; line-height: 1.7; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.75rem; }
-.hero-actions a { min-height: 44px; }
-.hero-visual { display: grid; place-items: center; min-width: 170px; height: 170px; border-radius: 42px; color: var(--mat-sys-on-primary); background: linear-gradient(135deg, var(--mat-sys-primary), color-mix(in srgb, var(--mat-sys-tertiary) 80%, var(--mat-sys-primary))); box-shadow: 0 24px 55px color-mix(in srgb, var(--mat-sys-primary) 35%, transparent); }
-.hero-visual mat-icon { width: 90px; height: 90px; font-size: 90px; }
-.section-heading { margin: 0 0 1.25rem; }
-.section-heading h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.6rem); }
-.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-.dashboard-card { min-height: 260px; border-radius: 28px; transition: transform 0.22s ease, box-shadow 0.22s ease; }
-.dashboard-card:hover { transform: translateY(-6px); box-shadow: 0 28px 70px rgba(0, 0, 0, 0.12); }
-.card-icon { display: grid; place-items: center; width: 58px; height: 58px; margin: 0.75rem 0 0.25rem; border-radius: 20px; color: var(--mat-sys-primary); background: color-mix(in srgb, var(--mat-sys-primary) 14%, transparent); }
-.card-icon mat-icon { width: 34px; height: 34px; font-size: 34px; }
-.dashboard-card h3 { margin: 0.75rem 0 0.5rem; font-size: 1.25rem; }
-.dashboard-card p { min-height: 78px; margin: 0; color: var(--mat-sys-on-surface-variant); line-height: 1.65; }
-.dashboard-card a { margin-top: 0.75rem; }
+.glass-card {
+  border: 1px solid color-mix(in srgb, var(--mat-sys-outline) 24%, transparent);
+  background: color-mix(in srgb, var(--mat-sys-surface-container-high) 72%, transparent);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
+}
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem;
+  margin-bottom: 3rem;
+  border-radius: 32px;
+}
+.hero-content {
+  max-width: 720px;
+}
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 0.8rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  color: var(--mat-sys-primary);
+  background: color-mix(in srgb, var(--mat-sys-primary) 14%, transparent);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.hero h1 {
+  margin: 0;
+  max-width: 780px;
+  color: var(--mat-sys-on-surface);
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+.hero p {
+  margin: 1.25rem 0 0;
+  max-width: 650px;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.75rem;
+}
+.hero-actions a {
+  min-height: 44px;
+}
+.hero-visual {
+  display: grid;
+  place-items: center;
+  min-width: 170px;
+  height: 170px;
+  border-radius: 42px;
+  color: var(--mat-sys-on-primary);
+  background: linear-gradient(
+    135deg,
+    var(--mat-sys-primary),
+    color-mix(in srgb, var(--mat-sys-tertiary) 80%, var(--mat-sys-primary))
+  );
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--mat-sys-primary) 35%, transparent);
+}
+.hero-visual mat-icon {
+  width: 90px;
+  height: 90px;
+  font-size: 90px;
+}
+.section-heading {
+  margin: 0 0 1.25rem;
+}
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.dashboard-card {
+  min-height: 260px;
+  border-radius: 28px;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.12);
+}
+.card-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: 0.75rem 0 0.25rem;
+  border-radius: 20px;
+  color: var(--mat-sys-primary);
+  background: color-mix(in srgb, var(--mat-sys-primary) 14%, transparent);
+}
+.card-icon mat-icon {
+  width: 34px;
+  height: 34px;
+  font-size: 34px;
+}
+.dashboard-card h3 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 1.25rem;
+}
+.dashboard-card p {
+  min-height: 78px;
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+  line-height: 1.65;
+}
+.dashboard-card a {
+  margin-top: 0.75rem;
+}
 
-@media (max-width: 900px) { .summary-grid { grid-template-columns: 1fr; } .hero { align-items: flex-start; flex-direction: column; } .hero-visual { min-width: 120px; height: 120px; } .hero-visual mat-icon { width: 64px; height: 64px; font-size: 64px; } }
-@media (max-width: 600px) { .hero { padding: 1.5rem; border-radius: 24px; } .hero-actions { align-items: stretch; flex-direction: column; } }
+@media (max-width: 900px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .hero-visual {
+    min-width: 120px;
+    height: 120px;
+  }
+  .hero-visual mat-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 64px;
+  }
+}
+@media (max-width: 600px) {
+  .hero {
+    padding: 1.5rem;
+    border-radius: 24px;
+  }
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

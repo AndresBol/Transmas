@@ -8,18 +8,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
-import {
-  isProfessionalEffectivelyAvailable,
-  Modality,
-  ProfessionalProfile,
-} from '../../../core/models/professional-profile.model';
+import { Modality, ProfessionalProfile } from '../../../core/models/professional-profile.model';
 import { ImageService } from '../../../core/services/image.service';
 import { ProfessionalProfileService } from '../../../core/services/professional-profile.service';
 
 @Component({
   selector: 'app-professional-list',
   standalone: true,
-  imports: [FormsModule, RouterLink, MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatProgressSpinnerModule, MatSelectModule],
+  imports: [
+    FormsModule,
+    RouterLink,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+  ],
   templateUrl: './professional-list.html',
   styleUrl: './professional-list.css',
 })
@@ -47,7 +53,10 @@ export class ProfessionalList {
         profile.district?.name,
         profile.district?.canton?.name,
         profile.district?.canton?.province?.name,
-      ].filter(Boolean).join(' ').toLowerCase();
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
       return (
         (!text || searchable.includes(text)) &&
         (modality === null || profile.modality === modality) &&
@@ -95,7 +104,11 @@ export class ProfessionalList {
   }
 
   formatCurrency(value: number | string): string {
-    return new Intl.NumberFormat('en-CR', { style: 'currency', currency: 'CRC', maximumFractionDigits: 0 }).format(Number(value));
+    return new Intl.NumberFormat('en-CR', {
+      style: 'currency',
+      currency: 'CRC',
+      maximumFractionDigits: 0,
+    }).format(Number(value));
   }
 
   modalityLabel(value: Modality): string {
@@ -103,6 +116,6 @@ export class ProfessionalList {
   }
 
   isEffectivelyAvailable(profile: ProfessionalProfile): boolean {
-    return isProfessionalEffectivelyAvailable(profile);
+    return this.professionalService.isEffectivelyAvailable(profile);
   }
 }

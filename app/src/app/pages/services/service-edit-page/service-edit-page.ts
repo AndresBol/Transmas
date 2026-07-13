@@ -7,7 +7,11 @@ import { forkJoin } from 'rxjs';
 import { Category } from '../../../core/models/category.model';
 import { ProfessionalProfile } from '../../../core/models/professional-profile.model';
 import { Specialty } from '../../../core/models/specialty.model';
-import { TransportationService, TransportationServiceCreateDto, TransportationServiceUpdateDto } from '../../../core/models/transportation-service.model';
+import {
+  TransportationService,
+  TransportationServiceCreateDto,
+  TransportationServiceUpdateDto,
+} from '../../../core/models/transportation-service.model';
 import { CategoryService } from '../../../core/services/category.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { ProfessionalProfileService } from '../../../core/services/professional-profile.service';
@@ -81,7 +85,9 @@ export class ServiceEditPage {
         this.router.navigate(['/admin/services']);
       },
       error: () => {
-        this.error.set('The transportation service could not be updated. Review the form and try again.');
+        this.error.set(
+          'The transportation service could not be updated. Review the form and try again.',
+        );
         this.notificationService.error('The transportation service could not be updated');
         this.saving.set(false);
       },

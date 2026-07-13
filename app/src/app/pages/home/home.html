@@ -3,12 +3,18 @@
     <span class="eyebrow">Transportation made easier</span>
     <h1>Every journey starts with the right service.</h1>
     <p>
-      Discover transportation professionals across Costa Rica, compare services, and submit a complete
-      reservation request in minutes.
+      Discover transportation professionals across Costa Rica, compare services, and submit a
+      complete reservation request in minutes.
     </p>
     <div class="hero-actions">
-      <a mat-flat-button class="primary-button" routerLink="/services"><mat-icon>search</mat-icon>Explore services</a>
-      <a mat-stroked-button routerLink="/reservations/new"><mat-icon>add_circle</mat-icon>Request transportation</a>
+      <a mat-flat-button class="primary-button" routerLink="/services">
+        <mat-icon>search</mat-icon>
+        Explore services
+      </a>
+      <a mat-stroked-button routerLink="/reservations/new">
+        <mat-icon>add_circle</mat-icon>
+        Request transportation
+      </a>
     </div>
   </div>
   <div class="hero-visual"><mat-icon>commute</mat-icon></div>
@@ -22,11 +28,18 @@
 <section class="summary-grid">
   @for (card of cards(); track card.title) {
     <mat-card class="dashboard-card glass-card">
-      <mat-card-header><div class="card-icon"><mat-icon>{{ card.icon }}</mat-icon></div></mat-card-header>
+      <mat-card-header>
+        <div class="card-icon">
+          <mat-icon>{{ card.icon }}</mat-icon>
+        </div>
+      </mat-card-header>
       <mat-card-content>
         <h3>{{ card.title }}</h3>
         <p>{{ card.description }}</p>
-        <a mat-button [routerLink]="card.path">Learn more <mat-icon>arrow_forward</mat-icon></a>
+        <a mat-button [routerLink]="card.path">
+          Learn more
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
       </mat-card-content>
     </mat-card>
   }

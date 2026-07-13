@@ -6,7 +6,10 @@ import { ProfessionalCreatePage } from './professional-create-page';
 
 describe('ProfessionalCreatePage', () => {
   it('creates the page', async () => {
-    await TestBed.configureTestingModule({ imports: [ProfessionalCreatePage], providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [ProfessionalCreatePage],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+    }).compileComponents();
     expect(TestBed.createComponent(ProfessionalCreatePage).componentInstance).toBeTruthy();
   });
 });

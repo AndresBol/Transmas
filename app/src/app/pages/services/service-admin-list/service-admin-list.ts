@@ -56,7 +56,15 @@ export class ServiceAdminList {
   error = signal<string | null>(null);
   updatingId = signal<number | null>(null);
 
-  displayedColumns = ['service', 'professional', 'category', 'modality', 'price', 'status', 'actions'];
+  displayedColumns = [
+    'service',
+    'professional',
+    'category',
+    'modality',
+    'price',
+    'status',
+    'actions',
+  ];
 
   filteredServices = computed(() => {
     const text = this.search().trim().toLowerCase();
@@ -98,7 +106,10 @@ export class ServiceAdminList {
   loadData(): void {
     this.loading.set(true);
     this.error.set(null);
-    forkJoin({ services: this.serviceApi.list(), categories: this.categoryService.list() }).subscribe({
+    forkJoin({
+      services: this.serviceApi.list(),
+      categories: this.categoryService.list(),
+    }).subscribe({
       next: ({ services, categories }) => {
         this.services.set(services.data ?? []);
         this.categories.set(categories.data ?? []);
@@ -131,11 +142,14 @@ export class ServiceAdminList {
       cancelLabel: 'Cancel',
     };
 
-    this.dialog.open(ConfirmationDialog, { data }).afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.updateAvailability(service, isAvailable);
-      }
-    });
+    this.dialog
+      .open(ConfirmationDialog, { data })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.updateAvailability(service, isAvailable);
+        }
+      });
   }
 
   private updateAvailability(service: TransportationService, isAvailable: boolean): void {
@@ -159,12 +173,16 @@ export class ServiceAdminList {
 
   professionalName(service: TransportationService): string {
     const user = service.professionalProfile?.professional;
-    return user ? `${user.firstName} ${user.lastName}`.trim() : service.professionalProfile?.professionalTitle ?? 'Unassigned';
+    return user
+      ? `${user.firstName} ${user.lastName}`.trim()
+      : (service.professionalProfile?.professionalTitle ?? 'Unassigned');
   }
 
   formatCurrency(value: number | string): string {
     return new Intl.NumberFormat('en-CR', {
-      style: 'currency', currency: 'CRC', maximumFractionDigits: 0,
+      style: 'currency',
+      currency: 'CRC',
+      maximumFractionDigits: 0,
     }).format(Number(value));
   }
 

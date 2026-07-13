@@ -5,7 +5,10 @@ import { CategoryList } from './category-list';
 
 describe('CategoryList', () => {
   it('creates the page', async () => {
-    await TestBed.configureTestingModule({ imports: [CategoryList], providers: [provideHttpClient(), provideRouter([])] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [CategoryList],
+      providers: [provideHttpClient(), provideRouter([])],
+    }).compileComponents();
     expect(TestBed.createComponent(CategoryList).componentInstance).toBeTruthy();
   });
 });

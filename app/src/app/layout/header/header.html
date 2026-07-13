@@ -10,21 +10,33 @@
 
     <nav class="desktop-nav" aria-label="Primary navigation">
       @for (item of publicMenu(); track item.path) {
-        <a mat-button [routerLink]="item.path" routerLinkActive="active-link"
-           [routerLinkActiveOptions]="{ exact: item.path === '/' }">
-          <mat-icon>{{ item.icon }}</mat-icon>{{ item.label }}
+        <a
+          mat-button
+          [routerLink]="item.path"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+        >
+          <mat-icon>{{ item.icon }}</mat-icon>
+          {{ item.label }}
         </a>
       }
       <button mat-button [matMenuTriggerFor]="administration">
-        <mat-icon>settings</mat-icon>Administration
+        <mat-icon>settings</mat-icon>
+        Administration
       </button>
       <button mat-button [matMenuTriggerFor]="management">
-        <mat-icon>admin_panel_settings</mat-icon>Management
+        <mat-icon>admin_panel_settings</mat-icon>
+        Management
       </button>
     </nav>
 
     <span class="spacer"></span>
-    <button class="mobile-menu-button" mat-icon-button [matMenuTriggerFor]="mobile" aria-label="Open navigation">
+    <button
+      class="mobile-menu-button"
+      mat-icon-button
+      [matMenuTriggerFor]="mobile"
+      aria-label="Open navigation"
+    >
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
@@ -32,20 +44,35 @@
 
 <mat-menu #administration="matMenu">
   @for (item of administrationMenu(); track item.path) {
-    <a mat-menu-item [routerLink]="item.path"><mat-icon>{{ item.icon }}</mat-icon><span>{{ item.label }}</span></a>
+    <a mat-menu-item [routerLink]="item.path">
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span>{{ item.label }}</span>
+    </a>
   }
 </mat-menu>
 
 <mat-menu #management="matMenu">
   @for (item of managementMenu(); track item.path) {
-    <a mat-menu-item [routerLink]="item.path"><mat-icon>{{ item.icon }}</mat-icon><span>{{ item.label }}</span></a>
+    <a mat-menu-item [routerLink]="item.path">
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span>{{ item.label }}</span>
+    </a>
   }
 </mat-menu>
 
 <mat-menu #mobile="matMenu">
   @for (item of publicMenu(); track item.path) {
-    <a mat-menu-item [routerLink]="item.path"><mat-icon>{{ item.icon }}</mat-icon><span>{{ item.label }}</span></a>
+    <a mat-menu-item [routerLink]="item.path">
+      <mat-icon>{{ item.icon }}</mat-icon>
+      <span>{{ item.label }}</span>
+    </a>
   }
-  <button mat-menu-item [matMenuTriggerFor]="administration"><mat-icon>settings</mat-icon><span>Administration</span></button>
-  <button mat-menu-item [matMenuTriggerFor]="management"><mat-icon>admin_panel_settings</mat-icon><span>Management</span></button>
+  <button mat-menu-item [matMenuTriggerFor]="administration">
+    <mat-icon>settings</mat-icon>
+    <span>Administration</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="management">
+    <mat-icon>admin_panel_settings</mat-icon>
+    <span>Management</span>
+  </button>
 </mat-menu>

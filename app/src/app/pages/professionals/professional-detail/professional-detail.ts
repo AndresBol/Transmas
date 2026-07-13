@@ -6,11 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import {
-  isProfessionalEffectivelyAvailable,
-  Modality,
-  ProfessionalProfile,
-} from '../../../core/models/professional-profile.model';
+import { Modality, ProfessionalProfile } from '../../../core/models/professional-profile.model';
 import { Specialty } from '../../../core/models/specialty.model';
 import { TransportationService } from '../../../core/models/transportation-service.model';
 import { ImageService } from '../../../core/services/image.service';
@@ -20,7 +16,14 @@ import { TransportationServiceService } from '../../../core/services/transportat
 @Component({
   selector: 'app-professional-detail',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './professional-detail.html',
   styleUrl: './professional-detail.css',
 })
@@ -48,10 +51,15 @@ export class ProfessionalDetail {
     }
     this.loading.set(true);
     this.error.set(null);
-    forkJoin({ profile: this.professionalService.getById(this.id), services: this.serviceApi.list() }).subscribe({
+    forkJoin({
+      profile: this.professionalService.getById(this.id),
+      services: this.serviceApi.list(),
+    }).subscribe({
       next: ({ profile, services }) => {
         this.professional.set(profile.data);
-        this.services.set((services.data ?? []).filter((service) => service.professionalProfileId === this.id));
+        this.services.set(
+          (services.data ?? []).filter((service) => service.professionalProfileId === this.id),
+        );
         this.loading.set(false);
       },
       error: () => {
@@ -79,7 +87,11 @@ export class ProfessionalDetail {
   }
 
   formatCurrency(value: number | string): string {
-    return new Intl.NumberFormat('en-CR', { style: 'currency', currency: 'CRC', maximumFractionDigits: 0 }).format(Number(value));
+    return new Intl.NumberFormat('en-CR', {
+      style: 'currency',
+      currency: 'CRC',
+      maximumFractionDigits: 0,
+    }).format(Number(value));
   }
 
   modalityLabel(value: Modality): string {
@@ -87,6 +99,6 @@ export class ProfessionalDetail {
   }
 
   isEffectivelyAvailable(profile: ProfessionalProfile): boolean {
-    return isProfessionalEffectivelyAvailable(profile);
+    return this.professionalService.isEffectivelyAvailable(profile);
   }
 }

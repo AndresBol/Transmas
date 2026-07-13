@@ -2,39 +2,331 @@
   <mat-card-content>
     <form class="reservation-form" (submit)="$event.preventDefault(); submit()">
       <section class="form-section">
-        <div class="section-title"><mat-icon>people</mat-icon><div><h2>Client and provider</h2><p>Choose the client, professional, service, and matching modality.</p></div></div>
-        <div class="form-grid two-columns">
-          <mat-form-field appearance="outline"><mat-label>Client</mat-label><mat-select [formField]="reservationForm.clientId"><mat-option [value]="null">Select a client</mat-option>@for (client of clients(); track client.id) { <mat-option [value]="client.id">{{ clientName(client) }} · {{ client.email }}</mat-option> }</mat-select>@if (reservationForm.clientId().touched() && reservationForm.clientId().invalid()) { <mat-error>{{ reservationForm.clientId().errors()[0].message }}</mat-error> }</mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Professional</mat-label><mat-select [formField]="reservationForm.professionalProfileId" (selectionChange)="professionalChanged($event.value)"><mat-option [value]="null">Select a professional</mat-option>@for (profile of professionals(); track profile.id) { <mat-option [value]="profile.id">{{ professionalName(profile) }} · {{ profile.professionalTitle }}</mat-option> }</mat-select>@if (reservationForm.professionalProfileId().touched() && reservationForm.professionalProfileId().invalid()) { <mat-error>{{ reservationForm.professionalProfileId().errors()[0].message }}</mat-error> }</mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Transportation service</mat-label><mat-select [formField]="reservationForm.transportationServiceId" (selectionChange)="serviceChanged($event.value)"><mat-option [value]="null">Select a service</mat-option>@for (service of filteredServices(); track service.id) { <mat-option [value]="service.id">{{ service.name }}</mat-option> }</mat-select>@if (reservationForm.transportationServiceId().touched() && reservationForm.transportationServiceId().invalid()) { <mat-error>{{ reservationForm.transportationServiceId().errors()[0].message }}</mat-error> }</mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Modality</mat-label><mat-select [formField]="reservationForm.modality"><mat-option value="IN_PERSON">In person</mat-option><mat-option value="VIRTUAL">Virtual coordination</mat-option></mat-select>@if (reservationForm.modality().touched() && reservationForm.modality().invalid()) { <mat-error>{{ reservationForm.modality().errors()[0].message }}</mat-error> }</mat-form-field>
+        <div class="section-title">
+          <mat-icon>people</mat-icon>
+          <div>
+            <h2>Client and provider</h2>
+            <p>Choose the client, professional, service, and matching modality.</p>
+          </div>
         </div>
-        @if (model().professionalProfileId && filteredServices().length === 0) { <p class="section-warning"><mat-icon>info</mat-icon>This professional has no available services.</p> }
-        @if (relationshipError()) { <p class="section-error"><mat-icon>error</mat-icon>{{ relationshipError() }}</p> }
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline">
+            <mat-label>Client</mat-label>
+            <mat-select [formField]="reservationForm.clientId">
+              <mat-option [value]="null">Select a client</mat-option>
+              @for (client of clients(); track client.id) {
+                <mat-option [value]="client.id">
+                  {{ clientName(client) }} · {{ client.email }}
+                </mat-option>
+              }
+            </mat-select>
+            @if (reservationForm.clientId().touched() && reservationForm.clientId().invalid()) {
+              <mat-error>{{ reservationForm.clientId().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Professional</mat-label>
+            <mat-select
+              [formField]="reservationForm.professionalProfileId"
+              (selectionChange)="professionalChanged($event.value)"
+            >
+              <mat-option [value]="null">Select a professional</mat-option>
+              @for (profile of professionals(); track profile.id) {
+                <mat-option [value]="profile.id">
+                  {{ professionalName(profile) }} · {{ profile.professionalTitle }}
+                </mat-option>
+              }
+            </mat-select>
+            @if (
+              reservationForm.professionalProfileId().touched() &&
+              reservationForm.professionalProfileId().invalid()
+            ) {
+              <mat-error>
+                {{ reservationForm.professionalProfileId().errors()[0].message }}
+              </mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Transportation service</mat-label>
+            <mat-select
+              [formField]="reservationForm.transportationServiceId"
+              (selectionChange)="serviceChanged($event.value)"
+            >
+              <mat-option [value]="null">Select a service</mat-option>
+              @for (service of filteredServices(); track service.id) {
+                <mat-option [value]="service.id">{{ service.name }}</mat-option>
+              }
+            </mat-select>
+            @if (
+              reservationForm.transportationServiceId().touched() &&
+              reservationForm.transportationServiceId().invalid()
+            ) {
+              <mat-error>
+                {{ reservationForm.transportationServiceId().errors()[0].message }}
+              </mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Modality</mat-label>
+            <mat-select [formField]="reservationForm.modality">
+              <mat-option value="IN_PERSON">In person</mat-option>
+              <mat-option value="VIRTUAL">Virtual coordination</mat-option>
+            </mat-select>
+            @if (reservationForm.modality().touched() && reservationForm.modality().invalid()) {
+              <mat-error>{{ reservationForm.modality().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        @if (model().professionalProfileId && filteredServices().length === 0) {
+          <p class="section-warning">
+            <mat-icon>info</mat-icon>
+            This professional has no available services.
+          </p>
+        }
+        @if (relationshipError()) {
+          <p class="section-error">
+            <mat-icon>error</mat-icon>
+            {{ relationshipError() }}
+          </p>
+        }
       </section>
 
       <section class="form-section">
-        <div class="section-title"><mat-icon>schedule</mat-icon><div><h2>Schedule and passengers</h2><p>Reservation dates must be in the future and the end must follow the start.</p></div></div>
-        <div class="form-grid four-columns">
-          <mat-form-field appearance="outline"><mat-label>Start date</mat-label><input matInput type="date" [min]="minimumDate" [formField]="reservationForm.startDate" />@if (reservationForm.startDate().touched() && reservationForm.startDate().invalid()) { <mat-error>{{ reservationForm.startDate().errors()[0].message }}</mat-error> }</mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Start time</mat-label><input matInput type="time" [formField]="reservationForm.startTime" />@if (reservationForm.startTime().touched() && reservationForm.startTime().invalid()) { <mat-error>{{ reservationForm.startTime().errors()[0].message }}</mat-error> }</mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>End date</mat-label><input matInput type="date" [min]="minimumDate" [formField]="reservationForm.endDate" />@if (reservationForm.endDate().touched() && reservationForm.endDate().invalid()) { <mat-error>{{ reservationForm.endDate().errors()[0].message }}</mat-error> }</mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>End time</mat-label><input matInput type="time" [formField]="reservationForm.endTime" />@if (reservationForm.endTime().touched() && reservationForm.endTime().invalid()) { <mat-error>{{ reservationForm.endTime().errors()[0].message }}</mat-error> }</mat-form-field>
-          <mat-form-field appearance="outline"><mat-label>Passenger count</mat-label><input matInput type="number" step="1" [formField]="reservationForm.passengerCount" />@if (reservationForm.passengerCount().touched() && reservationForm.passengerCount().invalid()) { <mat-error>{{ reservationForm.passengerCount().errors()[0].message }}</mat-error> }</mat-form-field>
-          <mat-form-field appearance="outline" class="wide-field"><mat-label>Request details</mat-label><textarea matInput rows="3" [formField]="reservationForm.description" placeholder="Luggage, accessibility needs, route notes, or other requirements"></textarea><mat-hint align="end">{{ model().description.length }}/500</mat-hint>@if (reservationForm.description().touched() && reservationForm.description().invalid()) { <mat-error>{{ reservationForm.description().errors()[0].message }}</mat-error> }</mat-form-field>
+        <div class="section-title">
+          <mat-icon>schedule</mat-icon>
+          <div>
+            <h2>Schedule and passengers</h2>
+            <p>Reservation dates must be in the future and the end must follow the start.</p>
+          </div>
         </div>
-        @if (scheduleError()) { <p class="section-error"><mat-icon>error</mat-icon>{{ scheduleError() }}</p> }
+        <div class="form-grid four-columns">
+          <mat-form-field appearance="outline">
+            <mat-label>Start date</mat-label>
+            <input
+              matInput
+              type="date"
+              [min]="minimumDate"
+              [formField]="reservationForm.startDate"
+            />
+            @if (reservationForm.startDate().touched() && reservationForm.startDate().invalid()) {
+              <mat-error>{{ reservationForm.startDate().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Start time</mat-label>
+            <input matInput type="time" [formField]="reservationForm.startTime" />
+            @if (reservationForm.startTime().touched() && reservationForm.startTime().invalid()) {
+              <mat-error>{{ reservationForm.startTime().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>End date</mat-label>
+            <input matInput type="date" [min]="minimumDate" [formField]="reservationForm.endDate" />
+            @if (reservationForm.endDate().touched() && reservationForm.endDate().invalid()) {
+              <mat-error>{{ reservationForm.endDate().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>End time</mat-label>
+            <input matInput type="time" [formField]="reservationForm.endTime" />
+            @if (reservationForm.endTime().touched() && reservationForm.endTime().invalid()) {
+              <mat-error>{{ reservationForm.endTime().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Passenger count</mat-label>
+            <input matInput type="number" step="1" [formField]="reservationForm.passengerCount" />
+            @if (
+              reservationForm.passengerCount().touched() &&
+              reservationForm.passengerCount().invalid()
+            ) {
+              <mat-error>{{ reservationForm.passengerCount().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="wide-field">
+            <mat-label>Request details</mat-label>
+            <textarea
+              matInput
+              rows="3"
+              [formField]="reservationForm.description"
+              placeholder="Luggage, accessibility needs, route notes, or other requirements"
+            ></textarea>
+            <mat-hint align="end">{{ model().description.length }}/500</mat-hint>
+            @if (
+              reservationForm.description().touched() && reservationForm.description().invalid()
+            ) {
+              <mat-error>{{ reservationForm.description().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        @if (scheduleError()) {
+          <p class="section-error">
+            <mat-icon>error</mat-icon>
+            {{ scheduleError() }}
+          </p>
+        }
       </section>
 
       <section class="form-section route-section">
-        <div class="section-title"><mat-icon>route</mat-icon><div><h2>Route</h2><p>Provide an exact pickup and drop-off location. Coordinates are required for this submission.</p></div></div>
+        <div class="section-title">
+          <mat-icon>route</mat-icon>
+          <div>
+            <h2>Route</h2>
+            <p>
+              Provide an exact pickup and drop-off location. Coordinates are required for this
+              submission.
+            </p>
+          </div>
+        </div>
         <div class="route-grid">
-          <div class="route-card"><h3><mat-icon>trip_origin</mat-icon>Pickup</h3><mat-form-field appearance="outline"><mat-label>Pickup address</mat-label><textarea matInput rows="2" [formField]="reservationForm.pickupAddress"></textarea>@if (reservationForm.pickupAddress().touched() && reservationForm.pickupAddress().invalid()) { <mat-error>{{ reservationForm.pickupAddress().errors()[0].message }}</mat-error> }</mat-form-field><mat-form-field appearance="outline"><mat-label>Pickup district</mat-label><mat-select [formField]="reservationForm.pickupDistrictId"><mat-option [value]="null">Select a district</mat-option>@for (district of districts(); track district.id) { <mat-option [value]="district.id">{{ districtLabel(district) }}</mat-option> }</mat-select>@if (reservationForm.pickupDistrictId().touched() && reservationForm.pickupDistrictId().invalid()) { <mat-error>{{ reservationForm.pickupDistrictId().errors()[0].message }}</mat-error> }</mat-form-field><div class="coordinate-grid"><mat-form-field appearance="outline"><mat-label>Latitude</mat-label><input matInput type="number" step="0.0000001" [formField]="reservationForm.pickupLatitude" />@if (reservationForm.pickupLatitude().touched() && reservationForm.pickupLatitude().invalid()) { <mat-error>{{ reservationForm.pickupLatitude().errors()[0].message }}</mat-error> }</mat-form-field><mat-form-field appearance="outline"><mat-label>Longitude</mat-label><input matInput type="number" step="0.0000001" [formField]="reservationForm.pickupLongitude" />@if (reservationForm.pickupLongitude().touched() && reservationForm.pickupLongitude().invalid()) { <mat-error>{{ reservationForm.pickupLongitude().errors()[0].message }}</mat-error> }</mat-form-field></div></div>
-          <div class="route-card"><h3><mat-icon>location_on</mat-icon>Drop-off</h3><mat-form-field appearance="outline"><mat-label>Drop-off address</mat-label><textarea matInput rows="2" [formField]="reservationForm.dropoffAddress"></textarea>@if (reservationForm.dropoffAddress().touched() && reservationForm.dropoffAddress().invalid()) { <mat-error>{{ reservationForm.dropoffAddress().errors()[0].message }}</mat-error> }</mat-form-field><mat-form-field appearance="outline"><mat-label>Drop-off district</mat-label><mat-select [formField]="reservationForm.dropoffDistrictId"><mat-option [value]="null">Select a district</mat-option>@for (district of districts(); track district.id) { <mat-option [value]="district.id">{{ districtLabel(district) }}</mat-option> }</mat-select>@if (reservationForm.dropoffDistrictId().touched() && reservationForm.dropoffDistrictId().invalid()) { <mat-error>{{ reservationForm.dropoffDistrictId().errors()[0].message }}</mat-error> }</mat-form-field><div class="coordinate-grid"><mat-form-field appearance="outline"><mat-label>Latitude</mat-label><input matInput type="number" step="0.0000001" [formField]="reservationForm.dropoffLatitude" />@if (reservationForm.dropoffLatitude().touched() && reservationForm.dropoffLatitude().invalid()) { <mat-error>{{ reservationForm.dropoffLatitude().errors()[0].message }}</mat-error> }</mat-form-field><mat-form-field appearance="outline"><mat-label>Longitude</mat-label><input matInput type="number" step="0.0000001" [formField]="reservationForm.dropoffLongitude" />@if (reservationForm.dropoffLongitude().touched() && reservationForm.dropoffLongitude().invalid()) { <mat-error>{{ reservationForm.dropoffLongitude().errors()[0].message }}</mat-error> }</mat-form-field></div></div>
+          <div class="route-card">
+            <h3>
+              <mat-icon>trip_origin</mat-icon>
+              Pickup
+            </h3>
+            <mat-form-field appearance="outline">
+              <mat-label>Pickup address</mat-label>
+              <textarea matInput rows="2" [formField]="reservationForm.pickupAddress"></textarea>
+              @if (
+                reservationForm.pickupAddress().touched() &&
+                reservationForm.pickupAddress().invalid()
+              ) {
+                <mat-error>{{ reservationForm.pickupAddress().errors()[0].message }}</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Pickup district</mat-label>
+              <mat-select [formField]="reservationForm.pickupDistrictId">
+                <mat-option [value]="null">Select a district</mat-option>
+                @for (district of districts(); track district.id) {
+                  <mat-option [value]="district.id">{{ districtLabel(district) }}</mat-option>
+                }
+              </mat-select>
+              @if (
+                reservationForm.pickupDistrictId().touched() &&
+                reservationForm.pickupDistrictId().invalid()
+              ) {
+                <mat-error>{{ reservationForm.pickupDistrictId().errors()[0].message }}</mat-error>
+              }
+            </mat-form-field>
+            <div class="coordinate-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Latitude</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  step="0.0000001"
+                  [formField]="reservationForm.pickupLatitude"
+                />
+                @if (
+                  reservationForm.pickupLatitude().touched() &&
+                  reservationForm.pickupLatitude().invalid()
+                ) {
+                  <mat-error>{{ reservationForm.pickupLatitude().errors()[0].message }}</mat-error>
+                }
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Longitude</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  step="0.0000001"
+                  [formField]="reservationForm.pickupLongitude"
+                />
+                @if (
+                  reservationForm.pickupLongitude().touched() &&
+                  reservationForm.pickupLongitude().invalid()
+                ) {
+                  <mat-error>{{ reservationForm.pickupLongitude().errors()[0].message }}</mat-error>
+                }
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="route-card">
+            <h3>
+              <mat-icon>location_on</mat-icon>
+              Drop-off
+            </h3>
+            <mat-form-field appearance="outline">
+              <mat-label>Drop-off address</mat-label>
+              <textarea matInput rows="2" [formField]="reservationForm.dropoffAddress"></textarea>
+              @if (
+                reservationForm.dropoffAddress().touched() &&
+                reservationForm.dropoffAddress().invalid()
+              ) {
+                <mat-error>{{ reservationForm.dropoffAddress().errors()[0].message }}</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Drop-off district</mat-label>
+              <mat-select [formField]="reservationForm.dropoffDistrictId">
+                <mat-option [value]="null">Select a district</mat-option>
+                @for (district of districts(); track district.id) {
+                  <mat-option [value]="district.id">{{ districtLabel(district) }}</mat-option>
+                }
+              </mat-select>
+              @if (
+                reservationForm.dropoffDistrictId().touched() &&
+                reservationForm.dropoffDistrictId().invalid()
+              ) {
+                <mat-error>{{ reservationForm.dropoffDistrictId().errors()[0].message }}</mat-error>
+              }
+            </mat-form-field>
+            <div class="coordinate-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Latitude</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  step="0.0000001"
+                  [formField]="reservationForm.dropoffLatitude"
+                />
+                @if (
+                  reservationForm.dropoffLatitude().touched() &&
+                  reservationForm.dropoffLatitude().invalid()
+                ) {
+                  <mat-error>{{ reservationForm.dropoffLatitude().errors()[0].message }}</mat-error>
+                }
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Longitude</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  step="0.0000001"
+                  [formField]="reservationForm.dropoffLongitude"
+                />
+                @if (
+                  reservationForm.dropoffLongitude().touched() &&
+                  reservationForm.dropoffLongitude().invalid()
+                ) {
+                  <mat-error>
+                    {{ reservationForm.dropoffLongitude().errors()[0].message }}
+                  </mat-error>
+                }
+              </mat-form-field>
+            </div>
+          </div>
         </div>
       </section>
 
-      <div class="form-actions"><button mat-stroked-button type="button" (click)="cancel.emit()"><mat-icon>close</mat-icon>Cancel</button><button mat-flat-button class="primary-button" type="submit" [disabled]="saving()">@if (saving()) { <mat-spinner diameter="20" /> Saving reservation... } @else { <ng-container><mat-icon>event_available</mat-icon>Create reservation</ng-container> }</button></div>
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="cancel.emit()">
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+        <button mat-flat-button class="primary-button" type="submit" [disabled]="saving()">
+          @if (saving()) {
+            <mat-spinner diameter="20" />
+            Saving reservation...
+          } @else {
+            <ng-container>
+              <mat-icon>event_available</mat-icon>
+              Create reservation
+            </ng-container>
+          }
+        </button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>

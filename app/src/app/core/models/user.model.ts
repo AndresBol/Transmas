@@ -16,7 +16,3 @@ export interface User {
 export interface UserStatusDto {
   isBlocked: boolean;
 }
-
-export function userFullName(user: Pick<User, 'firstName' | 'lastName'>): string {
-  return `${user.firstName} ${user.lastName}`.trim();
-}

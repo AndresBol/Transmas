@@ -31,16 +31,6 @@ export interface ProfessionalProfile {
   lastUpdatedOn?: string;
 }
 
-export function hasUsableProfessionalAccount(profile: ProfessionalProfile): boolean {
-  return profile.isActive !== false
-    && profile.professional?.isActive !== false
-    && profile.professional?.isBlocked !== true;
-}
-
-export function isProfessionalEffectivelyAvailable(profile: ProfessionalProfile): boolean {
-  return profile.isAvailable && hasUsableProfessionalAccount(profile);
-}
-
 export interface ProfessionalFormModel {
   firstName: string;
   lastName: string;

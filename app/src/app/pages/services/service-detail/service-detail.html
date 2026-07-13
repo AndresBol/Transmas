@@ -1,15 +1,23 @@
 @if (loading()) {
-  <div class="state"><mat-spinner diameter="46" /><p>Loading service details...</p></div>
+  <div class="state">
+    <mat-spinner diameter="46" />
+    <p>Loading service details...</p>
+  </div>
 } @else if (error()) {
   <div class="state error">
-    <mat-icon>error</mat-icon><p>{{ error() }}</p>
+    <mat-icon>error</mat-icon>
+    <p>{{ error() }}</p>
     <div class="state-actions">
       <a mat-stroked-button routerLink="/services">Back to services</a>
       <button mat-stroked-button type="button" (click)="loadService()">Try again</button>
     </div>
   </div>
 } @else if (service(); as currentService) {
-  <nav class="breadcrumb"><a routerLink="/services">Services</a><mat-icon>chevron_right</mat-icon><span>{{ currentService.name }}</span></nav>
+  <nav class="breadcrumb">
+    <a routerLink="/services">Services</a>
+    <mat-icon>chevron_right</mat-icon>
+    <span>{{ currentService.name }}</span>
+  </nav>
 
   <section class="hero">
     <div class="hero-icon"><mat-icon>directions_bus</mat-icon></div>
@@ -22,7 +30,10 @@
       <p>{{ currentService.description }}</p>
       <div class="headline-meta">
         <strong>{{ formatCurrency(currentService.price) }}</strong>
-        <span><mat-icon>schedule</mat-icon>{{ currentService.estimatedDuration }} minutes</span>
+        <span>
+          <mat-icon>schedule</mat-icon>
+          {{ currentService.estimatedDuration }} minutes
+        </span>
         <span class="status" [class.unavailable]="!isBookable(currentService)">
           {{ isBookable(currentService) ? 'Available' : 'Unavailable' }}
         </span>
@@ -46,8 +57,12 @@
           </span>
         </div>
         @if (currentService.professionalProfile) {
-          <a mat-stroked-button [routerLink]="['/professionals', currentService.professionalProfile.id]">
-            View professional <mat-icon>person</mat-icon>
+          <a
+            mat-stroked-button
+            [routerLink]="['/professionals', currentService.professionalProfile.id]"
+          >
+            View professional
+            <mat-icon>person</mat-icon>
           </a>
         }
       </mat-card-content>

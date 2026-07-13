@@ -30,9 +30,20 @@ export class ProfessionalProfileService {
   }
 
   updateAvailability(id: number, isAvailable: boolean) {
-    return this.http.patch<ApiResponse<ProfessionalProfile>>(
-      `${this.apiUrl}/${id}/availability`,
-      { isAvailable },
+    return this.http.patch<ApiResponse<ProfessionalProfile>>(`${this.apiUrl}/${id}/availability`, {
+      isAvailable,
+    });
+  }
+
+  hasUsableAccount(profile: ProfessionalProfile): boolean {
+    return (
+      profile.isActive !== false &&
+      profile.professional?.isActive !== false &&
+      profile.professional?.isBlocked !== true
     );
+  }
+
+  isEffectivelyAvailable(profile: ProfessionalProfile): boolean {
+    return profile.isAvailable && this.hasUsableAccount(profile);
   }
 }
